@@ -26,8 +26,9 @@ height:50px;
 <body>
 <div id="container" style="width:100%; height:100%;">
 
-	<div id="header" style="background-color:#FFA500;">
-	<h1><center>SUPER RENT</center></h1>
+	<div id="header"  >
+	
+	<a href="HomeView.jsp"><img style="border:1;" src="images/superRent2.jpg" alt="some_text" ></a>
 	</div>
 	<div id="header1" style="background-color:#FFA500;">
 	<form>
