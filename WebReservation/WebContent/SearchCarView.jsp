@@ -21,11 +21,17 @@ th
 height:50px;
 }
 </style>
-<title>Insert title here</title>
+<title>Car Reservation</title>
 </head>
 <body>
-<form>
-<table>
+<div id="container" style="width:100%; height:100%;">
+
+	<div id="header" style="background-color:#FFA500;">
+	<h1><center>SUPER RENT</center></h1>
+	</div>
+	<div id="header1" style="background-color:#FFA500;">
+	<form>
+	<table>
 	<tr>
 		<td>Category: CAR</td>
 		<td>
@@ -49,28 +55,32 @@ height:50px;
 		</td>
 		<td>
 			<label>Drop Date and Time</label>
-			<input id="demo3" type="text" size="20" disabled>
-			<a href="javascript:NewCal('demo3','ddmmmyyyy',true,24)">
+			<input id="demo4" type="text" size="20" disabled>
+			<a href="javascript:NewCal('demo4','ddmmmyyyy',true,24)">
 			<img src="images/cal.gif" width="16" height="16" border="0" alt="Pick a date"></a>
 		</td>
 		<td>
-			<select name= "branchlocation">
+			Location: <select name= "branchlocation">
   				<option value="vancouver">Vancouver</option>
   			</select> 
 		</td>
 		<td>
 			<input type="submit" value="Submit" name="submit">
 		</td>
-	</tr>
-	<tr>
-		<td>
-		
-		</td>
-		<td>
-		
-		</td>
-	</tr>
-</table>
+	</table>
 </form>
+</div>
+<div id="menu" style="background-color:#FFD700;height:500px;width:20%;float:left;">
+<b>Menu</b><br>
+<a href="">Cancel Reservation</a><br>
+<a href="">Club Member Login</a><br>
+<a href="">Check Points</a></div>
+
+<div id="content" style="background-color:#EEEEEE;height:500px;width:80%;float:right;">
+Content goes here</div>
+
+<div id="footer" style="background-color:#FFA500;clear:both;text-align:center;">
+Copyright © www.superrent.com</div>
+</div>
 </body>
 </html>
