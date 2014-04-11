@@ -15,8 +15,8 @@
 		<td>SUPERRENT </td>
 	</tr>
 	<tr>
-		<td valign="middle"><a href="SearchCarView.jsp"><img style="border:1;" src="images/car0.jpg" alt="some_text" ></a></td>
-		<td valign="bottom"><a href="SearchTruckView.jsp"><img style="border:1;" src="images/truck0.jpg" alt="some_text"></a></td>
+		<td valign="middle"><a href="SearchCarView.jsp"><img style="border:0;" src="images/car0.jpg" alt="some_text" ></a></td>
+		<td valign="bottom"><a href="SearchTruckView.jsp"><img style="border:0;" src="images/truck0.jpg" alt="some_text"></a></td>
 		
 	</tr>
 	</table>
