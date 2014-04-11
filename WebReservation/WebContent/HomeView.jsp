@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Welcome To SuperRent</title>
+<title>Welcome To SuperRent </title>
 </head>
 <body>
 <form name="SearchVehicle" action="post">
