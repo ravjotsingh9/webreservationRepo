@@ -36,6 +36,7 @@ height:50px;
 		<td>Category: CAR</td>
 		<td>
 			Type: <select name= "cartypes">
+				<option value="select">Select one</option>
   				<option value="economy">Economy</option>
   				<option value="compact">Compact</option>
   				<option value="midsize">Mid-size</option>
@@ -61,6 +62,7 @@ height:50px;
 		</td>
 		<td>
 			Location: <select name= "branchlocation">
+				<option value="select">Select one</option>
   				<option value="vancouver">Vancouver</option>
   			</select> 
 		</td>
