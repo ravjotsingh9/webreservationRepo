@@ -37,11 +37,11 @@ height:50px;
 		<td>
 			Type: <select name= "cartypes">
 				<option value="select">Select one</option>
-  				<option value="24-foot Truck">Economy</option>
-  				<option value="15-foot Truck">Compact</option>
-  				<option value="12-foot Truck">Mid-size</option>
-  				<option value="Box Trucks">Standard</option>
-  				<option value="Cargo Vans">Full-size</option>
+  				<option value="24-foot Truck">24-foot Truck</option>
+  				<option value="15-foot Truck">15-foot Truck</option>
+  				<option value="12-foot Truck">12-foot Truck</option>
+  				<option value="Box Trucks">Box Trucks</option>
+  				<option value="Cargo Vans">Cargo Vans</option>
   				
 			</select> 
 		</td>
