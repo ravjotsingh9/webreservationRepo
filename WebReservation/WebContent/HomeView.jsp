@@ -11,12 +11,14 @@
 <body>
 <form name="SearchVehicle" action="post">
 	<table>
-	<tr height="250">
-		<td>SUPERRENT </td>
+	<tr height="200">
+		<td valign="middle" align="center"><a href="HomeView.jsp"><img style="border:1;" src="images/superRent2.jpg" alt="some_text" ></a></td>
+		<td></td>
 	</tr>
 	<tr>
-		<td><a href="SearchCarView.jsp"><img style="border:0;" src="images/car.jpg" alt="some_text" ></a></td>
-		<td><a href="SearchTruckView.jsp"><img style="border:0;" src="images/truck.jpg" alt="some_text"></a></td>
+		<td valign="middle"><a href="SearchCarView.jsp"><img style="border:0;" src="images/car0.jpg" alt="some_text" ></a></td>
+		<td valign="bottom"><a href="SearchTruckView.jsp"><img style="border:0;" src="images/truck0.jpg" alt="some_text"></a></td>
+		
 	</tr>
 	</table>
 </form>
