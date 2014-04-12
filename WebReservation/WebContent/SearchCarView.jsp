@@ -4,6 +4,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<script language="javascript" type="text/javascript" src="datetimepicker.js">
+//Date Time Picker script 
+</script>
+
 <title>Web Templates by LINE9.com</title>
 <style TYPE="text/css"><!--
     A:link {text-decoration: none; color: #000000}
