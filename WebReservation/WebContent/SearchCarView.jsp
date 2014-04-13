@@ -88,7 +88,7 @@ else
 if (date == 2 || date == 22)
   {ender = "nd"}
 else
-if (date == 3 || date == 23)
+if (date == 3 || date == 23) 
   {ender = "rd"}
 
 else
