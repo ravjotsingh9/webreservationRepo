@@ -83,7 +83,7 @@ var com = ",";
 var apm;
 
 if (date == 1 || date == 21 || date == 31)
-  {ender = "st"}
+  {ender = "st"} 
 else
 if (date == 2 || date == 22)
   {ender = "nd"}
