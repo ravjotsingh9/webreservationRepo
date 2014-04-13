@@ -51,6 +51,7 @@ public class CarDAO {
 		VehicleListBeanModel vehlist = new VehicleListBeanModel();
 		try{
 			//sql query
+			
 			String sql = "SELECT regNo, category, type, brand, purchaseDate FROM Vehicle";
 			//execute a query
 			stmt = connection.createStatement();
@@ -87,7 +88,8 @@ public class CarDAO {
 	        
 	        
 	        //Display values
-	        System.out.print("RegNo: " + vehicle.getRegNo());
+	        System.out.print("Index " +vehicles.getVehlist().indexOf(vehicle));
+	        System.out.print("RegNo: " +vehicle.getRegNo());
 	        System.out.print(", Category: " + vehicle.getCategory());
 	        System.out.print(", Type: " + vehicle.getType());
 	        System.out.println(", Brand: " + vehicle.getBrand());
@@ -106,8 +108,8 @@ public class CarDAO {
         if (connection != null) try { connection.close(); } catch (SQLException ignore) {}
 	   System.out.println("\nGoodbye!");
 	}
+		vehlist = vehicles;
 		//return vehicles;
-		vehlist = vehicles ;
 		return vehlist;
 }//end method
 	

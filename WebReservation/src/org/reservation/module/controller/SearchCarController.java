@@ -3,7 +3,6 @@ import org.reservation.module.model.*;
 import org.reservation.module.service.*;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletException;

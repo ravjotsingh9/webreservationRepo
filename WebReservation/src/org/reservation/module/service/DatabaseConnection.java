@@ -2,7 +2,7 @@ package org.reservation.module.service;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
+import com.mysql.jdbc.Driver;
 public class DatabaseConnection {
 	
 	public static void main(String args[]){
@@ -21,9 +21,12 @@ public class DatabaseConnection {
 			con = DriverManager.getConnection(url, username, password);
 			System.out.print("Success");
 			return con;
-		} catch (ClassNotFoundException e) {
+		} 
+		catch (ClassNotFoundException e) {
 			e.printStackTrace();
-		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} 
+	catch (SQLException e) {
 			e.printStackTrace();
 		}
 		System.out.print("Noooo Success");
