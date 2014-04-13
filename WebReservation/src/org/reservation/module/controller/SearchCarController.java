@@ -20,18 +20,18 @@ public class SearchCarController extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			CarDAO result = new CarDAO();
-	        List<VehicleBeanModel> vehicles = result.getFilteredList();
+	        VehicleListBeanModel vehicles = result.getFilteredList();
 	        request.setAttribute("vehicles", vehicles); // Will be available as ${vehicles} in JSP
 	    } catch (Exception e) {
 	        System.out.print("Servlet Exception"+e.getMessage());
 	    }
 		request.getRequestDispatcher("UpdatedSearchCarView.jsp").forward(request, response);
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 	}
 
 }

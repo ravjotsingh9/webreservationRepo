@@ -1,5 +1,6 @@
 package org.reservation.module.service;
 import org.reservation.module.model.VehicleBeanModel;
+import org.reservation.module.model.VehicleListBeanModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,27 +18,27 @@ public class CarDAO {
 	private static DatabaseConnection databaseConnection;
 	private static java.sql.Statement stmt;
 	private static PreparedStatement ps;
-	static ResultSet rs;
-	private static List<VehicleBeanModel> vehicles = new ArrayList<VehicleBeanModel>();
+	ResultSet rs;
+	private static VehicleListBeanModel vehicles = new VehicleListBeanModel();
 	
 	public static void main(String args[]){
 		CarDAO c = new CarDAO();
 		c.getFilteredList();
-		/*
+		
 		//update the column
 		int regNo; 
 		String cat, type, brand, date;
 		//int flag;
 		Scanner scan = new Scanner(System.in);
 		regNo = scan.nextInt();
-		cat = scan.next();
-		type = scan.next();
-		brand = scan.next();
-		date = scan.next();
+		//cat = scan.next();
+		//type = scan.next();
+		//brand = scan.next();
+		//date = scan.next();
 		//flag = scan.nextInt();
 		
-		c.updateVehicleList(regNo, cat, type, brand, date);
-		*/
+		//c.updateVehicleList(regNo, cat, type, brand, date);
+		
 	}
 	
 	public CarDAO(){
@@ -46,8 +47,8 @@ public class CarDAO {
 		connection = databaseConnection.getConnection();
 	}
 	
-	public List<VehicleBeanModel> getFilteredList(){
-		List<VehicleBeanModel> vehlist = new ArrayList<VehicleBeanModel>();
+	public VehicleListBeanModel getFilteredList(){
+		VehicleListBeanModel vehlist = new VehicleListBeanModel();
 		try{
 			//sql query
 			String sql = "SELECT regNo, category, type, brand, purchaseDate FROM Vehicle";
@@ -65,7 +66,7 @@ public class CarDAO {
 	    	vehicle.setType(rs.getString("type"));
 	    	vehicle.setBrand(rs.getString("brand"));
 	    	//vehicle.setPurchaseDate(rs.getString("purchaseDate"));
-	    	vehicles.add(vehicle);
+	    	vehicles.getVehlist().add(vehicle);
 	    	//------------------------------------------------
 	        int regNo = rs.getInt("regNo");
 	        String category = rs.getString("category");
@@ -89,7 +90,7 @@ public class CarDAO {
 	        System.out.print("RegNo: " + vehicle.getRegNo());
 	        System.out.print(", Category: " + vehicle.getCategory());
 	        System.out.print(", Type: " + vehicle.getType());
-	        System.out.print(", Brand: " + vehicle.getBrand());
+	        System.out.println(", Brand: " + vehicle.getBrand());
 	        //System.out.print(", Purchase Date: " + vehicle.getPurchaseDate());
 	        
 	    }//while
@@ -106,11 +107,11 @@ public class CarDAO {
 	   System.out.println("\nGoodbye!");
 	}
 		//return vehicles;
-		Collections.copy(vehicles, vehlist);
+		vehlist = vehicles ;
 		return vehlist;
 }//end method
 	
-	public List<VehicleBeanModel> passVehicles(){
+	public VehicleListBeanModel passVehicles(){
 		return vehicles;
 		
 	}
