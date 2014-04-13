@@ -19,6 +19,7 @@
 </head>
 
 <body bgcolor="#FFFFFF">
+<form action="SearchCar" method="post">
 <div align="center">
   <center>
   <table border="0" width="90%" cellspacing="0" cellpadding="0" background="img/bkg2.gif">
@@ -444,6 +445,6 @@ Your Link</u>&nbsp;&nbsp; |&nbsp;&nbsp; <u>Your Link</u>&nbsp;&nbsp;
 <p align="center"><font face="Arial" size="1" color="#000000"><strong><b>© Copyright 2000
 All Rights Reserved YOURDOMAIN.COM</b></strong></font></p>
 
-
+</form>
 </body>
 </html>
