@@ -50,6 +50,7 @@ public class CarDAO {
 		List<VehicleBeanModel> vehlist = new ArrayList<VehicleBeanModel>();
 		try{
 			//sql query
+			
 			String sql = "SELECT regNo, category, type, brand, purchaseDate FROM Vehicle";
 			//execute a query
 			stmt = connection.createStatement();
@@ -86,10 +87,11 @@ public class CarDAO {
 	        
 	        
 	        //Display values
-	        System.out.print("RegNo: " + vehicle.getRegNo());
+	        System.out.print("Index " +vehicles.indexOf(vehicle));
+	        System.out.print("RegNo: " +vehicle.getRegNo());
 	        System.out.print(", Category: " + vehicle.getCategory());
 	        System.out.print(", Type: " + vehicle.getType());
-	        System.out.print(", Brand: " + vehicle.getBrand());
+	        System.out.println(", Brand: " + vehicle.getBrand());
 	        //System.out.print(", Purchase Date: " + vehicle.getPurchaseDate());
 	        
 	    }//while
@@ -107,6 +109,7 @@ public class CarDAO {
 	}
 		//return vehicles;
 		Collections.copy(vehicles, vehlist);
+		
 		return vehlist;
 }//end method
 	
