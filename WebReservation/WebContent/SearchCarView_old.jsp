@@ -4,10 +4,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<script language="javascript" type="text/javascript" src="datetimepicker.js">
-//Date Time Picker script 
-</script>
 
+<link rel="stylesheet" type="text/css" href="datetimepicker-master/jquery.datetimepicker.css">
+<script src="datetimepicker-master/jquery.js"></script>
+<script src="datetimepicker-master/jquery.datetimepicker.js"></script>
 <title>Web Templates by LINE9.com</title>
 <style TYPE="text/css"><!--
     A:link {text-decoration: none; color: #000000}
@@ -19,6 +19,7 @@
 </head>
 
 <body bgcolor="#FFFFFF">
+<form action="SearchCar" method="post">
 <div align="center">
   <center>
   <table border="0" width="90%" cellspacing="0" cellpadding="0" background="img/bkg2.gif">
@@ -177,17 +178,13 @@ Your Link</font></b>
 		<tr>
 			<td>
 				<label>Pickup Date and Time</label><br>
-				<input id="demo3" type="text" size="20" disabled>
-				<a href="javascript:NewCal('demo3','ddmmmyyyy',true,24)">
-				<img src="images/cal.gif" width="16" height="16" border="0" alt="Pick a date"></a>
+				<input id="pickupdatetimepicker" type="text" size="20" onmouseover="javascript:$('#pickupdatetimepicker').datetimepicker();">				
 			</td>
 		</tr>
 		<tr>
 			<td>
 				<label>Drop Date and Time</label><br>
-				<input id="demo4" type="text" size="20" disabled>
-				<a href="javascript:NewCal('demo4','ddmmmyyyy',true,24)">
-				<img src="images/cal.gif" width="16" height="16" border="0" alt="Pick a date"></a>
+				<input id="dropdatetimepicker" type="text" size="20" onmouseover="javascript:$('#dropdatetimepicker').datetimepicker();">
 			</td>
 		</tr>
 		<tr>
@@ -448,6 +445,6 @@ Your Link</u>&nbsp;&nbsp; |&nbsp;&nbsp; <u>Your Link</u>&nbsp;&nbsp;
 <p align="center"><font face="Arial" size="1" color="#000000"><strong><b>© Copyright 2000
 All Rights Reserved YOURDOMAIN.COM</b></strong></font></p>
 
-
+</form>
 </body>
 </html>
