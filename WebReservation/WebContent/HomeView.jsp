@@ -9,7 +9,7 @@
 <title>Welcome To SuperRent </title>
 </head>
 <body>
-<form name="SearchVehicle" action="post">
+<form >
 	<table>
 	<tr height="200">
 		<td valign="middle" align="center"><a href="HomeView.jsp"><img style="border:1;" src="images/superRent2.jpg" alt="some_text" ></a></td>
