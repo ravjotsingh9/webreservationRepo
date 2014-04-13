@@ -18,14 +18,37 @@ public class SearchCarController extends HttpServlet {
         super();
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
 		
+		try 
+		{
+			String btn = request.getParameter("hbtn");
+			if(btn.equals("1"))
+			{
+				btn ="CAR";
+			}
+			else if(btn.equals("2"))
+			{
+				btn = "TRUCK";
+			}
+			else
+			{
+				btn="";
+			}
+			CarDAO result = new CarDAO();
+			VehicleListBeanModel vehicles = result.getFilteredList(btn);
+	        request.setAttribute("vehicles", vehicles); // Will be available as ${vehicles} in JSP
+	    } catch (Exception e) {
+	        System.out.print("Servlet Exception"+e.getMessage());
+	    }
+		request.getRequestDispatcher("UpdatedSearchCarView.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			CarDAO result = new CarDAO();
-	        VehicleListBeanModel vehicles = result.getFilteredList();
+	        VehicleListBeanModel vehicles = result.getFilteredList("");
 	        request.setAttribute("vehicles", vehicles); // Will be available as ${vehicles} in JSP
 	    } catch (Exception e) {
 	        System.out.print("Servlet Exception"+e.getMessage());
