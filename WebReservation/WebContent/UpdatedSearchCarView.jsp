@@ -29,8 +29,11 @@
 <div align="center">
   <center>
   <table border="0" width="90%" cellspacing="0" cellpadding="0" background="img/bkg2.gif">
+  <tr>
+  
+  </tr>
     <tr>
-      <td width="5%" valign="top" height="53"><font face="Arial Black" size="4">SITELOGO</font></td>
+      <td width="5%" valign="top" height="53"><font face="Arial Black" size="4">SUPERRENT</font></td>
       </center>
       <td width="95%" valign="bottom">
         <table border="0" width="100%" cellspacing="0" cellpadding="0" height="25">
