@@ -22,6 +22,8 @@
     a:hover{color: #FF0000}
 --></style>
 
+
+
 </head>
 
 <body bgcolor="#FFFFFF" onload="">
@@ -33,7 +35,7 @@
   
   </tr>
     <tr>
-      <td width="5%" valign="top" height="53"><font face="Arial Black" size="4">SUPERRENT</font></td>
+      <td width="5%" valign="top" height="53"><font face="Arial Black" size="4"><img alt="SUPPERRENT" src="images/logoS.jpg"></img</font></td>
       </center>
       <td width="95%" valign="bottom">
         <table border="0" width="100%" cellspacing="0" cellpadding="0" height="25">
@@ -137,8 +139,8 @@ setInterval("upclock()",1000);
         <tr>
           <td width="100%">
              
-<p align="right"><b><font size="1" face="Verdana" color="">Your Link&nbsp;&nbsp; <font color="#FF0000">|</font>&nbsp;&nbsp;
-Your Link&nbsp;&nbsp; <font color="#FF0000">|</font>&nbsp;&nbsp; Your Link&nbsp;&nbsp;
+<p align="right"><b><font size="1" face="Verdana" color="">About Us&nbsp;&nbsp; <font color="#FF0000">|</font>&nbsp;&nbsp;
+SupperRent Locations&nbsp;&nbsp; <font color="#FF0000">|</font>&nbsp;&nbsp; Contact Us&nbsp;&nbsp;
 <font color="#FF0000">|</font>&nbsp;&nbsp; Your Link&nbsp;&nbsp; <font color="#FF0000">|</font>&nbsp;&nbsp;
 Your Link</font></b>
              
@@ -149,18 +151,20 @@ Your Link</font></b>
   </tr>
   </table>
 </div>
-<p align="center"><font face="Arial" size="2">PLACE YOUR BANNER HERE</font>
+
+<p align="center"><font face="Arial" size="2"></font><!-- banner -->
 
 </p>
-<div align="center">
+
+<div align="center" >
   <center>
-  <table border="0" width="90%" cellspacing="0" cellpadding="0">
+  <table border="0" width="90%" cellspacing="0" cellpadding="0" height="450px">
     <tr>
       <td width="25%" valign="top">
         <table border="0" width="100%" bgcolor="#7f8bb7" cellspacing="0" cellpadding="0" bordercolor="#000000">
           <tr>
             <td width="100%" height="25px"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
-              Car Search
+              Search Vehicle
               </font></b></td>
           </tr>
         </table>
@@ -234,53 +238,81 @@ Your Link</font></b>
 			</td>
 		</tr>
 	</table>&nbsp;
+	<!--  
         <table border="0" width="100%" bgcolor="#7f8bb7" cellspacing="0" cellpadding="0" bordercolor="#000000">
           <tr>
             <td width="100%" height="25px"><b><font color="#FFFFFF" face="Arial" size="2" >&nbsp;
-              Hot Spots
+              Deals Of The Month
               </font></b></td>
           </tr>
         </table>
-            <p align="left"><font face="Arial" size="2"><u><img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 1 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 2 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 3 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 4 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 5 Here<br>
-            </u>&nbsp;</font>
+        
+        	<p align="left"><font face="Arial" size="2"><u><img border="0" src="images/membership1.jpg" ></u>&nbsp;
+            &nbsp;</font>
+            -->
         <table border="0" width="100%" bordercolor="#000000" cellspacing="0" cellpadding="0" bgcolor="#7f8bb7">
           <tr height="25px">
             <td width="100%"><b><font color="#FFFFFF" face="Arial" size="2" >&nbsp;
-              Sponsors
+              Cancel Reservation
               </font></b></td>
           </tr>
-        </table>
-            <p align="left"><font face="Arial" size="2"><u><img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Sponsor 1 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Sponsor 2 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Sponsor 3 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Sponsor 4 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Sponsor 5 Here</u></font>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</td>
+        </table>    
+             <table>
+            	<tr>
+            		<td><font face="Arial" size="2">
+            			<label>Conformation No.:</label>
+            			</font>
+            		</td>
+            		<td>
+            			<input type="text" name="txtCon"/> 
+            		</td>
+            	</tr>
+            	<tr>
+            		<td>
+            		</td>
+            		<td><font face="Arial" size="3">
+            		<label>Or</label>
+            		</font>
+            		</td>
+            	</tr>
+            	<tr>
+            		<td><font face="Arial" size="2">
+            			<label>Phone No.:</label>
+            			</font>
+            		</td>
+            		<td>
+            			<input type="text" name="txtPh"/>
+            		</td>
+            	</tr>
+            	<tr>
+            		<td><font face="Arial" size="2">
+            			<label>PickUp Date-Time:</label>
+            			</font>
+            		</td>
+            		<td>
+            			<input id="pickupdatetime" type="text" size="20" onmouseover="javascript:$('#pickupdatetime').datetimepicker();">
+            		</td>
+            	</tr>
+            	<tr>
+            		<td>
+            		</td>
+            		<td>
+            			<input type="submit" name="CancelReservationbtn" value="Submit"></input>
+            		</td>
+            	</tr>
+            	<tr height="25px">
+            	<td></td>
+            	</tr>
+            </table>
+        </td>
   
       <td width="50%" valign="top">
         <div align="center">
-          <table border="0" width="95%" bgcolor="#f2f4f7" cellspacing="0" cellpadding="0">
+          <table border="0" width="95%" bgcolor="#f2f4f7" cellspacing="0" cellpadding="0" >
             <tr>
               <td>
                 <p align="left"><b><font face="Arial" color="#000000" size="2">&nbsp;
-                Search The Web</font></b></td>
+                Search Result</font></b></td>
             </tr>
           </table>
         </div>
@@ -295,9 +327,9 @@ Your Link</font></b>
     <tr>
       <td>&nbsp;
       
- <div id="content" style="width:96%;float:right;">
+ <div id="content" style="width:100%;float:right;overflow: scroll;height: 400px;" >
 
-<table  border="1" width="500" align="left" bordercolor="#dae0ea">
+<table  border="1" width="525" align="left" bordercolor="#dae0ea">
 	<tr style="height:30px;width:50px;background-color:#d2d9e4 ">
 		<td><font size="2" face="Verdana">Regitration No.</font></td>
 		<td><font size="2" face="Verdana">Category</font></td>
@@ -315,6 +347,7 @@ Your Link</font></b>
 	%>
 
 		<tr style="height:25px;width:50px;">
+		
 		<td><font size="2" face="Verdana" color="#62799e"><% out.write(Integer.toString(veh.getRegNo())); %></font></td>
 		<td><font size="2" face="Verdana" color="#62799e"><% out.write(veh.getCategory()); %></font></td>
 		<td><font size="2" face="Verdana" color="#62799e"><% out.write(veh.getBrand()); %></font></td>
@@ -332,87 +365,67 @@ Your Link</font></b>
      
  </table>
 
-      <div id="aftercontent" style="width:80%;height:50px;float:right;"></div>
+      <div id="aftercontent" style="width:80%;height:2px;float:right;"></div>
   </td>
             </tr>
           </table>
         </div>
-  <table border="0" width="100%" cellspacing="0" cellpadding="0">
-    <tr>
-      <td width="100%">&nbsp;</td>
-    </tr>
-  </table>
-  <div align="center">
-    <center>
-    <table border="0" width="95%" bgcolor="#7f8bb7" bordercolor="#000000" cellspacing="0" cellpadding="0">
-      <tr>
-        <td width="100%" height="25px"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
-          Your Text Headline
-              </font></b></td>
-      </tr>
-    </table>
-    </center>
-  </div>
-        <p align="justify" style="margin-left: 10; margin-right: 10"><font face="Arial" size="2">Place
-        your text here... Place your text here... Place your text here... Place
-        your text here... Place your text here... Place your text here... Place
-        your text here... Place your text here... Place your text here... Place
-        your text here... Place your text here... Place your text here...&nbsp;</font><br>
+ <div id="aftercontent" style="width:80%;height:50px;float:right;"></div> 
+  
         <div align="center">
           <center>
           <table border="0" width="95%" bordercolor="#000000" cellspacing="0" cellpadding="0" bgcolor="#7f8bb7">
-            <tr>
-              <td width="100%" height="25px"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
-                Site Update Info
-              </font></b></td>
-            </tr>
           </table>
           </center>
         </div>
-        <p align="justify" style="margin-left: 10; margin-right: 10"><font face="Arial" size="2">Place
-        your site update info here... Place your site update info here... Place
-        your site update info here... Place your site update info here... Place
-        your site update info here... Place your site update info here... Place
-        your site update info here...&nbsp;<br>
-        &nbsp;</font></td>
+   </td>
   <center>
       <td width="25%" valign="top">
         <table border="0" width="100%" bgcolor="#7f8bb7" cellspacing="0" cellpadding="0" bordercolor="#000000">
           <tr>
             <td width="100%" height="25px"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
               </font><font color="#000000"><font face="Arial" size="2">
-              </font></font><font face="Arial" color="#FFFFFF" size="2">Deals Of The Month</font></b></td>
+              </font></font><font face="Arial" color="#FFFFFF" size="2">View Your Redeemable Points</font></b></td>
           </tr>
         </table>
-            <p align="left"><font face="Arial" size="2"><u><img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 1 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 2 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 3 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 4 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 5 Here<br>
-            </u>&nbsp;</font>
+          	<table>
+            	<tr>
+            		<td><font face="Arial" size="2">
+            			<label>Membership No.:</label>
+            			</font>
+            		</td>
+            		<td>
+            			<input type="text" name="txt1"/> 
+            		</td>
+            	</tr>
+            	<tr>
+            		<td>
+            		</td>
+            		<td>
+            		</td>
+            	</tr>
+            	<tr>
+            		<td>
+            		</td>
+            		<td>
+            			<input type="submit" name="firstForm" value="Submit"></input>
+            		</td>
+            	</tr>
+            	<tr height="25px">
+            	<td></td>
+            	</tr>
+            </table>
+        
         <table border="0" width="100%" bgcolor="#7f8bb7" cellspacing="0" cellpadding="0" bordercolor="#000000">
           <tr>
             <td width="100%" height="25px"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
-              Upcoming Events
+              Deal Of The Month
               </font></b></td>
           </tr>
         </table>
-            <p align="left"><font face="Arial" size="2"><u><img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 1 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 2 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 3 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 4 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 5 Here<br>
-            </u>&nbsp;</font>
+            <p align="center"><font face="Arial" size="2"><u><img border="0" src="images/likeUs.png" ></u>&nbsp;
+            </font>
+            <!-- 
         <table border="0" width="100%" bordercolor="#000000" cellspacing="0" cellpadding="0" bgcolor="#7f8bb7">
           <tr>
             <td width="100%" height="25px"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
@@ -431,38 +444,16 @@ Your Link</font></b>
         <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
         <u>Place Link 5 Here<br>
         </u>&nbsp;</font></p>
-        <p>&nbsp;</td>
+        <p>&nbsp; -->
+        </td>
     </tr>
   </table>
   </center>
 </div>
 <hr color="#FF0000" size="3" width="90%">
-<div align="center">
-  <center>
-  <table border="0" width="90%" cellspacing="0" cellpadding="0">
-    <tr>
-      <td width="100%">
-<p align="center"><font size="1" face="Verdana"><b>Main Site Navigation:</b><u><br>
-Your Link</u>&nbsp;&nbsp; <font color="#000000">|</font>&nbsp;&nbsp; <u>Your
-Link</u>&nbsp;&nbsp; <font color="#000000">|</font>&nbsp;&nbsp; <u>Your Link</u>&nbsp;&nbsp;<font color="#000000"> |&nbsp;</font>&nbsp;
-<u>Your Link</u> &nbsp; <font color="#000000">|</font>&nbsp;&nbsp; <u>Your Link</u></font>
 
-</p>
-<p align="center"><font face="Verdana" size="1">&nbsp;<b>Site Navigation:</b><u><br>
-Your Link</u>&nbsp;&nbsp; |&nbsp;&nbsp; <u>Your Link</u>&nbsp;&nbsp;
-|&nbsp;&nbsp; <u>Your Link</u>&nbsp;&nbsp; |&nbsp;&nbsp; <u>Your Link</u>&nbsp;&nbsp;
-|&nbsp;&nbsp; <u>Your Link<br>
-Your Link</u>&nbsp;&nbsp; |&nbsp;&nbsp; <u>Your Link</u>&nbsp;&nbsp;
-|&nbsp;&nbsp; <u>Your Link</u>&nbsp;&nbsp; |&nbsp;&nbsp; <u>Your Link</u></font>
-
-</p>
-      </td>
-    </tr>
-  </table>
-  </center>
-</div>
 <p align="center"><font face="Arial" size="1" color="#000000"><strong><b>© Copyright 2000
-All Rights Reserved YOURDOMAIN.COM</b></strong></font></p>
+All Rights Reserved SUPPERRENT.COM</b></strong></font></p>
 
 </form>
 </body>
