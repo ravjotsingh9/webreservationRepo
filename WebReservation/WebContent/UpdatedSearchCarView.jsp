@@ -1,7 +1,6 @@
 <%@page import="javax.swing.text.html.parser.Parser"%>
 <%@page import="org.reservation.module.model.VehicleListBeanModel"%>
 <%@ page import="java.util.List,java.util.ArrayList,java.util.Iterator"%>
-<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c"  %>
 <%@ page import="org.reservation.module.model.VehicleBeanModel" %>  
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -21,7 +20,65 @@
     a:active {text-decoration: none; color: #000000}
     a:hover{color: #FF0000}
 --></style>
-
+<script>
+var items = [
+             {
+                 name: '---',
+                 value:'',
+                 subitems: []
+             },
+             {
+                 name:'Car', 
+                 value: 'car', 
+                 subitems: [
+                     {name: 'Economy', value: 'economy'},
+					 {name: 'Compact', value: 'compact'},
+					 {name:'Mid-size', value: 'midsize'},
+					 {name:'Standard', value: 'standard'},
+					 {name:'Full-size', value: 'fullsize'},
+					 {name:'Premium', value: 'premium'},
+					 {name:'Luxury', value: 'luxury'},
+					 {name:'SUV', value: 'suv'},
+					 {name:'Van', value: 'van'}
+                 ]
+             },
+             {
+                 name: 'Truck',
+                 value: 'truck',
+                 subitems: [
+                     {name: '24-foot', value: '24foot'},
+					 {name: '15-foot', value: '15foot'},
+					 {name:'12-foot', value: '12foot'},
+					 {name:'Box Trucks', value: 'boxtrucks'},
+					 {name:'Cargo Vans', value: 'cargovans'}
+                 ]
+             }
+         ];
+$(function(){
+    var temp = {};
+    
+    $.each(items, function(){
+        $("<option />")
+        .attr("value", this.value)
+        .html(this.name)
+        .appendTo("#firstmenu");
+        temp[this.value] = this.subitems;
+    });
+    
+    $("#firstmenu").change(function(){
+        var value = $(this).val();
+        var menu = $("#secondmenu");
+        
+        menu.empty();
+        $.each(temp[value], function(){
+            $("<option />")
+            .attr("value", this.value)
+            .html(this.name)
+            .appendTo(menu);
+        });
+    }).change();
+});
+</script>
 
 
 </head>
@@ -175,11 +232,9 @@ Your Link</font></b>
 			</font>
 			</td>
 			<td>
-			 <select name= "vehtypes">
-					<option value="car">Car</option>
-					<option value="truck">Truck</option>
-				</select> 
-			</td>
+			<select id="firstmenu" name="car">
+			</select>
+			<br/>
 		</tr>
 		<tr>
 			<td><font face="Arial" size="2">
@@ -187,18 +242,10 @@ Your Link</font></b>
 				</font>
 				</td>
 				<td> 
-				<select name= "cartypes">
-					<option value="economy">Economy</option>
-					<option value="compact">Compact</option>
-					<option value="midsize">Mid-size</option>
-					<option value="standard">Standard</option>
-					<option value="fullsize">Full-size</option>
-					<option value="premium">Premium</option>
-					<option value="luxury">Luxury</option>
-					<option value="suv">SUV</option>
-					<option value="van">Van</option>
-				</select> 
 				
+				<select id="secondmenu" name="truck">
+				</select>
+				</td>	
 			</td>
 		</tr>
 		<tr>
