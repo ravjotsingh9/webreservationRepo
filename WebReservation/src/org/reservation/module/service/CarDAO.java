@@ -1,3 +1,4 @@
+
 package org.reservation.module.service;
 import org.reservation.module.model.VehicleBeanModel;
 import org.reservation.module.model.VehicleListBeanModel;
@@ -80,7 +81,7 @@ public class CarDAO {
 	        String category = rs.getString("category");
 	        String type = rs.getString("type");
 	        String brand = rs.getString("brand");
-	        //String purchaseDate = rs.getString("purchaseDate");
+	        String purchaseDate = rs.getString("purchaseDate");
 	        //int flag = rs.getInt("sold");
 	        
 	        //Display values
