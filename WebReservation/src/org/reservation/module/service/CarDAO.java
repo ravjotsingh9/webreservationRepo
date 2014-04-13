@@ -1,4 +1,5 @@
 package org.reservation.module.service;
+import org.joda.time.DateTime;
 import org.reservation.module.model.VehicleBeanModel;
 import org.reservation.module.model.VehicleListBeanModel;
 
@@ -23,7 +24,7 @@ public class CarDAO {
 	
 	public static void main(String args[]){
 		CarDAO c = new CarDAO();
-		c.getFilteredList();
+		c.getFilteredList("Car","COMPACT");
 		
 		//update the column
 		int regNo; 
@@ -47,15 +48,17 @@ public class CarDAO {
 		connection = databaseConnection.getConnection();
 	}
 	
-	public VehicleListBeanModel getFilteredList(){
+	public VehicleListBeanModel getFilteredList(String category, String type){
 		VehicleListBeanModel vehlist = new VehicleListBeanModel();
 		try{
 			//sql query
 			
-			String sql = "SELECT regNo, category, type, brand, purchaseDate FROM Vehicle";
+			String sql = "SELECT regNo, category, type, brand, purchaseDate, status FROM Vehicle where category=? AND type=?";
 			//execute a query
-			stmt = connection.createStatement();
-			rs = stmt.executeQuery(sql);
+			ps = connection.prepareStatement(sql);
+			ps.setString(1, category);
+			ps.setString(2, type);
+			rs = ps.executeQuery();
 			
 		//Extract data from result set
 	    while (rs.next()) {
@@ -66,25 +69,16 @@ public class CarDAO {
 	    	vehicle.setCategory(rs.getString("category"));
 	    	vehicle.setType(rs.getString("type"));
 	    	vehicle.setBrand(rs.getString("brand"));
-	    	//vehicle.setPurchaseDate(rs.getString("purchaseDate"));
+	    	vehicle.setStatus(rs.getInt("status"));
+	    	//vehicle.setPurchaseDate((DateTime)rs.getObject("purchaseDate"));
 	    	vehicles.getVehlist().add(vehicle);
 	    	//------------------------------------------------
 	        int regNo = rs.getInt("regNo");
-	        String category = rs.getString("category");
-	        String type = rs.getString("type");
+	        String category1 = rs.getString("category");
+	        String type1 = rs.getString("type");
 	        String brand = rs.getString("brand");
-	        //String purchaseDate = rs.getString("purchaseDate");
-	        //int flag = rs.getInt("sold");
-	        
-	        //Display values
-	        /*
-	        System.out.print("RegNo: " + regNo);
-	        System.out.print(", Category: " + category);
-	        System.out.print(", Type: " + type);
-	        System.out.print(", Brand: " + brand);
-	        System.out.print(", Purchase Date: " + purchaseDate);
-	        */
-	        //System.out.print(", Sold?: " + flag);    
+	       // DateTime purchaseDate = (DateTime) rs.getObject("purchaseDate");
+	        int flag = rs.getInt("status");
 	        
 	        
 	        //Display values
@@ -93,7 +87,7 @@ public class CarDAO {
 	        System.out.print(", Category: " + vehicle.getCategory());
 	        System.out.print(", Type: " + vehicle.getType());
 	        System.out.println(", Brand: " + vehicle.getBrand());
-	        //System.out.print(", Purchase Date: " + vehicle.getPurchaseDate());
+	        System.out.print(", Purchase Date: " + vehicle.getPurchaseDate());
 	        
 	    }//while
 	    
@@ -112,14 +106,7 @@ public class CarDAO {
 		//return vehicles;
 		return vehlist;
 }//end method
-	
-	public VehicleListBeanModel passVehicles(){
-		return vehicles;
 		
-	}
-	
-	
-	
 	
 	public void updateVehicleList(int regNo, String cat, String type, String brand, String date){
 		String sql = "INSERT INTO Vehicle"
