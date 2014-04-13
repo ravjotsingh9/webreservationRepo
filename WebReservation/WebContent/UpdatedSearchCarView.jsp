@@ -24,7 +24,7 @@
 
 </head>
 
-<body bgcolor="#FFFFFF">
+<body bgcolor="#FFFFFF" onload="">
 <form action="SearchCar" method="post">
 <div align="center">
   <center>
@@ -137,7 +137,7 @@ setInterval("upclock()",1000);
         <tr>
           <td width="100%">
              
-<p align="right"><b><font size="1" face="Verdana">Your Link&nbsp;&nbsp; <font color="#FF0000">|</font>&nbsp;&nbsp;
+<p align="right"><b><font size="1" face="Verdana" color="">Your Link&nbsp;&nbsp; <font color="#FF0000">|</font>&nbsp;&nbsp;
 Your Link&nbsp;&nbsp; <font color="#FF0000">|</font>&nbsp;&nbsp; Your Link&nbsp;&nbsp;
 <font color="#FF0000">|</font>&nbsp;&nbsp; Your Link&nbsp;&nbsp; <font color="#FF0000">|</font>&nbsp;&nbsp;
 Your Link</font></b>
@@ -157,20 +157,33 @@ Your Link</font></b>
   <table border="0" width="90%" cellspacing="0" cellpadding="0">
     <tr>
       <td width="25%" valign="top">
-        <table border="1" width="100%" bgcolor="#FF0000" cellspacing="0" cellpadding="0" bordercolor="#000000">
+        <table border="0" width="100%" bgcolor="#7f8bb7" cellspacing="0" cellpadding="0" bordercolor="#000000">
           <tr>
-            <td width="100%"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
+            <td width="100%" height="25px"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
               Car Search
               </font></b></td>
           </tr>
         </table>
         <table >
 		<tr>
-			<td>Category: CAR</td>
+			<td><font face="Arial" size="2">
+			<label>Select One:</label>
+			</font>
+			</td>
+			<td>
+			 <select name= "vehtypes">
+					<option value="car">Car</option>
+					<option value="truck">Truck</option>
+				</select> 
+			</td>
 		</tr>
 		<tr>
 			<td><font face="Arial" size="2">
-				Type: <select name= "cartypes">
+				<label>Type:</label>
+				</font>
+				</td>
+				<td> 
+				<select name= "cartypes">
 					<option value="economy">Economy</option>
 					<option value="compact">Compact</option>
 					<option value="midsize">Mid-size</option>
@@ -181,37 +194,49 @@ Your Link</font></b>
 					<option value="suv">SUV</option>
 					<option value="van">Van</option>
 				</select> 
+				
+			</td>
+		</tr>
+		<tr>
+			<td><font face="Arial" size="2">
+				<label>Pickup Date-Time:</label>
 				</font>
+				</td>
+				<td>
+				<input id="pickupdatetimepicker" type="text" size="20" onmouseover="javascript:$('#pickupdatetimepicker').datetimepicker();">
+								
 			</td>
 		</tr>
 		<tr>
-			<td>
-				<label>Pickup Date and Time</label><br>
-				<input id="pickupdatetimepicker" type="text" size="20" onmouseover="javascript:$('#pickupdatetimepicker').datetimepicker();">				
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label>Drop Date and Time</label><br>
+			<td><font face="Arial" size="2">
+				<label>Drop Date-Time:</label>
+				</font>
+				</td>
+				<td>
 				<input id="dropdatetimepicker" type="text" size="20" onmouseover="javascript:$('#dropdatetimepicker').datetimepicker();">
 			</td>
 		</tr>
 		<tr>
-			<td>
-				Location: <select name= "branchlocation">
+			<td><font face="Arial" size="2">
+				<label>Location:</label>
+				</font>
+				</td> 
+				<td>
+				<select name= "branchlocation">
 					<option value="vancouver">Vancouver</option>
 				</select> 
 			</td>
 		</tr>
 		<tr>
-			<td>
-				<input type="submit" value="Submit" name="submit">
+		<td></td>
+			<td align="left">
+				<input type="submit" value="Submit" name="submit" >
 			</td>
 		</tr>
 	</table>&nbsp;
-        <table border="1" width="100%" bgcolor="#FF0000" cellspacing="0" cellpadding="0" bordercolor="#000000">
+        <table border="0" width="100%" bgcolor="#7f8bb7" cellspacing="0" cellpadding="0" bordercolor="#000000">
           <tr>
-            <td width="100%"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
+            <td width="100%" height="25px"><b><font color="#FFFFFF" face="Arial" size="2" >&nbsp;
               Hot Spots
               </font></b></td>
           </tr>
@@ -227,9 +252,9 @@ Your Link</font></b>
             <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
             <u>Place Link 5 Here<br>
             </u>&nbsp;</font>
-        <table border="1" width="100%" bordercolor="#000000" cellspacing="0" cellpadding="0" bgcolor="#FF0000">
-          <tr>
-            <td width="100%"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
+        <table border="0" width="100%" bordercolor="#000000" cellspacing="0" cellpadding="0" bgcolor="#7f8bb7">
+          <tr height="25px">
+            <td width="100%"><b><font color="#FFFFFF" face="Arial" size="2" >&nbsp;
               Sponsors
               </font></b></td>
           </tr>
@@ -251,7 +276,7 @@ Your Link</font></b>
   
       <td width="50%" valign="top">
         <div align="center">
-          <table border="0" width="95%" bgcolor="#FFCCCC" cellspacing="0" cellpadding="0">
+          <table border="0" width="95%" bgcolor="#f2f4f7" cellspacing="0" cellpadding="0">
             <tr>
               <td>
                 <p align="left"><b><font face="Arial" color="#000000" size="2">&nbsp;
@@ -262,18 +287,23 @@ Your Link</font></b>
   
         <div align="center">
   
-          <table border="0" width="95%" bordercolor="#FF0000" cellspacing="0" cellpadding="0" bgcolor="#FFCCCC">
+          <table border="0" width="95%" bordercolor="#FF0000" cellspacing="0" cellpadding="0" bgcolor="#f3f5f8">
             <tr>
               <td width="100%">
   
-  <table cellpadding="0" cellspacing="0" border="0" bordercolor="#000000" bgcolor="#FFCCCC" width="75%">
+  <table cellpadding="0" cellspacing="0" border="0" bordercolor="#000000"  width="75%">
     <tr>
       <td>&nbsp;
-      <div id="content" style="height:500px;width:80%;float:right;">
+      
+ <div id="content" style="width:96%;float:right;">
 
-
-
-<table  border= 1 >
+<table  border="1" width="500" align="left" bordercolor="#dae0ea">
+	<tr style="height:30px;width:50px;background-color:#d2d9e4 ">
+		<td><font size="2" face="Verdana">Regitration No.</font></td>
+		<td><font size="2" face="Verdana">Category</font></td>
+		<td><font size="2" face="Verdana">Brand</font></td>
+		<td><font size="2" face="Verdana">Type</font></td>
+	</tr>
 	<% VehicleListBeanModel vehicle = (VehicleListBeanModel) request.getAttribute("vehicles");
 	ArrayList<VehicleBeanModel> vehlist = vehicle.getVehlist();
 	VehicleBeanModel veh= new VehicleBeanModel();
@@ -284,11 +314,11 @@ Your Link</font></b>
 		veh = vehlist.get(index);
 	%>
 
-		<tr style="height:10px;width:50px;">
-		<td><font size="2" face="Verdana"><% out.write(Integer.toString(veh.getRegNo())); %></font></td>
-		<td><font size="2" face="Verdana"><% out.write(veh.getCategory()); %></font></td>
-		<td><font size="2" face="Verdana"><% out.write(veh.getBrand()); %></font></td>
-		<td><font size="2" face="Verdana"><% out.write(veh.getType()); %></font></td>
+		<tr style="height:25px;width:50px;">
+		<td><font size="2" face="Verdana" color="#62799e"><% out.write(Integer.toString(veh.getRegNo())); %></font></td>
+		<td><font size="2" face="Verdana" color="#62799e"><% out.write(veh.getCategory()); %></font></td>
+		<td><font size="2" face="Verdana" color="#62799e"><% out.write(veh.getBrand()); %></font></td>
+		<td><font size="2" face="Verdana" color="#62799e"><% out.write(veh.getType()); %></font></td>
 		    	
 	    </tr>
 		
@@ -297,48 +327,13 @@ Your Link</font></b>
 	vehicle.clearVehlist();
 	%>
 		
-		
-	
 </table>
-
 </div>
-</div>
-      
-  </table>
+     
+ </table>
 
-
-                  
-            <table border="0" width="100%" cellspacing="0" cellpadding="0">
-              <tr>
-                <td width="100%">
-                  <p align="left"><b><i><font face="Arial" size="1" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
-                  </font><font face="Arial" color="#000000" size="2">&nbsp; NAVIGATION</font><font face="Arial" size="3" color="#000000"><br>
-                  </font><font color="#000000" face="Arial" size="1">&nbsp;</font></i></b></td>
-              </tr>
-            </table>
-            <table border="0" width="100%" cellspacing="0" cellpadding="0">
-              <tr>
-                <td width="54%" valign="top">
-                  <blockquote>
-                    <p><font face="Arial" size="2"><u>Auction<br>
-                    Classifieds<br>
-                    Employment<br>
-                    Entertainment<br>
-                    Local Links</u></font></p>
-                  </blockquote>
-                </td>
-                <td width="46%" valign="top"><font face="Arial" size="2"><u>Message
-                  Boards<br>
-                  Personals<br>
-                  Services<br>
-                  Shopping</u></font></td>
-              </tr>
-            </table>
-  <center>
-          <center>
-          <center>
-  <center>
-  </center></center></center></center></td>
+      <div id="aftercontent" style="width:80%;height:50px;float:right;"></div>
+  </td>
             </tr>
           </table>
         </div>
@@ -349,9 +344,9 @@ Your Link</font></b>
   </table>
   <div align="center">
     <center>
-    <table border="1" width="95%" bgcolor="#FF0000" bordercolor="#000000" cellspacing="0" cellpadding="0">
+    <table border="0" width="95%" bgcolor="#7f8bb7" bordercolor="#000000" cellspacing="0" cellpadding="0">
       <tr>
-        <td width="100%"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
+        <td width="100%" height="25px"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
           Your Text Headline
               </font></b></td>
       </tr>
@@ -365,9 +360,9 @@ Your Link</font></b>
         your text here... Place your text here... Place your text here...&nbsp;</font><br>
         <div align="center">
           <center>
-          <table border="1" width="95%" bordercolor="#000000" cellspacing="0" cellpadding="0" bgcolor="#FF0000">
+          <table border="0" width="95%" bordercolor="#000000" cellspacing="0" cellpadding="0" bgcolor="#7f8bb7">
             <tr>
-              <td width="100%"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
+              <td width="100%" height="25px"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
                 Site Update Info
               </font></b></td>
             </tr>
@@ -382,9 +377,9 @@ Your Link</font></b>
         &nbsp;</font></td>
   <center>
       <td width="25%" valign="top">
-        <table border="1" width="100%" bgcolor="#FF0000" cellspacing="0" cellpadding="0" bordercolor="#000000">
+        <table border="0" width="100%" bgcolor="#7f8bb7" cellspacing="0" cellpadding="0" bordercolor="#000000">
           <tr>
-            <td width="100%"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
+            <td width="100%" height="25px"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
               </font><font color="#000000"><font face="Arial" size="2">
               </font></font><font face="Arial" color="#FFFFFF" size="2">Deals Of The Month</font></b></td>
           </tr>
@@ -400,9 +395,9 @@ Your Link</font></b>
             <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
             <u>Place Link 5 Here<br>
             </u>&nbsp;</font>
-        <table border="1" width="100%" bgcolor="#FF0000" cellspacing="0" cellpadding="0" bordercolor="#000000">
+        <table border="0" width="100%" bgcolor="#7f8bb7" cellspacing="0" cellpadding="0" bordercolor="#000000">
           <tr>
-            <td width="100%"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
+            <td width="100%" height="25px"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
               Upcoming Events
               </font></b></td>
           </tr>
@@ -418,9 +413,9 @@ Your Link</font></b>
             <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
             <u>Place Link 5 Here<br>
             </u>&nbsp;</font>
-        <table border="1" width="100%" bordercolor="#000000" cellspacing="0" cellpadding="0" bgcolor="#FF0000">
+        <table border="0" width="100%" bordercolor="#000000" cellspacing="0" cellpadding="0" bgcolor="#7f8bb7">
           <tr>
-            <td width="100%"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
+            <td width="100%" height="25px"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
               Upcoming Events
               </font></b></td>
           </tr>

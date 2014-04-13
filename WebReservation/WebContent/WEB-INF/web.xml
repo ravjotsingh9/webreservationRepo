@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
+
 <servlet>
-<servlet-mapping>SearchCar</servlet-mapping>
-<url-pattern>/vehicles</url-pattern>
+  	<servlet-name>SearchCar</servlet-name>
+  	<servlet-class>org.reservation.module.controller</servlet-class>
+	<servlet-mapping>
+  		<servlet-name>SearchCar</servlet-name>
+  		<url-pattern>/vehicles/*</url-pattern>
+	</servlet-mapping>
 </servlet>

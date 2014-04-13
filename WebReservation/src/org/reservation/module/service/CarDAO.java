@@ -23,7 +23,7 @@ public class CarDAO {
 	
 	public static void main(String args[]){
 		CarDAO c = new CarDAO();
-		c.getFilteredList();
+		c.getFilteredList("TRUCK");
 		
 		//update the column
 		int regNo; 
@@ -47,12 +47,19 @@ public class CarDAO {
 		connection = databaseConnection.getConnection();
 	}
 	
-	public VehicleListBeanModel getFilteredList(){
+	public VehicleListBeanModel getFilteredList(String Category){
 		VehicleListBeanModel vehlist = new VehicleListBeanModel();
 		try{
 			//sql query
-			
-			String sql = "SELECT regNo, category, type, brand, purchaseDate FROM Vehicle";
+			String sql;
+			if(Category.equals(""))
+			{
+				sql = "SELECT regNo, category, type, brand, purchaseDate FROM Vehicle";
+			}
+			else
+			{
+				sql = "SELECT regNo, category, type, brand, purchaseDate FROM Vehicle where category = \""+Category+"\"";
+			}
 			//execute a query
 			stmt = connection.createStatement();
 			rs = stmt.executeQuery(sql);
