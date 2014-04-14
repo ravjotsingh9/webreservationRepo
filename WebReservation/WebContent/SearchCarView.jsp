@@ -1,6 +1,12 @@
+<%@page import="javax.swing.text.html.parser.Parser"%>
+<%@page import="org.reservation.module.model.VehicleListBeanModel"%>
+<%@ page import="java.util.List,java.util.ArrayList,java.util.Iterator"%>
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c"  %>
+<%@ page import="org.reservation.module.model.VehicleBeanModel" %>  
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<jsp:useBean id="vehicles" class="org.reservation.module.model.VehicleListBeanModel" scope="request"></jsp:useBean>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -16,15 +22,20 @@
     a:hover{color: #FF0000}
 --></style>
 
+
+
 </head>
 
-<body bgcolor="#FFFFFF">
+<body bgcolor="#FFFFFF" onload="">
 <form action="SearchCar" method="post">
 <div align="center">
   <center>
   <table border="0" width="90%" cellspacing="0" cellpadding="0" background="img/bkg2.gif">
+  <tr>
+  
+  </tr>
     <tr>
-      <td width="5%" valign="top" height="53"><font face="Arial Black" size="4">SITELOGO</font></td>
+      <td width="5%" valign="top" height="53"><font face="Arial Black" size="4"><img alt="SUPPERRENT" src="images/logoS.jpg"></img</font></td>
       </center>
       <td width="95%" valign="bottom">
         <table border="0" width="100%" cellspacing="0" cellpadding="0" height="25">
@@ -83,12 +94,12 @@ var com = ",";
 var apm;
 
 if (date == 1 || date == 21 || date == 31)
-  {ender = "st"} 
+  {ender = "st"}
 else
 if (date == 2 || date == 22)
   {ender = "nd"}
 else
-if (date == 3 || date == 23) 
+if (date == 3 || date == 23)
   {ender = "rd"}
 
 else
@@ -128,8 +139,8 @@ setInterval("upclock()",1000);
         <tr>
           <td width="100%">
              
-<p align="right"><b><font size="1" face="Verdana">Your Link&nbsp;&nbsp; <font color="#FF0000">|</font>&nbsp;&nbsp;
-Your Link&nbsp;&nbsp; <font color="#FF0000">|</font>&nbsp;&nbsp; Your Link&nbsp;&nbsp;
+<p align="right"><b><font size="1" face="Verdana" color="">About Us&nbsp;&nbsp; <font color="#FF0000">|</font>&nbsp;&nbsp;
+SupperRent Locations&nbsp;&nbsp; <font color="#FF0000">|</font>&nbsp;&nbsp; Contact Us&nbsp;&nbsp;
 <font color="#FF0000">|</font>&nbsp;&nbsp; Your Link&nbsp;&nbsp; <font color="#FF0000">|</font>&nbsp;&nbsp;
 Your Link</font></b>
              
@@ -140,28 +151,43 @@ Your Link</font></b>
   </tr>
   </table>
 </div>
-<p align="center"><font face="Arial" size="2">PLACE YOUR BANNER HERE</font>
+
+<p align="center"><font face="Arial" size="2"></font><!-- banner -->
 
 </p>
-<div align="center">
+
+<div align="center" >
   <center>
-  <table border="0" width="90%" cellspacing="0" cellpadding="0">
+  <table border="0" width="90%" cellspacing="0" cellpadding="0" height="450px">
     <tr>
       <td width="25%" valign="top">
-        <table border="1" width="100%" bgcolor="#FF0000" cellspacing="0" cellpadding="0" bordercolor="#000000">
+        <table border="0" width="100%" bgcolor="#7f8bb7" cellspacing="0" cellpadding="0" bordercolor="#000000">
           <tr>
-            <td width="100%"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
-              Sports Box
+            <td width="100%" height="25px"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
+              Search Vehicle
               </font></b></td>
           </tr>
         </table>
         <table >
 		<tr>
-			<td>Category: CAR</td>
+			<td><font face="Arial" size="2">
+			<label>Select One:</label>
+			</font>
+			</td>
+			<td>
+			 <select name= "vehtypes">
+					<option value="car">Car</option>
+					<option value="truck">Truck</option>
+				</select> 
+			</td>
 		</tr>
 		<tr>
 			<td><font face="Arial" size="2">
-				Type: <select name= "cartypes">
+				<label>Type:</label>
+				</font>
+				</td>
+				<td> 
+				<select name= "cartypes">
 					<option value="economy">Economy</option>
 					<option value="compact">Compact</option>
 					<option value="midsize">Mid-size</option>
@@ -172,231 +198,237 @@ Your Link</font></b>
 					<option value="suv">SUV</option>
 					<option value="van">Van</option>
 				</select> 
+				
+			</td>
+		</tr>
+		<tr>
+			<td><font face="Arial" size="2">
+				<label>Pickup Date-Time:</label>
 				</font>
+				</td>
+				<td>
+				<input id="pickupdatetimepicker" type="text" size="20" onmouseover="javascript:$('#pickupdatetimepicker').datetimepicker();">
+								
 			</td>
 		</tr>
 		<tr>
-			<td>
-				<label>Pickup Date and Time</label><br>
-				<input id="pickupdatetimepicker" type="text" size="20" onmouseover="javascript:$('#pickupdatetimepicker').datetimepicker();">				
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label>Drop Date and Time</label><br>
+			<td><font face="Arial" size="2">
+				<label>Drop Date-Time:</label>
+				</font>
+				</td>
+				<td>
 				<input id="dropdatetimepicker" type="text" size="20" onmouseover="javascript:$('#dropdatetimepicker').datetimepicker();">
 			</td>
 		</tr>
 		<tr>
-			<td>
-				Location: <select name= "branchlocation">
+			<td><font face="Arial" size="2">
+				<label>Location:</label>
+				</font>
+				</td> 
+				<td>
+				<select name= "branchlocation">
 					<option value="vancouver">Vancouver</option>
 				</select> 
 			</td>
 		</tr>
 		<tr>
-			<td>
-				<input type="submit" value="Submit" name="submit">
+		<td></td>
+			<td align="left">
+				<input type="submit" value="Submit" name="submit" >
 			</td>
 		</tr>
-	</table>&nbsp;</font>
-        <table border="1" width="100%" bgcolor="#FF0000" cellspacing="0" cellpadding="0" bordercolor="#000000">
+	</table>&nbsp;
+	<!--  
+        <table border="0" width="100%" bgcolor="#7f8bb7" cellspacing="0" cellpadding="0" bordercolor="#000000">
           <tr>
-            <td width="100%"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
-              Hot Spots
+            <td width="100%" height="25px"><b><font color="#FFFFFF" face="Arial" size="2" >&nbsp;
+              Deals Of The Month
               </font></b></td>
           </tr>
         </table>
-            <p align="left"><font face="Arial" size="2"><u><img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 1 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 2 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 3 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 4 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 5 Here<br>
-            </u>&nbsp;</font>
-        <table border="1" width="100%" bordercolor="#000000" cellspacing="0" cellpadding="0" bgcolor="#FF0000">
-          <tr>
-            <td width="100%"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
-              Sponsors
+        
+        	<p align="left"><font face="Arial" size="2"><u><img border="0" src="images/membership1.jpg" ></u>&nbsp;
+            &nbsp;</font>
+            -->
+        <table border="0" width="100%" bordercolor="#000000" cellspacing="0" cellpadding="0" bgcolor="#7f8bb7">
+          <tr height="25px">
+            <td width="100%"><b><font color="#FFFFFF" face="Arial" size="2" >&nbsp;
+              Cancel Reservation
               </font></b></td>
           </tr>
-        </table>
-            <p align="left"><font face="Arial" size="2"><u><img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Sponsor 1 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Sponsor 2 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Sponsor 3 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Sponsor 4 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Sponsor 5 Here</u></font>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</td>
-  </center>
+        </table>    
+             <table>
+            	<tr>
+            		<td><font face="Arial" size="2">
+            			<label>Conformation No.:</label>
+            			</font>
+            		</td>
+            		<td>
+            			<input type="text" name="txtCon"/> 
+            		</td>
+            	</tr>
+            	<tr>
+            		<td>
+            		</td>
+            		<td><font face="Arial" size="3">
+            		<label>Or</label>
+            		</font>
+            		</td>
+            	</tr>
+            	<tr>
+            		<td><font face="Arial" size="2">
+            			<label>Phone No.:</label>
+            			</font>
+            		</td>
+            		<td>
+            			<input type="text" name="txtPh"/>
+            		</td>
+            	</tr>
+            	<tr>
+            		<td><font face="Arial" size="2">
+            			<label>PickUp Date-Time:</label>
+            			</font>
+            		</td>
+            		<td>
+            			<input id="pickupdatetime" type="text" size="20" onmouseover="javascript:$('#pickupdatetime').datetimepicker();">
+            		</td>
+            	</tr>
+            	<tr>
+            		<td>
+            		</td>
+            		<td>
+            			<input type="submit" name="CancelReservationbtn" value="Submit"></input>
+            		</td>
+            	</tr>
+            	<tr height="25px">
+            	<td></td>
+            	</tr>
+            </table>
+        </td>
+  
       <td width="50%" valign="top">
         <div align="center">
-          <table border="0" width="95%" bgcolor="#FFCCCC" cellspacing="0" cellpadding="0">
+          <table border="0" width="95%" bgcolor="#f2f4f7" cellspacing="0" cellpadding="0" >
             <tr>
               <td>
                 <p align="left"><b><font face="Arial" color="#000000" size="2">&nbsp;
-                Search The Web</font></b></td>
+                Search Result</font></b></td>
             </tr>
           </table>
         </div>
-  <center>
+  
         <div align="center">
-          <center>
-          <table border="0" width="95%" bordercolor="#FF0000" cellspacing="0" cellpadding="0" bgcolor="#FFCCCC">
+  
+          <table border="0" width="95%" bordercolor="#FF0000" cellspacing="0" cellpadding="0" bgcolor="#f3f5f8">
             <tr>
               <td width="100%">
-                  <form method="GET" action="http://mysearch.looksmart.com/query.go" TARGET="_blank"><center>
-  <table cellpadding="0" cellspacing="0" border="0" bordercolor="#000000" bgcolor="#FFCCCC" width="75%">
+  
+  <table cellpadding="0" cellspacing="0" border="0" bordercolor="#000000"  width="75%">
     <tr>
-      <td>&nbsp;<table cellpadding="0" cellspacing="0" border="0" bgcolor="#FFCCCC" width="100%">
-        <tr>
-          <td align="left"> </td>
-          <td><input name="query" size="25" maxlength="800"> </td>
-          <td>
-            <p align="center"><input type="submit" border="0"
-          hspace="4" alt="Go!" name="submit"></p>
-          </td>
-        </tr>
-        </center>
-          </center>
-  </center>
-        <tr>
-          <td align="left" colspan="3"><div align="center"><p align="left"><font face="Verdana, Arial" size="%%BOX_FONT_SIZE" color="#000000"><input type="radio" value="3861b1cd58561fe8" checked name="crid"><small>This Site</small> <input type="radio" name="crid" value="web"><small>The
-          Web</small></font>
-              </div>
-          </td>
-        </tr>
-      </table>
-      </td>
-    </tr>
-  </table>
-</form>
+      <td>&nbsp;
+      
+ <div id="content" style="width:100%;float:right;overflow: scroll;height: 400px;" >
 
-                  
-            <table border="0" width="100%" cellspacing="0" cellpadding="0">
-              <tr>
-                <td width="100%">
-                  <p align="left"><b><i><font face="Arial" size="1" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
-                  </font><font face="Arial" color="#000000" size="2">&nbsp; NAVIGATION</font><font face="Arial" size="3" color="#000000"><br>
-                  </font><font color="#000000" face="Arial" size="1">&nbsp;</font></i></b></td>
-              </tr>
-            </table>
-            <table border="0" width="100%" cellspacing="0" cellpadding="0">
-              <tr>
-                <td width="54%" valign="top">
-                  <blockquote>
-                    <p><font face="Arial" size="2"><u>Auction<br>
-                    Classifieds<br>
-                    Employment<br>
-                    Entertainment<br>
-                    Local Links</u></font></p>
-                  </blockquote>
-                </td>
-                <td width="46%" valign="top"><font face="Arial" size="2"><u>Message
-                  Boards<br>
-                  Personals<br>
-                  Services<br>
-                  Shopping</u></font></td>
-              </tr>
-            </table>
-  <center>
-          <center>
-          <center>
-  <center>
-  </center></center></center></center></td>
+<table  border="1" width="525" align="left" bordercolor="#dae0ea">
+	<tr style="height:30px;width:50px;background-color:#d2d9e4 ">
+		<td><font size="2" face="Verdana">Regitration No.</font></td>
+		<td><font size="2" face="Verdana">Category</font></td>
+		<td><font size="2" face="Verdana">Brand</font></td>
+		<td><font size="2" face="Verdana">Type</font></td>
+	</tr>
+	<% VehicleListBeanModel vehicle = (VehicleListBeanModel) request.getAttribute("vehicles");
+	ArrayList<VehicleBeanModel> vehlist = vehicle.getVehlist();
+	VehicleBeanModel veh= new VehicleBeanModel();
+	int len = vehlist.size();
+	int index=0;
+	while(len>index)
+	{ 
+		veh = vehlist.get(index);
+	%>
+
+		<tr style="height:25px;width:50px;">
+		
+		<td><font size="2" face="Verdana" color="#62799e"><% out.write(Integer.toString(veh.getRegNo())); %></font></td>
+		<td><font size="2" face="Verdana" color="#62799e"><% out.write(veh.getCategory()); %></font></td>
+		<td><font size="2" face="Verdana" color="#62799e"><% out.write(veh.getBrand()); %></font></td>
+		<td><font size="2" face="Verdana" color="#62799e"><% out.write(veh.getType()); %></font></td>
+		    	
+	    </tr>
+		
+		<% index++;
+	}
+	vehicle.clearVehlist();
+	%>
+		
+</table>
+</div>
+     
+ </table>
+
+      <div id="aftercontent" style="width:80%;height:2px;float:right;"></div>
+  </td>
             </tr>
           </table>
         </div>
-  <table border="0" width="100%" cellspacing="0" cellpadding="0">
-    <tr>
-      <td width="100%">&nbsp;</td>
-    </tr>
-  </table>
-  <div align="center">
-    <center>
-    <table border="1" width="95%" bgcolor="#FF0000" bordercolor="#000000" cellspacing="0" cellpadding="0">
-      <tr>
-        <td width="100%"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
-          Your Text Headline
-              </font></b></td>
-      </tr>
-    </table>
-    </center>
-  </div>
-        <p align="justify" style="margin-left: 10; margin-right: 10"><font face="Arial" size="2">Place
-        your text here... Place your text here... Place your text here... Place
-        your text here... Place your text here... Place your text here... Place
-        your text here... Place your text here... Place your text here... Place
-        your text here... Place your text here... Place your text here...&nbsp;</font><br>
+ <div id="aftercontent" style="width:80%;height:50px;float:right;"></div> 
+  
         <div align="center">
           <center>
-          <table border="1" width="95%" bordercolor="#000000" cellspacing="0" cellpadding="0" bgcolor="#FF0000">
-            <tr>
-              <td width="100%"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
-                Site Update Info
-              </font></b></td>
-            </tr>
+          <table border="0" width="95%" bordercolor="#000000" cellspacing="0" cellpadding="0" bgcolor="#7f8bb7">
           </table>
           </center>
         </div>
-        <p align="justify" style="margin-left: 10; margin-right: 10"><font face="Arial" size="2">Place
-        your site update info here... Place your site update info here... Place
-        your site update info here... Place your site update info here... Place
-        your site update info here... Place your site update info here... Place
-        your site update info here...&nbsp;<br>
-        &nbsp;</font></td>
+   </td>
   <center>
       <td width="25%" valign="top">
-        <table border="1" width="100%" bgcolor="#FF0000" cellspacing="0" cellpadding="0" bordercolor="#000000">
+        <table border="0" width="100%" bgcolor="#7f8bb7" cellspacing="0" cellpadding="0" bordercolor="#000000">
           <tr>
-            <td width="100%"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
+            <td width="100%" height="25px"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
               </font><font color="#000000"><font face="Arial" size="2">
-              </font></font><font face="Arial" color="#FFFFFF" size="2">Deals Of The Month</font></b></td>
+              </font></font><font face="Arial" color="#FFFFFF" size="2">View Your Redeemable Points</font></b></td>
           </tr>
         </table>
-            <p align="left"><font face="Arial" size="2"><u><img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 1 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 2 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 3 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 4 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 5 Here<br>
-            </u>&nbsp;</font>
-        <table border="1" width="100%" bgcolor="#FF0000" cellspacing="0" cellpadding="0" bordercolor="#000000">
+          	<table>
+            	<tr>
+            		<td><font face="Arial" size="2">
+            			<label>Membership No.:</label>
+            			</font>
+            		</td>
+            		<td>
+            			<input type="text" name="txt1"/> 
+            		</td>
+            	</tr>
+            	<tr>
+            		<td>
+            		</td>
+            		<td>
+            		</td>
+            	</tr>
+            	<tr>
+            		<td>
+            		</td>
+            		<td>
+            			<input type="submit" name="firstForm" value="Submit"></input>
+            		</td>
+            	</tr>
+            	<tr height="25px">
+            	<td></td>
+            	</tr>
+            </table>
+        
+        <table border="0" width="100%" bgcolor="#7f8bb7" cellspacing="0" cellpadding="0" bordercolor="#000000">
           <tr>
-            <td width="100%"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
-              Upcoming Events
+            <td width="100%" height="25px"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
+              Deal Of The Month
               </font></b></td>
           </tr>
         </table>
-            <p align="left"><font face="Arial" size="2"><u><img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 1 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 2 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 3 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 4 Here<br>
-            <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
-            <u>Place Link 5 Here<br>
-            </u>&nbsp;</font>
-        <table border="1" width="100%" bordercolor="#000000" cellspacing="0" cellpadding="0" bgcolor="#FF0000">
+            <p align="center"><font face="Arial" size="2"><u><img border="0" src="images/likeUs.png" ></u>&nbsp;
+            </font>
+            <!-- 
+        <table border="0" width="100%" bordercolor="#000000" cellspacing="0" cellpadding="0" bgcolor="#7f8bb7">
           <tr>
-            <td width="100%"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
+            <td width="100%" height="25px"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
               Upcoming Events
               </font></b></td>
           </tr>
@@ -412,38 +444,16 @@ Your Link</font></b>
         <img border="0" src="img/bullet.gif" width="10" height="12"></u>&nbsp;
         <u>Place Link 5 Here<br>
         </u>&nbsp;</font></p>
-        <p>&nbsp;</td>
+        <p>&nbsp; -->
+        </td>
     </tr>
   </table>
   </center>
 </div>
 <hr color="#FF0000" size="3" width="90%">
-<div align="center">
-  <center>
-  <table border="0" width="90%" cellspacing="0" cellpadding="0">
-    <tr>
-      <td width="100%">
-<p align="center"><font size="1" face="Verdana"><b>Main Site Navigation:</b><u><br>
-Your Link</u>&nbsp;&nbsp; <font color="#000000">|</font>&nbsp;&nbsp; <u>Your
-Link</u>&nbsp;&nbsp; <font color="#000000">|</font>&nbsp;&nbsp; <u>Your Link</u>&nbsp;&nbsp;<font color="#000000"> |&nbsp;</font>&nbsp;
-<u>Your Link</u> &nbsp; <font color="#000000">|</font>&nbsp;&nbsp; <u>Your Link</u></font>
 
-</p>
-<p align="center"><font face="Verdana" size="1">&nbsp;<b>Site Navigation:</b><u><br>
-Your Link</u>&nbsp;&nbsp; |&nbsp;&nbsp; <u>Your Link</u>&nbsp;&nbsp;
-|&nbsp;&nbsp; <u>Your Link</u>&nbsp;&nbsp; |&nbsp;&nbsp; <u>Your Link</u>&nbsp;&nbsp;
-|&nbsp;&nbsp; <u>Your Link<br>
-Your Link</u>&nbsp;&nbsp; |&nbsp;&nbsp; <u>Your Link</u>&nbsp;&nbsp;
-|&nbsp;&nbsp; <u>Your Link</u>&nbsp;&nbsp; |&nbsp;&nbsp; <u>Your Link</u></font>
-
-</p>
-      </td>
-    </tr>
-  </table>
-  </center>
-</div>
 <p align="center"><font face="Arial" size="1" color="#000000"><strong><b>© Copyright 2000
-All Rights Reserved YOURDOMAIN.COM</b></strong></font></p>
+All Rights Reserved SUPPERRENT.COM</b></strong></font></p>
 
 </form>
 </body>

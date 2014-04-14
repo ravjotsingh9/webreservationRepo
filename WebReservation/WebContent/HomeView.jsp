@@ -9,7 +9,7 @@
 <title>Welcome To SuperRent </title>
 </head>
 <body>
-<form method="get" action="SearchCar" name="form">
+<form method="post" action="SearchCar" name="form">
 	<input type="hidden" name="hbtn" />
 	<table>
 	<tr height="200">

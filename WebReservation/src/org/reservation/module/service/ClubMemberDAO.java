@@ -46,7 +46,7 @@ public class ClubMemberDAO {
 		return cm;
 	}
 	
-	public double viewPoints(int membershipNo){
+	public int viewPoints(int membershipNo){
 		
 		sql = "SELECT points FROM ClubMember where membershipNo=?";
 		try {
@@ -55,12 +55,12 @@ public class ClubMemberDAO {
 			rs = preparedStatement.executeQuery();
 			
 			while(rs.next()){
-				return rs.getDouble(1);
+				return (int)rs.getDouble(1);
 			}
 			}catch(SQLException e){
 				System.out.println("Exception coming from viewPoints() of CLubMemberDAO---> " + e.getMessage());
 			}
-		return 0.0;
+		return 0;
 	}
 	
 	public static void main(String args[]){

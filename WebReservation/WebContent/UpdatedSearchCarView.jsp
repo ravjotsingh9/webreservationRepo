@@ -22,6 +22,17 @@
     a:hover{color: #FF0000}
 --></style>
 
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script>
+            $(document).ready(function() {                        // When the HTML DOM is ready loading, then execute the following function...
+                $('#getpoints').click(function() {               // Locate HTML DOM element with ID "somebutton" and assign the following function to its "click" event...
+                    $.get('SearchCar',$("#memNo"), function(responseText) {         // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
+                        $('#showpoints').text(responseText);         // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
+                    	$('#pointslbl').text("Points Available:");
+                    });
+                });
+            });
+        </script>
 
 
 </head>
@@ -395,20 +406,23 @@ Your Link</font></b>
             			</font>
             		</td>
             		<td>
-            			<input type="text" name="txt1"/> 
+            			<input type="text" name="txt1" id="memNo"/> 
+            		</td>
+            	</tr>
+            	<tr>
+            		<td><font face="Arial" size="2">
+            			<label id="pointslbl"></label>
+            			</font>
+            		</td>
+            		<td>
+            		<div id="showpoints" style="font: Arial;font-size: 2"></div>
             		</td>
             	</tr>
             	<tr>
             		<td>
             		</td>
             		<td>
-            		</td>
-            	</tr>
-            	<tr>
-            		<td>
-            		</td>
-            		<td>
-            			<input type="submit" name="firstForm" value="Submit"></input>
+            			<input type="button" id="getpoints" name="getpoints" value="Submit"></input>
             		</td>
             	</tr>
             	<tr height="25px">
@@ -423,7 +437,7 @@ Your Link</font></b>
               </font></b></td>
           </tr>
         </table>
-            <p align="center"><font face="Arial" size="2"><u><img border="0" src="images/likeUs.png" ></u>&nbsp;
+            <p align="center"><font face="Arial" size="2"><a href="https://www.facebook.com/supperrent" target="_blank"><img border="0" src="images/likeUs.png" ></a>&nbsp;
             </font>
             <!-- 
         <table border="0" width="100%" bordercolor="#000000" cellspacing="0" cellpadding="0" bgcolor="#7f8bb7">
