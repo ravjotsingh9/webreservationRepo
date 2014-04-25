@@ -62,6 +62,37 @@ public ReservationListModel displayReservations(){
 	return cm;
 }
 	
+	public int cancelReservation(String confNo, String ph, String ptime) throws ParseException
+	{
+		int retval=0;
+		try{
+		if(!confNo.isEmpty())
+		{
+			System.out.println(confNo);
+			sql="Update Reservation set status=1 where confirmationNo=?";
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(2, Integer.valueOf(confNo));
+		}
+		else
+		{
+			sql="Update Reservation set status=1 where ph=? AND pickDate=?";
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, ph);
+			String source=ptime;              
+	        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy"); 
+			java.sql.Date d= new java.sql.Date(format.parse(source).getTime());
+			preparedStatement.setDate(2, d);
+		}
+			
+			retval= preparedStatement.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("Exception coming from CancelReservation() of ReservationDAO" + e.getMessage());
+			return 0;
+		}
+		return retval;
+	}
+	
 	/*
 	 * make reservation by updating reservation and makeReservation table
 	 */
@@ -103,20 +134,24 @@ public ReservationListModel displayReservations(){
 		/*
 		 * Inserted the values into reservation table
 		 */
-		sql = "INSERT INTO Reservation (pickDate, dropDate, date, charges) VALUES (?,?,?,?)";
+		sql = "INSERT INTO Reservation (pickDate, dropDate, date, charges, status) VALUES (?,?,?,?,?)";
 		try {
 			preparedStatement = connection.prepareStatement(sql, stmt.RETURN_GENERATED_KEYS);
 			preparedStatement.setTimestamp(1, picktimeStamp);
 			preparedStatement.setTimestamp(2, droptimeStamp);
-			String source="2008-4-5";              
-	        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy"); 
+			java.util.Date curr_date = new java.util.Date();
+	        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+	        String source= format.format(curr_date);
 			java.sql.Date d= new java.sql.Date(format.parse(source).getTime());
 			preparedStatement.setDate(3, d);
 			
 			/*
 			 * calculateCharges method needed ????Missing????
 			 */
-			preparedStatement.setDouble(4, 10.0);
+			
+			
+			preparedStatement.setDouble(4, calculateCharges());
+			preparedStatement.setInt(5, 0);
 			preparedStatement.executeUpdate();
 			rs = preparedStatement.getGeneratedKeys();
 			
@@ -124,52 +159,44 @@ public ReservationListModel displayReservations(){
 			while(rs != null && rs.next()){
 				confirmationNo = rs.getInt(1);
                 System.out.println("Generated User Id: "+confirmationNo);
-                System.out.println("Generated User Id: "+rs.getTimestamp(2));
+                //System.out.println("Generated User Id: "+rs.getTimestamp(2));
             }
 		} catch (SQLException e) {
 			System.out.println("Exception coming from addReservation() of ReservationDAO" + e.getMessage());
 		}
 		return confirmationNo;
 	}
-	public int cancelReservation(String confNo, String ph, String ptime) throws ParseException
-	{
-		int retval=0;
-		try{
-		if(!confNo.isEmpty())
-		{
-			System.out.println(confNo);
-			sql="Update Reservation set status=1 where confirmationNo=?";
-			preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setInt(2, Integer.valueOf(confNo));
-		}
-		else
-		{
-			sql="Update Reservation set status=1 where ph=? AND pickDate=?";
-			preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setString(1, ph);
-			String source=ptime;              
-	        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy"); 
-			java.sql.Date d= new java.sql.Date(format.parse(source).getTime());
-			preparedStatement.setDate(2, d);
-		}
-			
-			retval= preparedStatement.executeUpdate();
-			
-		} catch (SQLException e) {
-			System.out.println("Exception coming from CancelReservation() of ReservationDAO" + e.getMessage());
-			return 0;
-		}
-		return retval;
+	
+	/*
+	 * to calculate estimated reservation charges
+	 */
+	
+	private double calculateCharges(){
+		
+		return 10.0;
 	}
 	
-	
+	/*
+	 * alert for duplicate reservation????????????
+	 */
 	
 	
 	public static void main(String args[]) throws ParseException{
 		ReservationDAO u = new ReservationDAO();
-		DateTime pdt = new DateTime(2004, 12, 25, 12, 0, 0, 0);
-		DateTime ddt = new DateTime(2004, 12, 26, 12, 4, 0, 0);
-		u.makeReservation(5, pdt, ddt, 301);
+		UserDAO user = new UserDAO();
+		DateTime pdt = new DateTime(2014, 04, 25, 11, 0, 0, 0);
+		DateTime ddt = new DateTime(2014, 04, 26, 22, 0, 0, 0);
+		
+		/*
+		 * demo of reservation
+		 */
+		UserBeanModel s = new UserBeanModel();
+		s.setAddress("Surrey");
+		s.setEmail("jenny@mypet.ca");
+		s.setName("Jenny");
+		s.setPhoneNumber(89382);
+		int uid = user.addUser(s);
+		u.makeReservation(uid, pdt, ddt, 78380);
 		/*
 		 * to display list
 		 */
