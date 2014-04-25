@@ -168,7 +168,7 @@ $(function(){
 <body bgcolor="#FFFFFF" onload="">
 <form action="SearchCar" method="post">
 <div align="center">
-  <center>
+  
   <table border="0" width="90%" cellspacing="0" cellpadding="0" background="img/bkg2.gif">
   <tr>
   
@@ -177,7 +177,7 @@ $(function(){
       <td width="5%" valign="top" height="53"><font face="Arial Black" size="4">
       <img alt="SUPPERRENT" src="images/logoS.jpg" border="1"  style="border-width:2px;border-color:#7f8bb7;"></img>
       </font></td>
-      </center>
+      
       <td width="95%" valign="bottom">
         <table border="0" width="100%" cellspacing="0" cellpadding="0" height="25">
           <tr>

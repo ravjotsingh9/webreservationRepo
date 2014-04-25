@@ -66,20 +66,20 @@ jquery_latest(document).ready(function() {                        // When the HT
 	jquery_latest('#CancelReservationbtn').click(function() {               // Locate HTML DOM element with ID "somebutton" and assign the following function to its "click" event...
 		jquery_latest.ajax({
   				type: 'POST',
-  				url: 'SearchCar',
-  				data: { id:'2',
-  						txtcon: jquery_latest("#txtcon").val(), 
-  						txtph: jquery_latest("#txtph").val(),
-  						ptime: jquery_latest("#pickupdatetime").val()
+  				url: 'SearchCar', 
+  				data: { id:'2', 
+  						ph:jquery_latest("#ph").val(),
+  						ptime:jquery_latest("#pickupdatetime").val(),
+  						conf:jquery_latest("#conf").val()
   						},
-  				success: function(confNo) {  					
-  					alert("The reservation corresponding to confirmation Number: "+confNo+" has been Cancelled.");
-  					//jquery_latest('#SearchResult').text(data) ;
+  				success: function(responseText) {  					
+  					jquery_latest("#cancelResult").text(responseText);
   					//var result = jquery_latest('<div />').append(responseText).find('#result').html();
   					//jquery_latest('#SearchResult').html(data);
+  					jquery_latest('#Status').text("Status:");
   					
   				},
-  				dataType: 'HTML'
+  				dataType: 'text'
 			});
 		});
 });
@@ -398,7 +398,7 @@ Your Link</font></b>
             			</font>
             		</td>
             		<td>
-            			<input type="text" name="txtCon" id="txtCon"/> 
+            			<input type="text" name="conf" id="conf"/> 
             		</td>
             	</tr>
             	<tr>
@@ -415,7 +415,7 @@ Your Link</font></b>
             			</font>
             		</td>
             		<td>
-            			<input type="text" name="txtPh" id="txtPh"/>
+            			<input type="text" name="ph" id="ph"/>
             		</td>
             	</tr>
             	<tr>
@@ -429,9 +429,21 @@ Your Link</font></b>
             	</tr>
             	<tr>
             		<td>
+            		<font face="Arial" size="2">
+            				<label id="Status"></label>
+            			</font>
+            		</td>
+            		<td width=60%>
+            			
+            				<label id="cancelResult"></label>
+            			
+            		</td>
+            	</tr>
+            	<tr>
+            		<td>
             		</td>
             		<td>
-            			<input type="button" name="CancelReservationbtn" id="CancelReservationbtn" value="Submit"></input>
+            			<input type="button" name="CancelReservationbtn" id="CancelReservationbtn" value="Cancel"></input>
             		</td>
             	</tr>
             	

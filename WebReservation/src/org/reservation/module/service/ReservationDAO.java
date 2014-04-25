@@ -6,12 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import org.joda.time.DateTime;
+import org.omg.CORBA.Current;
 import org.reservation.module.model.ClubMemberBeanModel;
 import org.reservation.module.model.ClubMemberListModel;
 import org.reservation.module.model.ReservationListModel;
@@ -129,30 +131,35 @@ public ReservationListModel displayReservations(){
 		}
 		return confirmationNo;
 	}
-	public boolean cancelReservation(String confNo, String ph, String ptime) throws ParseException
+	public int cancelReservation(String confNo, String ph, String ptime) throws ParseException
 	{
+		int retval=0;
 		try{
 		if(!confNo.isEmpty())
 		{
+			System.out.println(confNo);
 			sql="Update Reservation set status=1 where confirmationNo=?";
-			preparedStatement.setString(1, confNo);
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(2, Integer.valueOf(confNo));
 		}
 		else
 		{
 			sql="Update Reservation set status=1 where ph=? AND pickDate=?";
+			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, ph);
 			String source=ptime;              
 	        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy"); 
 			java.sql.Date d= new java.sql.Date(format.parse(source).getTime());
 			preparedStatement.setDate(2, d);
 		}
-		
-			preparedStatement.executeUpdate();
+			
+			retval= preparedStatement.executeUpdate();
 			
 		} catch (SQLException e) {
-			System.out.println("Exception coming from addReservation() of ReservationDAO" + e.getMessage());
+			System.out.println("Exception coming from CancelReservation() of ReservationDAO" + e.getMessage());
+			return 0;
 		}
-		return true;
+		return retval;
 	}
 	
 	

@@ -3,18 +3,13 @@ import org.reservation.module.model.*;
 import org.reservation.module.service.*;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.html.parser.Parser;
 
 @WebServlet("/SearchCar")
 public class SearchCarController extends HttpServlet {
@@ -150,6 +145,33 @@ public class SearchCarController extends HttpServlet {
 		}
 		else // id==2
 		{
+			ReservationDAO cancelRes = new ReservationDAO();
+			try {
+					String text= new String();
+					System.out.print(request.getParameter("id")+"\t"+request.getParameter("conf")+"\t"+request.getParameter("ph")+"\t"+ request.getParameter("ptime")+"\n");
+					int result= cancelRes.cancelReservation(request.getParameter("conf"), request.getParameter("ph"), request.getParameter("ptime"));
+					System.out.println(result);
+					response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
+			    	response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
+					if(result==0)
+					{
+						
+						text="Either the provided confirmation no. doesnot exist";
+						response.getWriter().write(text);
+					}
+					else
+					{
+						
+						text= "Confirmation # "+request.getParameter("conf")+" has been Cancelled.";
+						System.out.print(text);
+						response.getWriter().write(text);
+					}
+
+			} 
+			catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		}
 		//request.getRequestDispatcher("UpdatedSearchCarView.jsp").forward(request, response);
