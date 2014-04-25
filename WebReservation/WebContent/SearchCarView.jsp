@@ -1,7 +1,6 @@
 <%@page import="javax.swing.text.html.parser.Parser"%>
 <%@page import="org.reservation.module.model.VehicleListBeanModel"%>
 <%@ page import="java.util.List,java.util.ArrayList,java.util.Iterator"%>
-<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c"  %>
 <%@ page import="org.reservation.module.model.VehicleBeanModel" %>  
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -10,17 +9,157 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+var jquery_latest = $.noConflict(true);
+</script>
+        <script>
+     //   jquery_latest(document).ready(function() {                        // When the HTML DOM is ready loading, then execute the following function...
+     //   	jquery_latest('#getpoints').click(function() {               // Locate HTML DOM element with ID "somebutton" and assign the following function to its "click" event...
+     //   		jquery_latest.get('SearchCar',jquery_latest("#memNo"), function(responseText) {         // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
+     //   			jquery_latest('#showpoints').text(responseText);         // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
+    //    			jquery_latest('#pointslbl').text("Points Available:");
+   //                 });
+  //              });
+  //          });
+        </script>
+<script>
+jquery_latest(document).ready(function() {                        // When the HTML DOM is ready loading, then execute the following function...
+       	jquery_latest('#getpoints').click(function() {               // Locate HTML DOM element with ID "somebutton" and assign the following function to its "click" event...
+    		jquery_latest.ajax({
+  				type: 'GET',
+  				url: 'SearchCar',
+  				data: { txt1: jquery_latest("#memNo").val()},
+  				success: function(responseText) {
+	  				jquery_latest('#showpoints').text(responseText);         // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
+					jquery_latest('#pointslbl').text("Points Available:");
+  				},
+  				dataType: 'JSON'
+			});
+		});
+});
+
+jquery_latest(document).ready(function() {                        // When the HTML DOM is ready loading, then execute the following function...
+	jquery_latest('#Search').click(function() {               // Locate HTML DOM element with ID "somebutton" and assign the following function to its "click" event...
+		jquery_latest.ajax({
+  				type: 'POST',
+  				url: 'SearchCar',
+  				data: { id:'1',
+  						category: jquery_latest("#category").val(), 
+  						type: jquery_latest("#type").val(),
+  						ptime: jquery_latest("#pickupdatetimepicker").val(),
+  						dtime: jquery_latest("#dropdatetimepicker").val(),
+  						loc: jquery_latest("#branchlocation").val()
+  						},
+  				success: function(data) {  					
+  					//jquery_latest('#SearchResult').text(data) ;
+  					//var result = jquery_latest('<div />').append(responseText).find('#result').html();
+  					jquery_latest('#SearchResult').html(data);
+  					
+  				},
+  				dataType: 'HTML'
+			});
+		});
+});
+
+jquery_latest(document).ready(function() {                        // When the HTML DOM is ready loading, then execute the following function...
+	jquery_latest('#CancelReservationbtn').click(function() {               // Locate HTML DOM element with ID "somebutton" and assign the following function to its "click" event...
+		jquery_latest.ajax({
+  				type: 'POST',
+  				url: 'SearchCar',
+  				data: { id:'2',
+  						txtcon: jquery_latest("#txtcon").val(), 
+  						txtph: jquery_latest("#txtph").val(),
+  						ptime: jquery_latest("#pickupdatetime").val()
+  						},
+  				success: function(confNo) {  					
+  					alert("The reservation corresponding to confirmation Number: "+confNo+" has been Cancelled.");
+  					//jquery_latest('#SearchResult').text(data) ;
+  					//var result = jquery_latest('<div />').append(responseText).find('#result').html();
+  					//jquery_latest('#SearchResult').html(data);
+  					
+  				},
+  				dataType: 'HTML'
+			});
+		});
+});
+
+</script>
+
+
 
 <link rel="stylesheet" type="text/css" href="datetimepicker-master/jquery.datetimepicker.css">
 <script src="datetimepicker-master/jquery.js"></script>
 <script src="datetimepicker-master/jquery.datetimepicker.js"></script>
-<title>Web Templates by LINE9.com</title>
+
+<title>SupperRent</title>
 <style TYPE="text/css"><!--
     A:link {text-decoration: none; color: #000000}
     a:visited {text-decoration: none; color: #000000}
     a:active {text-decoration: none; color: #000000}
     a:hover{color: #FF0000}
 --></style>
+
+
+<script>
+var items = [
+             {
+                 name: 'Select One',
+                 value:'',
+                 subitems: []
+             },
+             {
+                 name:'Car', 
+                 value: 'car', 
+                 subitems: [
+                     {name: 'Economy', value: 'economy'},
+					 {name: 'Compact', value: 'compact'},
+					 {name:'Mid-size', value: 'midsize'},
+					 {name:'Standard', value: 'standard'},
+					 {name:'Full-size', value: 'fullsize'},
+					 {name:'Premium', value: 'premium'},
+					 {name:'Luxury', value: 'luxury'},
+					 {name:'SUV', value: 'suv'},
+					 {name:'Van', value: 'van'}
+                 ]
+             },
+             {
+                 name: 'Truck',
+                 value: 'truck',
+                 subitems: [
+                     {name: '24-foot', value: '24foot'},
+					 {name: '15-foot', value: '15foot'},
+					 {name:'12-foot', value: '12foot'},
+					 {name:'Box Trucks', value: 'boxtrucks'},
+					 {name:'Cargo Vans', value: 'cargovans'}
+                 ]
+             }
+         ];
+$(function(){
+    var temp = {};
+    
+    $.each(items, function(){
+        $("<option  />")
+        .attr("value", this.value)
+        .html(this.name)
+        .appendTo("#category");
+        temp[this.value] = this.subitems;
+    });
+    
+    $("#category").change(function(){
+        var value = $(this).val();
+        var menu = $("#type");
+        
+        menu.empty();
+        $.each(temp[value], function(){
+            $("<option />")
+            .attr("value", this.value)
+            .html(this.name)
+            .appendTo(menu);
+        });
+    }).change();
+});
+</script>
 
 
 
@@ -35,7 +174,9 @@
   
   </tr>
     <tr>
-      <td width="5%" valign="top" height="53"><font face="Arial Black" size="4"><img alt="SUPPERRENT" src="images/logoS.jpg"></img</font></td>
+      <td width="5%" valign="top" height="53"><font face="Arial Black" size="4">
+      <img alt="SUPPERRENT" src="images/logoS.jpg" border="1"  style="border-width:2px;border-color:#7f8bb7;"></img>
+      </font></td>
       </center>
       <td width="95%" valign="bottom">
         <table border="0" width="100%" cellspacing="0" cellpadding="0" height="25">
@@ -168,6 +309,7 @@ Your Link</font></b>
               </font></b></td>
           </tr>
         </table>
+        <div style="border:1px solid #d3dae5;">
         <table >
 		<tr>
 			<td><font face="Arial" size="2">
@@ -175,11 +317,9 @@ Your Link</font></b>
 			</font>
 			</td>
 			<td>
-			 <select name= "vehtypes">
-					<option value="car">Car</option>
-					<option value="truck">Truck</option>
-				</select> 
-			</td>
+			<select id="category" name="category">
+			</select>
+			<br/>
 		</tr>
 		<tr>
 			<td><font face="Arial" size="2">
@@ -187,19 +327,11 @@ Your Link</font></b>
 				</font>
 				</td>
 				<td> 
-				<select name= "cartypes">
-					<option value="economy">Economy</option>
-					<option value="compact">Compact</option>
-					<option value="midsize">Mid-size</option>
-					<option value="standard">Standard</option>
-					<option value="fullsize">Full-size</option>
-					<option value="premium">Premium</option>
-					<option value="luxury">Luxury</option>
-					<option value="suv">SUV</option>
-					<option value="van">Van</option>
-				</select> 
 				
-			</td>
+				<select id="type" name="type">
+				</select>
+				</td>	
+			
 		</tr>
 		<tr>
 			<td><font face="Arial" size="2">
@@ -207,7 +339,7 @@ Your Link</font></b>
 				</font>
 				</td>
 				<td>
-				<input id="pickupdatetimepicker" type="text" size="20" onmouseover="javascript:$('#pickupdatetimepicker').datetimepicker();">
+				<input id="pickupdatetimepicker" name="pickupdatetimepicker" type="text" size="20" onmouseover="javascript:$('#pickupdatetimepicker').datetimepicker();">
 								
 			</td>
 		</tr>
@@ -217,7 +349,7 @@ Your Link</font></b>
 				</font>
 				</td>
 				<td>
-				<input id="dropdatetimepicker" type="text" size="20" onmouseover="javascript:$('#dropdatetimepicker').datetimepicker();">
+				<input id="dropdatetimepicker" name="dropdatetimepicker" type="text" size="20" onmouseover="javascript:$('#dropdatetimepicker').datetimepicker();">
 			</td>
 		</tr>
 		<tr>
@@ -226,18 +358,19 @@ Your Link</font></b>
 				</font>
 				</td> 
 				<td>
-				<select name= "branchlocation">
-					<option value="vancouver">Vancouver</option>
+				<select name= "branchlocation" id="branchlocation">
+					<option value="vancouver" >Vancouver</option>
 				</select> 
 			</td>
 		</tr>
 		<tr>
 		<td></td>
 			<td align="left">
-				<input type="submit" value="Submit" name="submit" >
+				<input type="button" id="Search" name="Search" value="Submit"></input>
 			</td>
 		</tr>
-	</table>&nbsp;
+	</table></div> &nbsp;
+
 	<!--  
         <table border="0" width="100%" bgcolor="#7f8bb7" cellspacing="0" cellpadding="0" bordercolor="#000000">
           <tr>
@@ -257,6 +390,7 @@ Your Link</font></b>
               </font></b></td>
           </tr>
         </table>    
+        <div style="border:1px solid #d3dae5;">
              <table>
             	<tr>
             		<td><font face="Arial" size="2">
@@ -264,7 +398,7 @@ Your Link</font></b>
             			</font>
             		</td>
             		<td>
-            			<input type="text" name="txtCon"/> 
+            			<input type="text" name="txtCon" id="txtCon"/> 
             		</td>
             	</tr>
             	<tr>
@@ -281,7 +415,7 @@ Your Link</font></b>
             			</font>
             		</td>
             		<td>
-            			<input type="text" name="txtPh"/>
+            			<input type="text" name="txtPh" id="txtPh"/>
             		</td>
             	</tr>
             	<tr>
@@ -297,26 +431,16 @@ Your Link</font></b>
             		<td>
             		</td>
             		<td>
-            			<input type="submit" name="CancelReservationbtn" value="Submit"></input>
+            			<input type="button" name="CancelReservationbtn" id="CancelReservationbtn" value="Submit"></input>
             		</td>
             	</tr>
-            	<tr height="25px">
-            	<td></td>
-            	</tr>
+            	
             </table>
+            </div>
         </td>
   
       <td width="50%" valign="top">
-        <div align="center">
-          <table border="0" width="95%" bgcolor="#f2f4f7" cellspacing="0" cellpadding="0" >
-            <tr>
-              <td>
-                <p align="left"><b><font face="Arial" color="#000000" size="2">&nbsp;
-                Search Result</font></b></td>
-            </tr>
-          </table>
-        </div>
-  
+        
         <div align="center">
   
           <table border="0" width="95%" bordercolor="#FF0000" cellspacing="0" cellpadding="0" bgcolor="#f3f5f8">
@@ -325,16 +449,17 @@ Your Link</font></b>
   
   <table cellpadding="0" cellspacing="0" border="0" bordercolor="#000000"  width="75%">
     <tr>
-      <td>&nbsp;
-      
- <div id="content" style="width:100%;float:right;overflow: scroll;height: 400px;" >
+      <td>
+            
+ <div id="SearchResult" style="width:100%;float:right;overflow: scroll;height: 400px;" >
 
-<table  border="1" width="525" align="left" bordercolor="#dae0ea">
+<table  border="1" width="535" align="left" bordercolor="#dae0ea">
 	<tr style="height:30px;width:50px;background-color:#d2d9e4 ">
-		<td><font size="2" face="Verdana">Regitration No.</font></td>
+		
 		<td><font size="2" face="Verdana">Category</font></td>
 		<td><font size="2" face="Verdana">Brand</font></td>
 		<td><font size="2" face="Verdana">Type</font></td>
+		<td><font size="2" face="Verdana">Reserve Now</font></td>
 	</tr>
 	<% VehicleListBeanModel vehicle = (VehicleListBeanModel) request.getAttribute("vehicles");
 	ArrayList<VehicleBeanModel> vehlist = vehicle.getVehlist();
@@ -348,11 +473,14 @@ Your Link</font></b>
 
 		<tr style="height:25px;width:50px;">
 		
-		<td><font size="2" face="Verdana" color="#62799e"><% out.write(Integer.toString(veh.getRegNo())); %></font></td>
 		<td><font size="2" face="Verdana" color="#62799e"><% out.write(veh.getCategory()); %></font></td>
 		<td><font size="2" face="Verdana" color="#62799e"><% out.write(veh.getBrand()); %></font></td>
 		<td><font size="2" face="Verdana" color="#62799e"><% out.write(veh.getType()); %></font></td>
-		    	
+		<td><font size="2" face="Verdana" color="#62799e" >
+		<a href=ReservationView.jsp?reg=<% out.write(Integer.toString(veh.getRegNo())); %>>
+		<input type="button" value="Reserve Now"></input>
+		</a>
+		</font></td>    	
 	    </tr>
 		
 		<% index++;
@@ -388,6 +516,7 @@ Your Link</font></b>
               </font></font><font face="Arial" color="#FFFFFF" size="2">View Your Redeemable Points</font></b></td>
           </tr>
         </table>
+        <div style="border:1px solid #d3dae5;">
           	<table>
             	<tr>
             		<td><font face="Arial" size="2">
@@ -395,27 +524,29 @@ Your Link</font></b>
             			</font>
             		</td>
             		<td>
-            			<input type="text" name="txt1"/> 
+            			<input type="text" name="txt1" id="memNo"/> 
+            		</td>
+            	</tr>
+            	<tr>
+            		<td><font face="Arial" size="2">
+            			<label id="pointslbl"></label>
+            			</font>
+            		</td>
+            		<td>
+            		<div id="showpoints" style="font: Arial;font-size: 2"></div>
             		</td>
             	</tr>
             	<tr>
             		<td>
             		</td>
             		<td>
+            			<input type="button" id="getpoints" name="getpoints" value="Submit"></input>
             		</td>
             	</tr>
-            	<tr>
-            		<td>
-            		</td>
-            		<td>
-            			<input type="submit" name="firstForm" value="Submit"></input>
-            		</td>
-            	</tr>
-            	<tr height="25px">
-            	<td></td>
-            	</tr>
+         
             </table>
-        
+        </div>
+	<div style="height: 25"> &nbsp; </div>
         <table border="0" width="100%" bgcolor="#7f8bb7" cellspacing="0" cellpadding="0" bordercolor="#000000">
           <tr>
             <td width="100%" height="25px"><b><font color="#FFFFFF" face="Arial" size="2">&nbsp;
@@ -423,7 +554,7 @@ Your Link</font></b>
               </font></b></td>
           </tr>
         </table>
-            <p align="center"><font face="Arial" size="2"><u><img border="0" src="images/likeUs.png" ></u>&nbsp;
+            <p align="center"><font face="Arial" size="2"><a href="https://www.facebook.com/supperrent" target="_blank"><img border="0" src="images/likeUs.png" ></a>&nbsp;
             </font>
             <!-- 
         <table border="0" width="100%" bordercolor="#000000" cellspacing="0" cellpadding="0" bgcolor="#7f8bb7">
@@ -450,11 +581,12 @@ Your Link</font></b>
   </table>
   </center>
 </div>
+
 <hr color="#FF0000" size="3" width="90%">
 
 <p align="center"><font face="Arial" size="1" color="#000000"><strong><b>© Copyright 2000
 All Rights Reserved SUPPERRENT.COM</b></strong></font></p>
-
 </form>
+
 </body>
 </html>

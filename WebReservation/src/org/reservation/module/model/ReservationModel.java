@@ -11,6 +11,8 @@ public class ReservationModel{
 	DateTime dropDate;
 	Date date;
 	int regNo;
+	double charges;
+	
 	public int getConfirmationNo() {
 		return confirmationNo;
 	}
@@ -46,6 +48,12 @@ public class ReservationModel{
 	}
 	public void setRegNo(int regNo) {
 		this.regNo = regNo;
+	}
+	public double getCharges() {
+		return charges;
+	}
+	public void setCharges(double charges) {
+		this.charges = charges;
 	}
 	
 }

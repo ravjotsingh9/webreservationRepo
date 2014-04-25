@@ -24,7 +24,7 @@ public class CarDAO {
 	
 	public static void main(String args[]){
 		CarDAO c = new CarDAO();
-		c.getFilteredList("TRUCK");
+		//c.getFilteredList("TRUCK");
 		
 		//update the column
 		int regNo; 
@@ -53,15 +53,73 @@ public class CarDAO {
 		try{
 			//sql query
 			String sql;
+			sql = "SELECT regNo, category, type, brand, purchaseDate FROM Vehicle";
+			/*
+			if(Category.equals("")&& type.equals("") && Pdt.equals("") && Ddt.equals("") && loc.equals(""))
+			{
+			// leave query as it is	
+			}
+			else
+			{
+				sql.concat(" where");
+				
+				if(!Category.equals(""))
+				{
+					sql.concat(" category =\""+ Category+"\"");
+					if(! (type.equals("") && Pdt.equals("") && Ddt.equals("") && loc.equals("")))
+					{
+						sql.concat(" and");
+					}
+				}
+				if(!type.equals(""))
+				{
+					sql.concat(" type =\""+ type+"\"");
+					if(! ( Pdt.equals("") && Ddt.equals("") && loc.equals("")))
+					{
+						sql.concat(" and");
+					}
+				}
+				if(!Pdt.equals(""))
+				{
+					sql.concat("  =\""+ Category+"\"");
+					if(! (type.equals("") && Pdt.equals("") && Ddt.equals("") && loc.equals("")))
+					{
+						sql.concat(" and");
+					}
+				}
+				if(!Category.equals(""))
+				{
+					sql.concat(" category =\""+ Category+"\"");
+					if(! (type.equals("") && Pdt.equals("") && Ddt.equals("") && loc.equals("")))
+					{
+						sql.concat(" and");
+					}
+				}
+				if(!Category.equals(""))
+				{
+					sql.concat(" category =\""+ Category+"\"");
+					if(! (type.equals("") && Pdt.equals("") && Ddt.equals("") && loc.equals("")))
+					{
+						sql.concat(" and");
+					}
+				}
+			}
+			
+			
+			
+			
+			
 			if(Category.equals(""))
 			{
-				sql = "SELECT regNo, category, type, brand, purchaseDate FROM Vehicle";
+				
 			}
 			else
 			{
 				sql = "SELECT regNo, category, type, brand, purchaseDate FROM Vehicle where category = \""+Category+"\"";
 			}
 			//execute a query
+			 * *
+			 */
 			stmt = connection.createStatement();
 			rs = stmt.executeQuery(sql);
 			
