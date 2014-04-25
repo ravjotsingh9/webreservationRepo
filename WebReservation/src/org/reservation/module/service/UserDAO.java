@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -15,7 +17,7 @@ import org.reservation.module.model.UserBeanModel;
 import org.reservation.module.model.UserListModel;
 
 public class UserDAO {
-	private static int baseId = 872201;
+	//private static int baseId = 872201;
 	private static Connection connection;
 	private static DatabaseConnection databaseConnection;
 	private static java.sql.Statement stmt;
@@ -24,6 +26,7 @@ public class UserDAO {
 	private PreparedStatement preparedStatement;
 	private static UserListModel users = new UserListModel();
 	private static Date utilDate;
+	private UserBeanModel user = new UserBeanModel();
 	
 	//intialization
 	public UserDAO(){
@@ -59,50 +62,38 @@ public class UserDAO {
 	/*
 	 * Add the user record at the time of reservation
 	 */
-	private boolean addUser(UserBeanModel user1){
+	public int addUser(UserBeanModel user1) throws ParseException{
 		int uid = isUserExist(user1.getEmail());
-		if(uid != 0){
-			sql = "SELECT name,email,phoneNumber,dateCreated,type,address FROM user where uid=?";
-			try {
-				preparedStatement.setInt(1, uid);
-				preparedStatement.executeUpdate();
-				//see the result
-				if(rs != null && rs.next()){
-	                System.out.println("Generated User Id: "+rs.getInt(1));
-	                System.out.println("Generated User Id: "+rs.getString(2));
-	                System.out.println("Generated User Id: "+rs.getString(3));
-				}
-			} catch (SQLException e) {
-				System.out.println("Exception coming from addUser(1) of USERDAO---> " + e.getMessage());
-			}
-			
-			return true;
+		if(uid != 0){	
+			return uid;
 		}else{
 		/*
 		 * Auto generate User id
 		 */
-			//java.sql.Date currdate= new java.sql.Date(System.currentTimeMillis());
 			
-			sql = "INSERT INTO user (name,email,phoneNumber,dateCreated,type,address) VALUES (?,?,?,?,?,?)";
+			sql = "INSERT INTO User (name,email,phoneNumber,dateCreated,type,address) VALUES (?,?,?,?,?,?)";
+			System.out.println("Recently added");
 			try {
 				preparedStatement = connection.prepareStatement(sql, stmt.RETURN_GENERATED_KEYS);
 				preparedStatement.setString(1, user1.getName());
 				preparedStatement.setString(2, user1.getEmail());
 				preparedStatement.setInt(3, user1.getPhoneNumber());
-				preparedStatement.setDate(4, new java.sql.Date(System.currentTimeMillis()));
+				java.util.Date curr_date = new java.util.Date();
+		        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+		        String source= format.format(curr_date);
+				java.sql.Date d= new java.sql.Date(format.parse(source).getTime());
+				
+				preparedStatement.setDate(4, d);
 				preparedStatement.setInt(5, 1);
 				preparedStatement.setString(6, user1.getAddress());
 				
 				preparedStatement.executeUpdate();
 				rs = preparedStatement.getGeneratedKeys();
-				//see the result
-				if(rs != null && rs.next()){
-	                System.out.println("Generated User Id: "+rs.getInt(1));
-	            }
 			} catch (SQLException e) {
 				System.out.println("Exception coming from addUser(2) of USERDAO---> " + e.getMessage());
 			}
-			return true;
+			int newUid = isUserExist(user1.getEmail());
+			return newUid;
 		}
 	}
 	
@@ -111,26 +102,31 @@ public class UserDAO {
 	 */
 	
 	private int isUserExist(String email){
-		sql = "SELECT uid from user where email=?";
+		sql = "SELECT * from User where email=?";
 		try {
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, email);	
 			
 			//execute select statement
 			rs = preparedStatement.executeQuery();
-			if (rs.next()){
-				return (rs.getInt(1));
+			/*if (!rs.next()){
+				return 0;
+			}*/
+			if(rs.next()){
+				user.setUid(rs.getInt("uid"));
+				//return user.getUid();
+			}else{
+				return 0;
 			}
-			
 		} catch (SQLException e) {
 			System.out.println("Exception coming from isUserExist() of USERDAO---> " + e.getMessage());
 		}
-		
-		return 0;
+		int uid = user.getUid();
+		return uid;
 	}
 	
 	
-	public static void main(String args[]){
+	public static void main(String args[]) throws ParseException{
 		/*
 		 * Demo to display list
 		 */
@@ -153,9 +149,10 @@ public class UserDAO {
 		UserDAO u = new UserDAO();
 		UserBeanModel s = new UserBeanModel();
 		s.setAddress("Surrey");
-		s.setEmail("parminder@mss.ubc.ca");
-		s.setName("Parminder");
-		s.setPhoneNumber(12345);
-		u.addUser(s);
+		s.setEmail("jenny@mypet.ca");
+		s.setName("Jenny");
+		s.setPhoneNumber(89382);
+		int res = u.addUser(s);
+		System.out.println("Result = "+res);
 	}
 }
