@@ -18,6 +18,7 @@ import org.reservation.module.model.ClubMemberBeanModel;
 import org.reservation.module.model.ClubMemberListModel;
 import org.reservation.module.model.ReservationListModel;
 import org.reservation.module.model.ReservationModel;
+import org.reservation.module.model.UserBeanModel;
 
 public class ReservationDAO {
 	private static Connection connection;
@@ -71,7 +72,7 @@ public ReservationListModel displayReservations(){
 			System.out.println(confNo);
 			sql="Update Reservation set status=1 where confirmationNo=?";
 			preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setInt(2, Integer.valueOf(confNo));
+			preparedStatement.setInt(1, Integer.valueOf(confNo));
 		}
 		else
 		{

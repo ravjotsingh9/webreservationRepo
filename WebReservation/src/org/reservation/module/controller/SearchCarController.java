@@ -1,10 +1,13 @@
 package org.reservation.module.controller;
+import org.joda.time.DateTime;
 import org.reservation.module.model.*;
 import org.reservation.module.service.*;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,41 +20,11 @@ public class SearchCarController extends HttpServlet {
     public SearchCarController() {
         super();
     }
-/*
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{
-		
-			try 
-			{
-				String btn = request.getParameter("txt1");			
-				
-				if(btn.equals("car"))
-				{
-					btn ="CAR";
-				}
-				else if(btn.equals("truck"))
-				{
-					btn = "TRUCK";
-				}
-				else
-				{
-					btn="";   
-				}
-				CarDAO result = new CarDAO();
-				VehicleListBeanModel vehicles = result.getFilteredList(btn);
-		        request.setAttribute("vehicles", vehicles); // Will be available as ${vehicles} in JSP
-		        request.getRequestDispatcher("UpdatedSearchCarView.jsp").forward(request, response);
-		    } catch (Exception e) {
-		        System.out.print("Servlet Exception"+e.getMessage());
-		    }
-			
-		
-	}
-*/
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
     	if(request.getParameter("txt1").equals("car") || request.getParameter("txt1").equals("truck"))
-    	{
+    	{/*
     		try 
 			{
 				String btn = request.getParameter("txt1");			
@@ -68,13 +41,18 @@ public class SearchCarController extends HttpServlet {
 				{
 					btn="";   
 				}
-				CarDAO result = new CarDAO();
-				VehicleListBeanModel vehicles = result.getFilteredList(btn);
+				SearchVehicleDAO result = new SearchVehicleDAO();
+								
+				DateTime date = new DateTime();
+				DateTime date1 = date.plus(1);
+				
+				VehicleListBeanModel vehicles = result.search(btn, "", date.toString() , date1.toString());
 		        request.setAttribute("vehicles", vehicles); // Will be available as ${vehicles} in JSP
 		        request.getRequestDispatcher("UpdatedSearchCarView.jsp").forward(request, response);
 		    } catch (Exception e) {
 		        System.out.print("Servlet Exception"+e.getMessage());
 		    }
+		    */
     	}
     	else
     	{

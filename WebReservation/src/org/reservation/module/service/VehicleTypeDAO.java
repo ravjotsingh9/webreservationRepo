@@ -1,7 +1,8 @@
 
 package org.reservation.module.service;
-import org.reservation.module.model.VehicleBeanModel;
 import org.reservation.module.model.VehicleListBeanModel;
+import org.reservation.module.model.VehicleTypeBeanModel;
+import org.reservation.module.model.VehicleTypeListBeanModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Scanner;
 
 
-public class CarDAO {
+public class VehicleTypeDAO {
 	private static Connection connection;
 	private static DatabaseConnection databaseConnection;
 	private static java.sql.Statement stmt;
@@ -23,8 +24,8 @@ public class CarDAO {
 	private static VehicleListBeanModel vehicles = new VehicleListBeanModel();
 	
 	public static void main(String args[]){
-		CarDAO c = new CarDAO();
-		//c.getFilteredList("TRUCK");
+		VehicleTypeDAO c = new VehicleTypeDAO();
+		c.getFilteredList("CAR");
 		
 		//update the column
 		int regNo; 
@@ -42,104 +43,56 @@ public class CarDAO {
 		
 	}
 	
-	public CarDAO(){
+	public VehicleTypeDAO(){
 		//open a connection
 		databaseConnection = new DatabaseConnection();
 		connection = databaseConnection.getConnection();
 	}
 	
-	public VehicleListBeanModel getFilteredList(String Category){
-		VehicleListBeanModel vehlist = new VehicleListBeanModel();
+	public VehicleTypeListBeanModel getFilteredList(String Category){
+		
+		VehicleTypeListBeanModel veh = new VehicleTypeListBeanModel();
+		ArrayList<VehicleTypeBeanModel> vehlist= new ArrayList<VehicleTypeBeanModel>();
 		try{
 			//sql query
 			String sql;
-			sql = "SELECT regNo, category, type, brand, purchaseDate FROM Vehicle";
-			/*
-			if(Category.equals("")&& type.equals("") && Pdt.equals("") && Ddt.equals("") && loc.equals(""))
-			{
-			// leave query as it is	
-			}
-			else
-			{
-				sql.concat(" where");
-				
-				if(!Category.equals(""))
-				{
-					sql.concat(" category =\""+ Category+"\"");
-					if(! (type.equals("") && Pdt.equals("") && Ddt.equals("") && loc.equals("")))
-					{
-						sql.concat(" and");
-					}
-				}
-				if(!type.equals(""))
-				{
-					sql.concat(" type =\""+ type+"\"");
-					if(! ( Pdt.equals("") && Ddt.equals("") && loc.equals("")))
-					{
-						sql.concat(" and");
-					}
-				}
-				if(!Pdt.equals(""))
-				{
-					sql.concat("  =\""+ Category+"\"");
-					if(! (type.equals("") && Pdt.equals("") && Ddt.equals("") && loc.equals("")))
-					{
-						sql.concat(" and");
-					}
-				}
-				if(!Category.equals(""))
-				{
-					sql.concat(" category =\""+ Category+"\"");
-					if(! (type.equals("") && Pdt.equals("") && Ddt.equals("") && loc.equals("")))
-					{
-						sql.concat(" and");
-					}
-				}
-				if(!Category.equals(""))
-				{
-					sql.concat(" category =\""+ Category+"\"");
-					if(! (type.equals("") && Pdt.equals("") && Ddt.equals("") && loc.equals("")))
-					{
-						sql.concat(" and");
-					}
-				}
-			}
+			sql = "SELECT SR.category, SR.type, SR.dailyRate as dr, SR.weeklyRate as wr, SR.hourlyRate as hr, SR.perKMRate,"
+					+ " SR.MileageLimit , SI.dailyRate as dir, SI.weeklyRate wir, SI.hourlyRate hir"
+					+ " FROM SuperRentRentalRate SR, SuperRentInsuranceRate SI "
+					+ " where SR.branchID=SI.branchID "
+					+ " AND SR.category= SI.category "
+					+ " AND SR.type= SI.type "
+					+ " AND SR.category=?";
 			
-			
-			
-			
-			
-			if(Category.equals(""))
-			{
-				
-			}
-			else
-			{
-				sql = "SELECT regNo, category, type, brand, purchaseDate FROM Vehicle where category = \""+Category+"\"";
-			}
-			//execute a query
-			 * *
-			 */
-			stmt = connection.createStatement();
-			rs = stmt.executeQuery(sql);
+			ps = connection.prepareStatement(sql);
+			ps.setString(1, Category);
+			rs = ps.executeQuery();
 			
 		//Extract data from result set
 	    while (rs.next()) {
 	    	//Retrieve by column name
-	    	VehicleBeanModel vehicle = new VehicleBeanModel();
+	    	VehicleTypeBeanModel vehicle = new VehicleTypeBeanModel();
 	    	//-----------------------------------------------
-	    	vehicle.setRegNo(rs.getInt("regNo"));
-	    	vehicle.setCategory(rs.getString("category"));
 	    	vehicle.setType(rs.getString("type"));
-	    	vehicle.setBrand(rs.getString("brand"));
+	    	vehicle.setCategory(rs.getString("category"));
+	    	vehicle.setDailyRate(rs.getDouble("dr"));
+	    	vehicle.setWeeklyRate(rs.getDouble("wr"));
+	    	vehicle.setHourlyRate(rs.getDouble("hr"));
+	    	vehicle.setPerKMRate(rs.getDouble("perKMRate"));
+	    	vehicle.setMileageLimit(rs.getDouble("MileageLimit"));
+	    	vehicle.setDailyIRate(rs.getDouble("dir"));
+	    	vehicle.setWeeklyIRate(rs.getDouble("wir"));
+	    	vehicle.setHourlyIRate(rs.getDouble("hir"));
 	    	//vehicle.setPurchaseDate(rs.getString("purchaseDate"));
-	    	vehicles.getVehlist().add(vehicle);
+	    	vehlist.add(vehicle);
 	    	//------------------------------------------------
+	    	/*
 	        int regNo = rs.getInt("regNo");
 	        String category = rs.getString("category");
 	        String type = rs.getString("type");
 	        String brand = rs.getString("brand");
 	        String purchaseDate = rs.getString("purchaseDate");
+	        */
 	        //int flag = rs.getInt("sold");
 	        
 	        //Display values
@@ -154,11 +107,19 @@ public class CarDAO {
 	        
 	        
 	        //Display values
-	        System.out.print("Index " +vehicles.getVehlist().indexOf(vehicle));
-	        System.out.print("RegNo: " +vehicle.getRegNo());
-	        System.out.print(", Category: " + vehicle.getCategory());
-	        System.out.print(", Type: " + vehicle.getType());
-	        System.out.println(", Brand: " + vehicle.getBrand());
+	    	
+	        //System.out.print("Index " +vehicles.getVehlist().indexOf(vehicle));
+	        System.out.print(vehicle.getType()+"\t");
+	        System.out.print(vehicle.getCategory()+"\t");
+	        System.out.print(vehicle.getDailyRate()+"\t");
+	        System.out.print(vehicle.getWeeklyRate()+"\t");
+	        System.out.print(vehicle.getHourlyRate()+"\t");
+	        System.out.print(vehicle.getDailyIRate()+"\t");
+	        System.out.print(vehicle.getWeeklyIRate()+"\t");
+	        System.out.print(vehicle.getHourlyIRate()+"\t");
+	        System.out.print(vehicle.getMileageLimit()+"\t");
+	        System.out.print(vehicle.getPerKMRate()+"\n");
+	        
 	        //System.out.print(", Purchase Date: " + vehicle.getPurchaseDate());
 	        
 	    }//while
@@ -174,17 +135,11 @@ public class CarDAO {
         if (connection != null) try { connection.close(); } catch (SQLException ignore) {}
 	   System.out.println("\nGoodbye!");
 	}
-		vehlist = vehicles;
+		veh.setVeh(vehlist);
 		//return vehicles;
-		return vehlist;
+		return veh;
 }//end method
-	
-	public VehicleListBeanModel passVehicles(){
-		return vehicles;
 		
-	}
-	
-	
 	
 	
 	public void updateVehicleList(int regNo, String cat, String type, String brand, String date){

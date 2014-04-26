@@ -457,14 +457,15 @@ Your Link</font></b>
   
           <table border="0" width="95%" bordercolor="#FF0000" cellspacing="0" cellpadding="0" bgcolor="#f3f5f8">
             <tr>
-              <td width="100%">
-  
-  <table cellpadding="0" cellspacing="0" border="0" bordercolor="#000000"  width="75%">
+              <td >
+  <!--  
+  <table cellpadding="0" cellspacing="0" border="0" bordercolor="#000000"  width="90%">
     <tr>
       <td>
+-->
             
  <div id="SearchResult" style="width:100%;float:right;overflow: scroll;height: 400px;" >
-
+<!--  
 <table  border="1" width="535" align="left" bordercolor="#dae0ea">
 	<tr style="height:30px;width:50px;background-color:#d2d9e4 ">
 		
@@ -473,42 +474,114 @@ Your Link</font></b>
 		<td><font size="2" face="Verdana">Type</font></td>
 		<td><font size="2" face="Verdana">Reserve Now</font></td>
 	</tr>
-	<% VehicleListBeanModel vehicle = (VehicleListBeanModel) request.getAttribute("vehicles");
+	<% /* VehicleListBeanModel vehicle = (VehicleListBeanModel) request.getAttribute("vehicles");
 	ArrayList<VehicleBeanModel> vehlist = vehicle.getVehlist();
 	VehicleBeanModel veh= new VehicleBeanModel();
 	int len = vehlist.size();
 	int index=0;
 	while(len>index)
 	{ 
-		veh = vehlist.get(index);
+		veh = vehlist.get(index); */
 	%>
 
 		<tr style="height:25px;width:50px;">
 		
-		<td><font size="2" face="Verdana" color="#62799e"><% out.write(veh.getCategory()); %></font></td>
-		<td><font size="2" face="Verdana" color="#62799e"><% out.write(veh.getBrand()); %></font></td>
-		<td><font size="2" face="Verdana" color="#62799e"><% out.write(veh.getType()); %></font></td>
+		<td><font size="2" face="Verdana" color="#62799e"><% //out.write(veh.getCategory()); %></font></td>
+		<td><font size="2" face="Verdana" color="#62799e"><% //out.write(veh.getBrand()); %></font></td>
+		<td><font size="2" face="Verdana" color="#62799e"><% //out.write(veh.getType()); %></font></td>
 		<td><font size="2" face="Verdana" color="#62799e" >
-		<a href=ReservationView.jsp?reg=<% out.write(Integer.toString(veh.getRegNo())); %>>
+		<a href=ReservationView.jsp?reg=<% //out.write(Integer.toString(veh.getRegNo())); %>>
 		<input type="button" value="Reserve Now"></input>
 		</a>
 		</font></td>    	
 	    </tr>
 		
-		<% index++;
+		<% /* index++;
 	}
-	vehicle.clearVehlist();
+	vehicle.clearVehlist(); */
 	%>
 		
 </table>
+
+
 </div>
-     
+-->
+<table>
+<tr>
+<td width=5%></td>
+<td>
+<h3><font color="#3879b5" >Economy</font></h3>
+<p><font  face="Arial" size="2" >
+Economy rentals are perfect for individuals or families who are looking for great deals on vehicles, regardless of their vacation destination. Economy cars offer enough room for the entire family yet come with the fuel efficiency of a compact vehicle. Whether you plan on taking the family to a relative's house or need to rent a car at your destination airport during a business trip, an economy car rental is the way to go.
+</font>
+</p>
+<h3><font color="#3879b5" >Compact</font></h3>
+<p ><font face="Arial" size="2" >
+Saving money on your next vacation should be a top priority. Whether you plan on going for a short road trip with friends or on a week-long getaway with family, a compact car rental is your best bet.
+A compact rental car offers more value than many other types of vehicles. Smaller engines and lighter weight combine for better fuel economy while still offering enough room to pack in your entire family. Most of the compact rental car types come with affordable prices that many other car types can't beat.
+</font>
+</p>
+<h3><font color="#3879b5" >Mid-size</font></h3>
+<p ><font face="Arial" size="2" >
+Saving money on your next vacation should be a top priority. Whether you plan on going for a short road trip with friends or on a week-long getaway with family, a compact car rental is your best bet.
+A compact rental car offers more value than many other types of vehicles. Smaller engines and lighter weight combine for better fuel economy while still offering enough room to pack in your entire family. Most of the compact rental car types come with affordable prices that many other car types can't beat.
+</font>
+</p>
+<h3><font color="#3879b5" >Standard</font></h3>
+<p ><font face="Arial" size="2" >
+Saving money on your next vacation should be a top priority. Whether you plan on going for a short road trip with friends or on a week-long getaway with family, a compact car rental is your best bet.
+A compact rental car offers more value than many other types of vehicles. Smaller engines and lighter weight combine for better fuel economy while still offering enough room to pack in your entire family. Most of the compact rental car types come with affordable prices that many other car types can't beat.
+</font>
+</p>
+<h3><font color="#3879b5" >Full-size</font></h3>
+<p ><font face="Arial" size="2" >
+Saving money on your next vacation should be a top priority. Whether you plan on going for a short road trip with friends or on a week-long getaway with family, a compact car rental is your best bet.
+A compact rental car offers more value than many other types of vehicles. Smaller engines and lighter weight combine for better fuel economy while still offering enough room to pack in your entire family. Most of the compact rental car types come with affordable prices that many other car types can't beat.
+</font>
+</p>
+<h3><font color="#3879b5" >Premium</font></h3>
+<p ><font face="Arial" size="2" >
+Saving money on your next vacation should be a top priority. Whether you plan on going for a short road trip with friends or on a week-long getaway with family, a compact car rental is your best bet.
+A compact rental car offers more value than many other types of vehicles. Smaller engines and lighter weight combine for better fuel economy while still offering enough room to pack in your entire family. Most of the compact rental car types come with affordable prices that many other car types can't beat.
+</font>
+</p>
+<h3><font color="#3879b5" >Luxary</font></h3>
+<p ><font face="Arial" size="2" >
+Saving money on your next vacation should be a top priority. Whether you plan on going for a short road trip with friends or on a week-long getaway with family, a compact car rental is your best bet.
+A compact rental car offers more value than many other types of vehicles. Smaller engines and lighter weight combine for better fuel economy while still offering enough room to pack in your entire family. Most of the compact rental car types come with affordable prices that many other car types can't beat.
+</font>
+</p>
+<h3><font color="#3879b5" >SUV</font></h3>
+<p ><font face="Arial" size="2" >
+Saving money on your next vacation should be a top priority. Whether you plan on going for a short road trip with friends or on a week-long getaway with family, a compact car rental is your best bet.
+A compact rental car offers more value than many other types of vehicles. Smaller engines and lighter weight combine for better fuel economy while still offering enough room to pack in your entire family. Most of the compact rental car types come with affordable prices that many other car types can't beat.
+</font>
+</p>
+<h3><font color="#3879b5" >Van</font></h3>
+<p ><font face="Arial" size="2" >
+Saving money on your next vacation should be a top priority. Whether you plan on going for a short road trip with friends or on a week-long getaway with family, a compact car rental is your best bet.
+A compact rental car offers more value than many other types of vehicles. Smaller engines and lighter weight combine for better fuel economy while still offering enough room to pack in your entire family. Most of the compact rental car types come with affordable prices that many other car types can't beat.
+</font>
+</p>
+
+
+
+
+
+
+</td>
+<td width=5%></td>
+</tr>
+</table>
+</div>     
  </table>
 
       <div id="aftercontent" style="width:80%;height:2px;float:right;"></div>
+      <!-- 
   </td>
             </tr>
           </table>
+           -->
         </div>
  <div id="aftercontent" style="width:80%;height:50px;float:right;"></div> 
   
