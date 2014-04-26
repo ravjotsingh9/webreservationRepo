@@ -8,33 +8,37 @@ var ucountry = document.registration.country;
 var uzip = document.registration.zip;
 var uemail = document.registration.email;
 var umsex = document.registration.msex;
-var ufsex = document.registration.fsex; if(userid_validation(uid,5,12))
-{
-if(passid_validation(passid,7,12))
-{
+var ufsex = document.registration.fsex; 
+//if(userid_validation(uid,5,12))
+//{
+//if(passid_validation(passid,7,12))
+//{
 if(allLetter(uname))
 {
-if(alphanumeric(uadd))
-{ 
-if(countryselect(ucountry))
-{
-if(allnumeric(uzip))
+//if(alphanumeric(uadd))
+//{ 
+//if(countryselect(ucountry))
+//{
+if(allnumeric(uzip, 10))
 {
 if(ValidateEmail(uemail))
 {
-if(validsex(umsex,ufsex))
-{
+if(alphanumeric(uadd)){
+//if(validsex(umsex,ufsex))
+//{
 }
 } 
 }
-} 
 }
-}
-}
-}
+//} 
+//}
+//}
+//}
+//}
 return false;
-
-} function userid_validation(uid,mx,my)
+} 
+//not required
+function userid_validation(uid,mx,my)
 {
 var uid_len = uid.value.length;
 if (uid_len == 0 || uid_len >= my || uid_len < mx)
@@ -45,6 +49,8 @@ return false;
 }
 return true;
 }
+
+//not required
 function passid_validation(passid,mx,my)
 {
 var passid_len = passid.value.length;
@@ -56,20 +62,40 @@ return false;
 }
 return true;
 }
+
+//-------------for name field in reservation form--------------------
 function allLetter(uname)
 { 
 var letters = /^[A-Za-z]+$/;
-if(uname.value.match(letters))
-{
-return true;
+var uname_len = uname.value.length;
+if(uname_len == 0){
+	alert("Name should not be empty");
+	uid.focus();
+	return false;
+}else if(uname.value.match(letters)){
+		return true;
+}else{
+	alert('Username must have alphabet characters only');
+	uname.focus();
+	return false;
 }
-else
+}
+
+//not required
+function passid_validation(passid,mx,my)
 {
-alert('Username must have alphabet characters only');
-uname.focus();
+var passid_len = passid.value.length;
+if (passid_len == 0 ||passid_len >= my || passid_len < mx)
+{
+alert("Password should not be empty / length be between "+mx+" to "+my);
+passid.focus();
 return false;
 }
+return true;
+
 }
+
+//--------------address required
 function alphanumeric(uadd)
 { 
 var letters = /^[0-9a-zA-Z]+$/;
@@ -97,33 +123,50 @@ else
 return true;
 }
 }
+
+//------------------for phone no in reservation form
 function allnumeric(uzip)
 { 
 var numbers = /^[0-9]+$/;
-if(uzip.value.match(numbers))
-{
-return true;
+var uzip_len = uzip.value.length;
+if(uzip_len == 0){
+	alert('Phone number field must not be empty');
+	uzip.focus();
+	return false;	
+}else if(uzip_len<10 || uzip_len>10){
+	alert('Phone number must be of 10 digits');
+	uzip.focus();
+	return false;
+}else if(uzip.value.match(numbers)){
+	return true;
+}else{
+	alert('Phone number must have numeric characters only');
+	uzip.focus();
+	return false;
 }
-else
-{
-alert('ZIP code must have numeric characters only');
-uzip.focus();
-return false;
 }
-}
+//--------------
+
+//----------------for email in reservation form
 function ValidateEmail(uemail)
 {
 var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-if(uemail.value.match(mailformat))
-{
-return true;
+var uemail_len = uemail.value.length;
+if(uemail_len ==0){
+	alert("You have entered an invalid email address!");
+	uemail.focus();
+	return false;
+}else if(uemail.value.match(mailformat)){
+	return true;
+}else{
+	alert("You have entered an invalid email address!");
+	uemail.focus();
+	return false;
 }
-else
-{
-alert("You have entered an invalid email address!");
-return false;
 }
-} function validsex(umsex,ufsex)
+
+//not required
+function validsex(umsex,ufsex)
 {
 x=0;
 
