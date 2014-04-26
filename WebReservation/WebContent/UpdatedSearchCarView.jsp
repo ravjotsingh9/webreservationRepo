@@ -368,7 +368,7 @@ Your Link</font></b>
 				</font>
 				</td>
 				<td>
-				<input id="pickupdatetimepicker" name="pickupdatetimepicker" type="text" size="20" onmouseover="javascript:$('#pickupdatetimepicker').datetimepicker();">
+				<input id="pickupdatetimepicker" name="pickupdatetimepicker" type="text" size="20" onmouseover="javascript:$('#pickupdatetimepicker').datetimepicker();" >
 								
 			</td>
 		</tr>
@@ -378,7 +378,7 @@ Your Link</font></b>
 				</font>
 				</td>
 				<td>
-				<input id="dropdatetimepicker" name="dropdatetimepicker" type="text" size="20" onmouseover="javascript:$('#dropdatetimepicker').datetimepicker();">
+				<input id="dropdatetimepicker" name="dropdatetimepicker" type="text" size="20" onmouseover="javascript:$('#dropdatetimepicker').datetimepicker();" >
 			</td>
 		</tr>
 		<tr>
