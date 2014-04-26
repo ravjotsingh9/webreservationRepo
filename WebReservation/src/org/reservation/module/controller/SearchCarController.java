@@ -41,18 +41,18 @@ public class SearchCarController extends HttpServlet {
 				{
 					btn="";   
 				}
-				SearchVehicleDAO result = new SearchVehicleDAO();
+				VehicleTypeDAO result = new VehicleTypeDAO();
 								
-				DateTime date = new DateTime();
-				DateTime date1 = date.plus(1);
+				//DateTime date = new DateTime();
+				//DateTime date1 = date.plus(1);
 				
-				VehicleListBeanModel vehicles = result.search(btn, "", date.toString() , date1.toString());
+				VehicleTypeListBeanModel vehicles = result.getFilteredList(btn);
 		        request.setAttribute("vehicles", vehicles); // Will be available as ${vehicles} in JSP
 		        request.getRequestDispatcher("UpdatedSearchCarView.jsp").forward(request, response);
 		    } catch (Exception e) {
 		        System.out.print("Servlet Exception"+e.getMessage());
 		    }
-		    */
+		   */ 
     	}
     	else
     	{

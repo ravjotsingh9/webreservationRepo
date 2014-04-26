@@ -25,7 +25,7 @@ public class VehicleTypeDAO {
 	
 	public static void main(String args[]){
 		VehicleTypeDAO c = new VehicleTypeDAO();
-		c.getFilteredList("CAR");
+		c.getFilteredList("");
 		
 		//update the column
 		int regNo; 
@@ -56,16 +56,29 @@ public class VehicleTypeDAO {
 		try{
 			//sql query
 			String sql;
-			sql = "SELECT SR.category, SR.type, SR.dailyRate as dr, SR.weeklyRate as wr, SR.hourlyRate as hr, SR.perKMRate,"
-					+ " SR.MileageLimit , SI.dailyRate as dir, SI.weeklyRate wir, SI.hourlyRate hir"
-					+ " FROM SuperRentRentalRate SR, SuperRentInsuranceRate SI "
-					+ " where SR.branchID=SI.branchID "
-					+ " AND SR.category= SI.category "
-					+ " AND SR.type= SI.type "
-					+ " AND SR.category=?";
+			if(Category.isEmpty())
+			{
+				sql = "SELECT SR.category, SR.type, SR.dailyRate as dr, SR.weeklyRate as wr, SR.hourlyRate as hr, SR.perKMRate,"
+						+ " SR.MileageLimit , SI.dailyRate as dir, SI.weeklyRate wir, SI.hourlyRate hir"
+						+ " FROM SuperRentRentalRate SR, SuperRentInsuranceRate SI "
+						+ " where SR.branchID=SI.branchID "
+						+ " AND SR.category= SI.category "
+						+ " AND SR.type= SI.type ";
+				ps = connection.prepareStatement(sql);
+			}
+			else
+			{
+				sql = "SELECT SR.category, SR.type, SR.dailyRate as dr, SR.weeklyRate as wr, SR.hourlyRate as hr, SR.perKMRate,"
+						+ " SR.MileageLimit , SI.dailyRate as dir, SI.weeklyRate wir, SI.hourlyRate hir"
+						+ " FROM SuperRentRentalRate SR, SuperRentInsuranceRate SI "
+						+ " where SR.branchID=SI.branchID "
+						+ " AND SR.category= SI.category "
+						+ " AND SR.type= SI.type "
+						+ " AND SR.category=?";
+				ps = connection.prepareStatement(sql);
+				ps.setString(1, Category);
+			}
 			
-			ps = connection.prepareStatement(sql);
-			ps.setString(1, Category);
 			rs = ps.executeQuery();
 			
 		//Extract data from result set
