@@ -79,11 +79,12 @@ public class UserDAO {
 				preparedStatement.setString(2, user1.getEmail());
 				preparedStatement.setInt(3, user1.getPhoneNumber());
 				java.util.Date curr_date = new java.util.Date();
-		        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+		       /* SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
 		        String source= format.format(curr_date);
 				java.sql.Date d= new java.sql.Date(format.parse(source).getTime());
-				
-				preparedStatement.setDate(4, d);
+				*/
+				java.sql.Timestamp d = new java.sql.Timestamp(curr_date.getTime());
+				preparedStatement.setTimestamp(4, d);
 				preparedStatement.setInt(5, 1);
 				preparedStatement.setString(6, user1.getAddress());
 				
