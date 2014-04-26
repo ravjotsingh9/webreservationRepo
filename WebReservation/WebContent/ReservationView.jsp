@@ -134,7 +134,7 @@ Your Link</font></b>
 <hr color="#FF0000" size="3" width="90%">
 <div align="center">
 </div>
-<p align="center"><font face="Arial" size="1" color="#000000"><strong><b>© UnderTraining SUPERRENT.COM</b></strong></font></p>
+<p align="center"><font face="Arial" size="1" color="#000000"><strong><b>Â© UnderTraining SUPERRENT.COM</b></strong></font></p>
 
 </form>
 </body>

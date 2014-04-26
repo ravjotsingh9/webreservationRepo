@@ -669,7 +669,7 @@ A compact rental car offers more value than many other types of vehicles. Smalle
 
 <hr color="#FF0000" size="3" width="90%">
 
-<p align="center"><font face="Arial" size="1" color="#000000"><strong><b>© Copyright 2000
+<p align="center"><font face="Arial" size="1" color="#000000"><strong><b>Â© Copyright 2000
 All Rights Reserved SUPPERRENT.COM</b></strong></font></p>
 </form>
 

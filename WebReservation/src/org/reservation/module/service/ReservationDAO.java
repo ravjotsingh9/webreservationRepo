@@ -61,6 +61,7 @@ public ReservationListModel displayReservations(){
 	cm = reservations;
 	return cm;
 }
+
 public int cancelReservation(String confNo, String ph, String ptime) throws ParseException
 {
 	int retval=0;
