@@ -84,6 +84,29 @@ jquery_latest(document).ready(function() {                        // When the HT
 		});
 });
 
+
+function reserve(regNo)
+{
+		jquery_latest.ajax({
+  				type: 'POST',
+  				url: 'SearchCar', 
+  				data: { id:'2', 
+  						ph:jquery_latest("#ph").val(),
+  						ptime:jquery_latest("#pickupdatetime").val(),
+  						conf:jquery_latest("#conf").val()
+  						},
+  				success: function(responseText) {  					
+  					jquery_latest("#cancelResult").text(responseText);
+  					//var result = jquery_latest('<div />').append(responseText).find('#result').html();
+  					//jquery_latest('#SearchResult').html(data);
+  					jquery_latest('#Status').text("Status:");
+  					
+  				},
+  				dataType: 'text'
+		});		
+}
+
+
 </script>
 
 
@@ -159,9 +182,15 @@ $(function(){
         });
     }).change();
 });
+
 </script>
 
+<script type="text/javascript">
 
+
+
+
+</script>
 
 </head>
 
@@ -671,6 +700,7 @@ A compact rental car offers more value than many other types of vehicles. Smalle
 
 <p align="center"><font face="Arial" size="1" color="#000000"><strong><b>© Copyright 2000
 All Rights Reserved SUPPERRENT.COM</b></strong></font></p>
+<input type="button" onclick="reserve('5')" value="Click me"></input>
 </form>
 
 </body>

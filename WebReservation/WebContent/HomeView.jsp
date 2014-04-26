@@ -10,7 +10,7 @@
 </head>
 <body>
 <form method="get" action="SearchCar" name="form">
-	<input type="hidden" name="txt1" />
+	<input type="hidden" name="txt1"/>
 	<table>
 	<tr height="200">
 		<td valign="middle" align="center"><a href="HomeView.jsp"><img style="border:1;" src="images/superRent2.jpg" alt="some_text" ></a></td>

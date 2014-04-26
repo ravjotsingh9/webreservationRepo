@@ -105,8 +105,12 @@ public class SearchCarController extends HttpServlet {
 		        	text= text.concat("<td><font size=\"2\" face=\"Verdana\" color=\"#62799e\">" + vehlist.get(index).getBrand() + "</font></td>");
 		        	text= text.concat("<td><font size=\"2\" face=\"Verdana\" color=\"#62799e\">" + vehlist.get(index).getType() + "</font></td>");
 		        	text= text.concat("<td><font size=\"2\" face=\"Verdana\" color=\"#62799e\">"
-		        			+ "<a href=ReservationView.jsp?reg=" + Integer.toString(vehlist.get(index).getRegNo())  +">"
-		        			+ "<input type=\"button\" value=\"Reserve Now\"></input></a></font></td></tr>");
+		       			+ "<a href=ReservationView.jsp?reg=" + Integer.toString(vehlist.get(index).getRegNo())  +">"   
+		        			+ "<input type=\"button\" value=\"ReserveNow\" "
+		        			+ "id=\"reserve\" );\"></input>"
+		        			
+		        			+ "</a></font>"   
+		        			+ "</td></tr>");
 		        	System.out.print(vehlist.get(index).getRegNo() +"\t"+ vehlist.get(index).getCategory()+"\t"+ vehlist.get(index).getType() +"\t"+ vehlist.get(index).getBrand() +"\n");
 		        	index++;
 		        }
@@ -134,7 +138,7 @@ public class SearchCarController extends HttpServlet {
 					if(result==0)
 					{
 						
-						text="Either the provided confirmation no. doesnot exist";
+						text="The provided confirmation no. doesnot exist";
 						response.getWriter().write(text);
 					}
 					else
