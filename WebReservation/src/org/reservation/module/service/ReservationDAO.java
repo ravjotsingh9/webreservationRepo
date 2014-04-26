@@ -61,6 +61,41 @@ public ReservationListModel displayReservations(){
 	cm = reservations;
 	return cm;
 }
+
+public int cancelReservation(String confNo, String ph, String ptime) throws ParseException
+	{
+		int retval=0;
+		try{
+		if(!confNo.isEmpty())
+		{
+			System.out.println(confNo);
+			sql="Update Reservation set status=1 where confirmationNo=?";
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, Integer.valueOf(confNo));
+		}
+		else
+		{
+			sql="Update Reservation set status=1 where ph=? AND pickDate=?";
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, ph);
+			String source=ptime;              
+	        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy"); 
+			java.sql.Date d= new java.sql.Date(format.parse(source).getTime());
+			preparedStatement.setDate(2, d);
+		}
+			
+			retval= preparedStatement.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("Exception coming from CancelReservation() of ReservationDAO" + e.getMessage());
+			return 0;
+		}
+		return retval;
+	}
+	
+
+
+
 	
 	/*
 	 * make reservation by updating reservation and makeReservation table
