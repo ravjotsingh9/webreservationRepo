@@ -9,6 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<script src="registration-form-validation.js"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 var jquery_latest = $.noConflict(true);
@@ -25,7 +26,13 @@ var jquery_latest = $.noConflict(true);
         </script>
 <script>
 jquery_latest(document).ready(function() {                        // When the HTML DOM is ready loading, then execute the following function...
-       	jquery_latest('#getpoints').click(function() {               // Locate HTML DOM element with ID "somebutton" and assign the following function to its "click" event...
+	   	jquery_latest('#getpoints').click(function() {               // Locate HTML DOM element with ID "somebutton" and assign the following function to its "click" event...
+	   		//handling for illegal membership number
+	   		var memNum = document.getElementById("memNo");
+	   		if(formembership(memNum)==false){
+	   			return false;
+	   		}
+	   		
     		jquery_latest.ajax({
   				type: 'GET',
   				url: 'SearchCar',
@@ -41,6 +48,14 @@ jquery_latest(document).ready(function() {                        // When the HT
 
 jquery_latest(document).ready(function() {                        // When the HTML DOM is ready loading, then execute the following function...
 	jquery_latest('#Search').click(function() {               // Locate HTML DOM element with ID "somebutton" and assign the following function to its "click" event...
+		//validation for entries
+		var opt = document.getElementById("category");
+		var pick = memNum = document.getElementById("pickupdatetimepicker");
+   		var drop = document.getElementById("dropdatetimepicker");
+		if(forsearch(opt, pick, drop)==false){
+			return false;
+		}
+		
 		jquery_latest.ajax({
   				type: 'POST',
   				url: 'SearchCar',
@@ -64,6 +79,14 @@ jquery_latest(document).ready(function() {                        // When the HT
 
 jquery_latest(document).ready(function() {                        // When the HTML DOM is ready loading, then execute the following function...
 	jquery_latest('#CancelReservationbtn').click(function() {               // Locate HTML DOM element with ID "somebutton" and assign the following function to its "click" event...
+		//handling for invalid entry
+		conf = document.getElementById("conf");
+		dt = document.getElementById("pickupdatetime");
+		ph = document.getElementById("ph");
+		if((forcancel(conf, ph, dt)==false)){
+				return false;
+			}		
+		
 		jquery_latest.ajax({
   				type: 'POST',
   				url: 'SearchCar', 
@@ -472,7 +495,7 @@ Your Link</font></b>
             		<td>
             		</td>
             		<td>
-            			<input type="button" name="CancelReservationbtn" id="CancelReservationbtn" value="Cancel"></input>
+            			<input type="button" name="CancelReservationbtn" id="CancelReservationbtn" value="Cancel" ></input>
             		</td>
             	</tr>
             	
@@ -654,7 +677,7 @@ A compact rental car offers more value than many other types of vehicles. Smalle
             		<td>
             		</td>
             		<td>
-            			<input type="button" id="getpoints" name="getpoints" value="Submit"></input>
+            			<input type="button" id="getpoints" name="getpoints" value="Submit" ></input>
             		</td>
             	</tr>
          

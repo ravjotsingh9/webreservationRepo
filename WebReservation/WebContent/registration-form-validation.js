@@ -35,8 +35,86 @@ if(alphanumeric(uadd)){
 //}
 //}
 //}
-return false;
-} 
+return true;
+}
+
+//-------------------for search
+var e;
+var pick;
+var drop;
+function forsearch(e, pick, drop){
+    var strUser = e.options[e.selectedIndex].value;
+    //var strUser1 = e.options[e.selectedIndex].text;
+    if(strUser==0)
+    {
+        alert("Please select a category");
+        return false;
+    }
+    var p = pick.value.length;
+    var d = drop.value.length;
+    if((p != 0) && (d != 0)){
+    	return true;
+    }else{
+    	alert("Please enter the pickup and drop date");
+        return false;
+    }
+    return true;
+}
+
+//-------------for cancellation with ph and date
+
+var conf;
+var ph;
+var dt;
+function forcancel(conf, ph, dt){
+	var numbers = /^[0-9]+$/;
+	var uzip_len = conf.value.length;
+	var ph_len = ph.value.length;
+	var dt_len = dt.value.length;
+	if((uzip_len ==0)&&(ph_len ==0)&&(dt_len ==0)){
+		alert("Either enter confirmation number or (pickdate &  phoneno)");
+		return false;
+	}
+	if((uzip_len !=0)&&(ph_len !=0)&&(dt_len !=0)){
+		alert("Either enter confirmation number or (pickdate &  phoneno)");
+		return false;
+	}else if((uzip_len != 0)){
+		if(conf.value.match(numbers)){
+			return true;
+		}else{
+		alert('Confirmation number must have numeric only');
+		conf.focus();
+		return false;
+		}
+	}else if((ph_len != 0)){
+		if(dt_len == 0){
+			alert('Also enter pickup date');
+			dt.focus();
+			return false;
+		}else if (fordatetime(dt)==false){
+			alert('Invalid pickup date');
+			dt.focus();
+			return false;
+		}else if(allnumeric(ph)==false){
+			return false;
+		}
+	}else if((dt_len != 0)){
+		if(ph_len == 0){
+			alert('Also enter phonenumber');
+			ph.focus();
+			return false;
+		}else if (fordatetime(dt)==false){
+			alert('Invalid pickup date');
+			dt.focus();
+			return false;
+		}else if(allnumeric(ph)==false){
+			return false;
+		}
+	}
+	
+	return true;
+}
+
 //not required
 function userid_validation(uid,mx,my)
 {
@@ -200,4 +278,43 @@ alert('Form Succesfully Submitted');
 window.location.reload();
 return true;
 }
+}
+var memNo;
+//-----------for membership
+function formembership(memNo){
+	var numbers = /^[0-9]+$/;
+	var uzip_len = memNo.value.length;
+	if(uzip_len == 0){
+		alert('No membership number given');
+		uzip.focus();
+		return false;	
+	}else if(memNo.value.match(numbers)){
+		return true;
+	}else{
+		alert('Membership number must have numeric characters only');
+		uzip.focus();
+		return false;
+	}
+	
+}
+
+//------------datetime picker
+var ctrl;
+function fordatetime(ctrl){
+	var v = ctrl.value;
+	var v_len = ctrl.value.length;
+	/*
+	if (v.replace(/^\\s+|\\s+$/, '').length != 0 && isNaN(Date.parse(v))) { 
+	      //alert('Invalid value for pick-up date!'); 
+	      //ctrl.focus();
+	      return false; 
+	}
+	*/
+	if((v_len != 0)){
+		if(!(isNaN(Date.parse(v)))){
+		return true;
+		}
+		return false;
+	}
+	return false;
 }
