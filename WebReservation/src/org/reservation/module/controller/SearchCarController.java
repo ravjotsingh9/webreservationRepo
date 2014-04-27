@@ -2,6 +2,7 @@ package org.reservation.module.controller;
 import org.apache.tomcat.jni.Time;
 import org.eclipse.jdt.internal.compiler.apt.dispatch.RoundDispatcher;
 import org.joda.time.DateTime;
+import org.omg.CORBA.OBJ_ADAPTER;
 import org.reservation.module.model.*;
 import org.reservation.module.service.*;
 
@@ -119,7 +120,14 @@ public class SearchCarController extends HttpServlet {
 		        	System.out.print(vehlist.get(index).getRegNo() +"\t"+ vehlist.get(index).getCategory()+"\t"+ vehlist.get(index).getType() +"\t"+ vehlist.get(index).getBrand() +"\n");
 		        	index++;
 		        }
-		        text= text.concat("</table></div>");
+		        text= text.concat("</table>"
+		        		+ "<div>"
+		        		+ "<input type=\"hidden\" name=\"hcategory\" id=\"hcategory\" value=\""+request.getParameter("category")+"\"/>"
+		        		+ "<input type=\"hidden\" name=\"htype\" id=\"htype\" value=\""+request.getParameter("type")+"\"/>"
+		        		+ "<input type=\"hidden\" name=\"hptime\" id\"hptime\" value=\""+request.getParameter("ptime")+"\"/>"
+		        		+ "<input type=\"hidden\" name=\"hdtime\" id=\"hdtime\" value=\""+request.getParameter("dtime")+"\"/>"
+		        		+ "</div>"
+		        		+ "</div>");
 		        System.out.print(text);
 		        
 		        //response.setContentType("text/html");  // Set content type of the response so that jQuery knows what it can expect.
@@ -191,20 +199,43 @@ public class SearchCarController extends HttpServlet {
 */			
 			est = obj.calculateCharges(Integer.parseInt(request.getParameter("regNo")), Timestamp.valueOf(ptime) ,Timestamp.valueOf(dtime));
 			String result = String.format("%.2f", est);
-			
+			String category = obj.getCategory(request.getParameter("regNo"));
+			System.out.println(category);
 			String text ="<table border=\"0\" bordercolor=\"#7f8bb7\" cellspacing=\"0\" cellpadding=\"0\" bgcolor=\"#f3f5f8\">"
 						+"<tr>"
 						+ "<td colspan=\"4\" bgcolor=\"#7f8bb7\" width=\"100%\" height=\"25px\"><b><font color=\"#FFFFFF\" face=\"Arial\" size=\"2\">&nbsp;Reserve Vehicle</font></b>"
 						+ "</tr>"
+						+"<tr>"
+						+"<td colspan=\"4\"><div style=\"height:4px;\"></div><div style=\"border:2px solid #d3dae5;\">"
+						+"<table border=\"0\" width=\"100%\">"
+						+"<tr>"
+						+"<td><font  size=\"1\" face=\"Verdana\">"
+						+"<label>Vehicle</label><div  id=\"hdcategory\" style=\"width:100px;\" >"+category + "</div>"
+						+"</font></td>"
+						+"<td><font  size=\"1\" face=\"Verdana\">"
+						+"<label>Pickup at</label><div  id=\"hdptime\" >"+ptime +"</div>"
+						+"</font></td>"
+						+"<td><font  size=\"1\" face=\"Verdana\">"
+						+"<label>Drop at</label><div  id=\"hddtime\" >"+dtime +"</div>"
+						+"</font></td>"
+						+"<td><font  size=\"1\" face=\"Verdana\" color=\"#f3f5f8\" >"
+						+"<div  id=\"hdregnum\" style=\"visiblity:hidden;width:100px;\" >"+request.getParameter("regNo") + "</div>"
+						+"</font></td>"
+						+"</tr>"
+						+"</table></div>"
+						+"</td>"
+						+"</tr>"
 						+ "<tr>"
 						+ "<td width=5%></td>"
 						+"<td rowspan=\"7\" colspan=\"1\" ><div align=\"center\" style=\"border:1px solid #d3dae5;width:120px;height:100px;\">"
 						+ "<font  size=\"2\" face=\"Verdana\">"
-						+ "<label for=\"lblcost\" style=\"bgcolor:#7f8bb7\">Estimated Cost</label></font>"
-						+"<br><br><label for=\"cost\">CAD "+result+"</label></div></td>"
-								+ "<td width=5%></td>"
+						+ "<label for=\"lblcost\" style=\"bgcolor:#7f8bb7\">Estimated Cost*</label></font>"
+						+"<br><br><label for=\"cost\">CAD "+result+"</label></div><br>"
+								+ "<div><font  size=\"1\" face=\"Verdana\">*excluding insurance cost.</font></div></td>"
+								+ "<td width=5%></td>"	
 						+"<td>"
-					+"<table border=\"0\" width=\"300\" border=\"0\" align=\"left\">"
+					
+					+ "<table border=\"0\" width=\"300\" border=\"0\" align=\"left\">"
 			   // 	+"<tr>"
 				
 				//	+"</tr>"
@@ -213,34 +244,182 @@ public class SearchCarController extends HttpServlet {
 					+"<td><input type=\"text\" id=\"username\" name=\"username\" size=\"20\" /></td>"
 					+"</tr><tr>"
 					+"<td><font size=\"2\" face=\"Verdana\"><label for=\"ph\">Phone Number:</label></font></td>"
-					+"<td><input type=\"text\" name=\"phn\" id=\"phn\" /></td>"
+					+"<td><input type=\"text\" name=\"phone\" id=\"phone\" /></td>"
 					+"</tr><tr>"
 					+"<td><font size=\"2\" face=\"Verdana\"><label for=\"email\">Email Address:</label></font></td>"
-					+"<td><input type=\"text\" name=\"email\" id==\"email\" size=\"20\" /></td>"
+					+"<td><input type=\"text\" name=\"email1\" id=\"email1\" size=\"20\" /></td>"
 					+"</tr><tr>"
 					+"<td><font size=\"2\" face=\"Verdana\"><label for=\"address\">Residential Address:</label></font></td>"
 					+"<td><textarea rows=\"2\" cols=\"3\" name=\"desc\" id=\"desc\" style=\"height: 40px;width:150px\"></textarea></td>"
 					+"</tr><tr>"
 					+"<td><font size=\"2\" face=\"Verdana\"><label id=\"additional equipment\">Additional Equipment:</label></font></td>"
-					+"<td valign=\"bottom\"><select id=\"slct1\" name=\"slct1\" onchange=\"populate(this.id, 'slct2')\">"
-				   	+"<option value=\"\"></option>"
-			   		+"<option value=\"Yes\">Yes</option>"
-			   		+"<option value=\"No\">No</option>"
-					+"</select></td></tr><tr><td></td>"
-					+"<td id=\"slct2\"></td>"
-					+"</tr>"
-					+"<tr>"
-					+"<td></td>"
-					+"<td align=\"left\" valign=\"top\"><input type=\"button\" name=\"reserveit\" id=\"reserveit\" value=\"Submit\" />"
-					+"</td>"
-					+"</tr>"					+"</table>"
-					+"</td><td width=10%></td>"
-					+"</tr>"
-					+"</table>";
+					+"<td>";
 			
 			
-			
+			if(category.equalsIgnoreCase("car"))
+			{
+				text = text.concat("<input type=\"checkbox\" id=\"childseat\" name=\"childseat\" value=\"childseat\"><font size=\"2\" face=\"Verdana\">Child Seat</font>"
+						+ "<br><input type=\"checkbox\" id=\"skirack\" name=\"skirack\" value=\"skirack\"><font size=\"2\" face=\"Verdana\">Ski Rack</font>"
+						+ "</td></tr><tr><td></td>"
+						+"<td id=\"slct2\"></td>"
+						+"</tr>"
+						+"<tr>"
+						+"<td></td>"
+						+"<td align=\"left\" valign=\"top\">"
+						+ "<input type=\"button\" name=\"reserveit\" id=\"reserveit\" value=\"Reserve it\" "
+						+ "onclick=\"reservecar()\"/>"
+						+"</td>"
+						+"</tr>"					+"</table>"
+						+"</td><td width=10%></td>"
+						+"</tr>"
+						+"</table>");
+			}
+			else if(category.equalsIgnoreCase("truck") )
+			{
+				text = text.concat("<input type=\"checkbox\" id=\"cartow\" name=\"cartow\" value=\"cartow\"><font size=\"2\" face=\"Verdana\">Car Tow</font>"
+						+ "<br><input type=\"checkbox\" id=\"liftgate\" name=\"liftgate\" value=\"liftgate\"><font size=\"2\" face=\"Verdana\">Lift Gate</font>"
+						+ "</td></tr><tr><td></td>"
+						+"<td id=\"slct2\"></td>"
+						+"</tr>"
+						+"<tr>"
+						+"<td></td>"
+						+"<td align=\"left\" valign=\"top\">"
+						+ "<input type=\"button\" name=\"reserveit\" id=\"reserveit\" value=\"Reserve it\" "
+						+ "onclick=\"reservetruck()\"/>"
+						+"</td>"
+						+"</tr>"					+"</table>"
+						+"</td><td width=10%></td>"
+						+"</tr>"
+						+"</table>");
+			}
+			System.out.println(text);
 			response.getWriter().write(text);
+		}
+		else if(request.getParameter("id").equals("4"))
+		{
+			System.out.println("id4");
+			System.out.print(request.getParameter("id")+"\t"
+							+request.getParameter("regNo")+"\t"
+							+request.getParameter("name")+"\t"
+							+request.getParameter("email")+"\t"
+							+request.getParameter("add")+"\t"
+							+request.getParameter("ph")+"\t"
+							+request.getParameter("childseat")+"\t"
+							+request.getParameter("skirack")+"\t"
+							+ request.getParameter("ptime")+"\t"
+							+request.getParameter("dtime")
+							+"\n");
+			int uid=0;
+			boolean confirmed = false;
+			String regNo= request.getParameter("regNo");
+			String name= request.getParameter("name");
+			String email= request.getParameter("email");
+			String add= request.getParameter("add");
+			String ph= request.getParameter("ph");
+			String childseat= request.getParameter("childseat");
+			String skirack= request.getParameter("skirack");
+			String ptime= request.getParameter("ptime");
+			String dtime= request.getParameter("dtime");
+			UserDAO u = new UserDAO();
+			UserBeanModel user= new UserBeanModel();
+			user.setAddress(add);
+			user.setEmail(email);
+			user.setName(name);
+			user.setPhoneNumber(Integer.parseInt(ph));
+			try {
+				uid = u.addUser(user);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			ReservationDAO r = new ReservationDAO();
+			String[] addEquip= {
+					"nothing","nothing"
+			};
+			if(childseat.equalsIgnoreCase("childseat"))
+			{
+				addEquip[0]="CHILD SEAT";
+			}
+			if(skirack.equalsIgnoreCase("skirack"))
+			{
+				addEquip[1]="SKI RACK";
+			}
+			
+			try {
+				confirmed=  r.makeReservation(uid,Timestamp.valueOf(ptime),Timestamp.valueOf(dtime),Integer.parseInt(regNo), addEquip);
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(confirmed==true)
+			{
+				response.getWriter().write("Your Reservation is Confirmed.");
+			}
+			else
+			{
+				response.getWriter().write("Failed! Please try again.");
+			}
+		}
+		else if(request.getParameter("id").equals("5"))
+		{
+			System.out.println("id5");
+			System.out.print(request.getParameter("id")+"\t"+request.getParameter("cartow")+"\t"+request.getParameter("ph")+"\t"+ request.getParameter("ptime")+"\n");
+			int uid=0;
+			String regNo= request.getParameter("regNo");
+			String name= request.getParameter("name");
+			String email= request.getParameter("email");
+			String add= request.getParameter("add");
+			String ph= request.getParameter("ph");
+			String cartow= request.getParameter("cartow");
+			String liftgate= request.getParameter("liftgate");
+			String ptime= request.getParameter("ptime");
+			String dtime= request.getParameter("dtime");
+			UserDAO u = new UserDAO();
+			UserBeanModel user= new UserBeanModel();
+			user.setAddress(add);
+			user.setEmail(email);
+			user.setName(name);
+			user.setPhoneNumber(Integer.parseInt(ph));
+			try {
+				uid = u.addUser(user);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			ReservationDAO r = new ReservationDAO();
+			String[] addEquip= new String[2];
+			if(cartow.equalsIgnoreCase("true"))
+			{
+				addEquip[0]="CAR TOW";
+			}
+			if(liftgate.equalsIgnoreCase("true"))
+			{
+				addEquip[1]="LIFT GATE";
+			}
+			
+			boolean confirmed= false;
+			try {
+				confirmed=  r.makeReservation(uid,Timestamp.valueOf(ptime),Timestamp.valueOf(dtime),Integer.parseInt(regNo), addEquip);
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(confirmed==true)
+			{
+				response.getWriter().write("Your Reservation is Confirmed.");
+			}
+			else
+			{
+				response.getWriter().write("Failed! Please try again.");
+			}
 		}
 		//request.getRequestDispatcher("UpdatedSearchCarView.jsp").forward(request, response);
 	}

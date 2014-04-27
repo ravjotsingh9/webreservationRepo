@@ -113,11 +113,15 @@ Your Link</font></b>
 		</tr>
 		<tr>
 		<td><font size="2" face="Verdana"><label id="additional equipment">Additional Equipment:</label></font></td>
-		<td valign="bottom"><select id="slct1" name="slct1" onchange="populate(this.id, 'slct2')">
+		<td>
+		<input type="checkbox" id="childseat" name="childseat" value="childseat">Child Seat
+		<input type="checkbox" id="skirack" name="skirack" value="skirack">Ski Rack
+		<select id="slct1" name="slct1" onchange="populate(this.id, 'slct2')">
 	   	<option value=""></option>
    		<option value="Yes">Yes</option>
    		<option value="No">No</option>
-		</select></td>
+		</select>
+		</td>
 		</tr>
 		<tr>
 		<td></td>

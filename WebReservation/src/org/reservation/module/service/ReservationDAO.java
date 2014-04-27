@@ -384,13 +384,14 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 	 * @throws SQLException 
 	 */
 	private boolean addAdditionalEquip(int confirmationNo, String addEquip, String cat) throws SQLException{
-		sql = "INSERT INTO RequireAdditionalEquipment values (?, ?, ?, ?)";
+		sql = "INSERT INTO RequireAdditionalEquipment values (?, ?, ?, ?,?)";
 		try {
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setInt(1, confirmationNo);
 			preparedStatement.setInt(2, 1);
 			preparedStatement.setString(3, addEquip);
 			preparedStatement.setString(4, cat);
+			preparedStatement.setInt(5, 0);
 			preparedStatement.executeUpdate();
 			
 			while(rs != null && rs.next()){
@@ -452,7 +453,8 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 		UserDAO user = new UserDAO();
 		DateTime pdt = new DateTime(2014, 04, 25, 11, 0, 0, 0);
 		DateTime ddt = new DateTime(2014, 04, 26, 22, 0, 0, 0);
-		
+		Timestamp picktimeStamp = new Timestamp(pdt.getMillis());
+		Timestamp droptimeStamp = new Timestamp(ddt.getMillis());
 		/*
 		 * demo of reservation
 		 */
@@ -463,6 +465,7 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 		s.setPhoneNumber(998776542);
 		int uid = user.addUser(s);
 		String[] add = {"CAR TOW", ""};
+
 		//u.makeReservation(uid, pdt, ddt, 78380, add);
 		/*
 		 * to display list

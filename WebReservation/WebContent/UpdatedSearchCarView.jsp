@@ -148,13 +148,17 @@ jquery_latest(document).ready(function() {                        // When the HT
 
 function reserve(regNum)
 {
+	var hdnptime= document.getElementById("hptime");
+	var hdndtime= document.getElementById("hdtime");
 		jquery_latest.ajax({
   				type: 'POST',
   				url: 'SearchCar', 
   				data: { id:'3', 
   						regNo:regNum,
   						ptime: jquery_latest("#pickupdatetimepicker").val(),
+  					//	ptime:hdnptime.value,
   						dtime: jquery_latest("#dropdatetimepicker").val(),
+  					//	dtime:hdndtime.value
   						},
   				success: function(data) {  					
   					jquery_latest('#SearchResult').html(data);
@@ -165,6 +169,201 @@ function reserve(regNum)
   				},
   				dataType: 'HTML'
 		});		
+}
+
+
+
+
+/*
+//reserve it
+
+
+function reserveit(){               // Locate HTML DOM element with ID "somebutton" and assign the following function to its "click" event...
+		//validation for entries
+
+//		var opt = document.getElementById("hdcategory");
+//		var pick = memNum = document.getElementById("hdptime");
+//		var drop = document.getElementById("hddtime");
+//		if(forsearch(opt, pick, drop)==false){
+//			return false;
+//		}
+		
+		var cat= jquery_latest("hdcategory").val();
+		var car="car";
+		if(cat.toLowerCase() == car.toLowerCase())
+		{
+			jquery_latest.ajax({
+	  				type: 'POST',
+	  				url: 'SearchCar',
+	  				data: { id:'4',
+	  						regNo: jquery_latest("#hdregnum").val(), 
+	  						name: jquery_latest("#username").val(),
+	  						email: jquery_latest("#email1").val(),
+	  						add: jquery_latest("#desc").val(),
+	  						ph: jquery_latest("#phone").val(),
+	  						childseat: jquery_latest("#childseat").checked,
+	  						skirack: jquery_latest("#skirack").checked,
+	  						ptime: jquery_latest("#hdptime").val(),
+	  						dtime: jquery_latest("#hddtime").val()
+	  						},
+	  				success: function(data) {  					
+	  					//jquery_latest('#SearchResult').text(data) ;
+	  					//var result = jquery_latest('<div />').append(responseText).find('#result').html();
+	  					jquery_latest('#SearchResult').html(data);
+	  					
+	  				},
+	  				dataType: 'HTML'
+				});
+		}
+		else
+		{
+			jquery_latest.ajax({
+				type: 'POST',
+				url: 'SearchCar',
+				data: { id:'5', //truck
+						regNo: jquery_latest("#hdregnum").val(), 
+						name: jquery_latest("#username").val(),
+						email: jquery_latest("#email1").val(),
+						add: jquery_latest("#desc").val(),
+						ph: jquery_latest("#phone").val(),
+						cartow: jquery_latest("#cartow").checked,
+						liftgate: jquery_latest("#liftgate").checked,
+						ptime: jquery_latest("#hdptime").val(),
+						dtime: jquery_latest("#hddtime").val()
+						},
+				success: function(data) {  					
+					//jquery_latest('#SearchResult').text(data) ;
+					//var result = jquery_latest('<div />').append(responseText).find('#result').html();
+					jquery_latest('#SearchResult').html(data);
+					
+				},
+				dataType: 'HTML'
+			});
+		}
+	
+}
+
+
+*/
+
+//reservecar
+
+
+function reservecar(){               // Locate HTML DOM element with ID "somebutton" and assign the following function to its "click" event...
+		//validation for entries
+		/*
+		var opt = document.getElementById("hdcategory");
+		var pick = memNum = document.getElementById("hdptime");
+		var drop = document.getElementById("hddtime");
+		if(forsearch(opt, pick, drop)==false){
+			return false;
+		}
+		*/
+			var x="";
+			var y="";
+			if(jquery_latest("#childseat").is(":checked"))
+				{
+					x= "childseat";
+				
+				}
+			else
+				{
+					x= "nothing";
+				}
+			if(jquery_latest("#skirack").is(":checked"))
+			{
+				y= "skirack";
+			
+			}
+			else
+			{
+				y= "nothing";
+			}
+			
+			jquery_latest.ajax({
+		  				type: 'POST',
+		  				url: 'SearchCar',
+		  				data: { id:'4',
+	  							regNo: jquery_latest("#hdregnum").text(), 
+	  							name: jquery_latest("#username").val(),
+	  							email: jquery_latest("#email1").val(),
+	  							add: jquery_latest("#desc").val(),
+	  							ph: jquery_latest("#phone").val(),
+	  							childseat:x  ,
+	  							skirack: y,
+	  							ptime: jquery_latest("#hdptime").text(),
+	  							dtime: jquery_latest("#hddtime").text()
+		  						},
+		  				success: function(data) {  					
+		  					//jquery_latest('#SearchResult').text(data) ;
+		  					//var result = jquery_latest('<div />').append(responseText).find('#result').html();
+		  					jquery_latest('#SearchResult').html(data);
+		  					
+		  				},
+		  				dataType: 'HTML'
+					});
+		
+}
+
+
+
+//reservetruck
+
+
+function reservetruck(){               // Locate HTML DOM element with ID "somebutton" and assign the following function to its "click" event...
+		//validation for entries
+		/*
+		var opt = document.getElementById("hdcategory");
+		var pick = memNum = document.getElementById("hdptime");
+		var drop = document.getElementById("hddtime");
+		if(forsearch(opt, pick, drop)==false){
+			return false;
+		}
+		*/
+			var x="";
+			var y="";
+			if(jquery_latest("#cartow").is(":checked"))
+				{
+					x= "cartow";
+				
+				}
+			else
+				{
+					x= "nothing";
+				}
+			if(jquery_latest("#liftgate").is(":checked"))
+			{
+				y= "liftgate";
+			
+			}
+			else
+			{
+				y= "nothing";
+			}
+			
+			jquery_latest.ajax({
+		  				type: 'POST',
+		  				url: 'SearchCar',
+		  				data: { id:'4',
+	  							regNo: jquery_latest("#hdregnum").text(), 
+	  							name: jquery_latest("#username").val(),
+	  							email: jquery_latest("#email1").val(),
+	  							add: jquery_latest("#desc").val(),
+	  							ph: jquery_latest("#phone").val(),
+	  							childseat:x  ,
+	  							skirack: y,
+	  							ptime: jquery_latest("#hdptime").text(),
+	  							dtime: jquery_latest("#hddtime").text()
+		  						},
+		  				success: function(data) {  					
+		  					//jquery_latest('#SearchResult').text(data) ;
+		  					//var result = jquery_latest('<div />').append(responseText).find('#result').html();
+		  					jquery_latest('#SearchResult').html(data);
+		  					
+		  				},
+		  				dataType: 'HTML'
+					});
+	
 }
 
 
@@ -186,6 +385,9 @@ function reserve(regNum)
 
 
 <script>
+
+
+
 var items = [
              {
                  name: 'Select One',
