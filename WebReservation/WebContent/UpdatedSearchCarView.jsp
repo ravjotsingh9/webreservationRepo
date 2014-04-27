@@ -26,20 +26,24 @@ var jquery_latest = $.noConflict(true);
         </script>
 <script>
 jquery_latest(document).ready(function() {                        // When the HTML DOM is ready loading, then execute the following function...
+
 	   	jquery_latest('#getpoints').click(function() {               // Locate HTML DOM element with ID "somebutton" and assign the following function to its "click" event...
 	   		//handling for illegal membership number
 	   		var memNum = document.getElementById("memNo");
 	   		if(formembership(memNum)==false){
 	   			return false;
 	   		}
-	   		
     		jquery_latest.ajax({
   				type: 'GET',
   				url: 'SearchCar',
   				data: { txt1: jquery_latest("#memNo").val()},
+  				error: function (request, status, error) {
+  			        alert(request.responseText);
+  			    },
   				success: function(responseText) {
 	  				jquery_latest('#showpoints').text(responseText);         // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
 					jquery_latest('#pointslbl').text("Points Available:");
+					jquery_latest('#getpoints').text("Retreiving...");
   				},
   				dataType: 'JSON'
 			});
@@ -108,24 +112,24 @@ jquery_latest(document).ready(function() {                        // When the HT
 });
 
 
-function reserve(regNo)
+function reserve(regNum)
 {
 		jquery_latest.ajax({
   				type: 'POST',
   				url: 'SearchCar', 
-  				data: { id:'2', 
-  						ph:jquery_latest("#ph").val(),
-  						ptime:jquery_latest("#pickupdatetime").val(),
-  						conf:jquery_latest("#conf").val()
+  				data: { id:'3', 
+  						regNo:regNum,
+  						ptime: jquery_latest("#pickupdatetimepicker").val(),
+  						dtime: jquery_latest("#dropdatetimepicker").val(),
   						},
-  				success: function(responseText) {  					
-  					jquery_latest("#cancelResult").text(responseText);
+  				success: function(data) {  					
+  					jquery_latest('#SearchResult').html(data);
   					//var result = jquery_latest('<div />').append(responseText).find('#result').html();
   					//jquery_latest('#SearchResult').html(data);
-  					jquery_latest('#Status').text("Status:");
+  					//jquery_latest('#Status').text("Status:");
   					
   				},
-  				dataType: 'text'
+  				dataType: 'HTML'
 		});		
 }
 
@@ -365,7 +369,7 @@ Your Link</font></b>
         <table >
 		<tr>
 			<td><font face="Arial" size="2">
-			<label>Select One:</label>
+			<label >Select One:</label>
 			</font>
 			</td>
 			<td>
@@ -723,7 +727,7 @@ A compact rental car offers more value than many other types of vehicles. Smalle
 
 <p align="center"><font face="Arial" size="1" color="#000000"><strong><b>© Copyright 2000
 All Rights Reserved SUPPERRENT.COM</b></strong></font></p>
-<input type="button" onclick="reserve('5')" value="Click me"></input>
+
 </form>
 
 </body>

@@ -88,31 +88,32 @@ Your Link</font></b>
             </tr>
           </table>
 
-  
+        <table border="0" bordercolor="#7f8bb7" cellspacing="0" cellpadding="0" bgcolor="#f3f5f8">
+        <tr>
 
-          <table border="1" width="50%" bordercolor="#7f8bb7" cellspacing="0" cellpadding="0" bgcolor="#FFFFFF">
-            <tr>
-              <td width="100%">
-    	<table>
-		<tr>
-		<td><label for="username">Name:</label></td>
-		<td><input type="text" name="username" size="50" /></td>
+        <td rowspan="7" colspan="1" style="height:30px;width:150px;background-color:#d2d9e4"><font size="2" face="Verdana"><label for="lblcost">Estimated Cost:</label></font>
+		<br><label for="cost">123</label></td>
+		<td>
+    	<table border="0" align="left">
+    	<tr>	
+		<td><font size="2" face="Verdana"><label for="username">Name:</label></font></td>
+		<td><input type="text" name="username" size="20" /></td>
 		</tr>
 		<tr>
-		<td><label for="zip">Phone Number:</label></td>
+		<td><font size="2" face="Verdana"><label for="zip">Phone Number:</label></font></td>
 		<td><input type="text" name="zip" /></td>
 		</tr>
 		<tr>
-		<td><label for="email">Email Address:</label></td>
-		<td><input type="text" name="email" size="50" /></td>
+		<td><font size="2" face="Verdana"><label for="email">Email Address:</label></font></td>
+		<td><input type="text" name="email" size="20" /></td>
 		</tr>
 		<tr>
-		<td><label for="address">Residential Address:</label></td>
-		<td><textarea rows="2" cols="5" name="desc" id="desc"></textarea></td>
+		<td><font size="2" face="Verdana"><label for="address">Residential Address:</label></font></td>
+		<td><textarea rows="2" cols="3" name="desc" id="desc" style="height: 40px;width:150px"></textarea></td>
 		</tr>
 		<tr>
-		<td><label id="additional equipment">Additional Equipment:</label></td>
-		<td><select id="slct1" name="slct1" onchange="populate(this.id, 'slct2')">
+		<td><font size="2" face="Verdana"><label id="additional equipment">Additional Equipment:</label></font></td>
+		<td valign="bottom"><select id="slct1" name="slct1" onchange="populate(this.id, 'slct2')">
 	   	<option value=""></option>
    		<option value="Yes">Yes</option>
    		<option value="No">No</option>
@@ -122,9 +123,11 @@ Your Link</font></b>
 		<td></td>
 		<td id="slct2"></td>
 		</tr>
-		
-		<tr><td><input type="submit" name="submit" value="Submit" /></td></tr>
-		<tr></tr>
+		<tr>
+		<td></td>
+		<td align="left" valign="top"><input type="button" name="submit" value="Submit" />
+		</td>
+		</tr>
 		</table>
     
  </td>

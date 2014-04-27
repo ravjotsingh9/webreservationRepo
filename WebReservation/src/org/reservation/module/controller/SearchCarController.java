@@ -1,10 +1,14 @@
 package org.reservation.module.controller;
+import org.apache.tomcat.jni.Time;
+import org.eclipse.jdt.internal.compiler.apt.dispatch.RoundDispatcher;
 import org.joda.time.DateTime;
 import org.reservation.module.model.*;
 import org.reservation.module.service.*;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -105,11 +109,12 @@ public class SearchCarController extends HttpServlet {
 		        	text= text.concat("<td><font size=\"2\" face=\"Verdana\" color=\"#62799e\">" + vehlist.get(index).getBrand() + "</font></td>");
 		        	text= text.concat("<td><font size=\"2\" face=\"Verdana\" color=\"#62799e\">" + vehlist.get(index).getType() + "</font></td>");
 		        	text= text.concat("<td><font size=\"2\" face=\"Verdana\" color=\"#62799e\">"
-		       			+ "<a href=ReservationView.jsp?reg=" + Integer.toString(vehlist.get(index).getRegNo())  +">"   
-		        			+ "<input type=\"button\" value=\"ReserveNow\" "
-		        			+ "id=\"reserve\" );\"></input>"
-		        			
-		        			+ "</a></font>"   
+		    /*   			+ "<a href=ReservationView.jsp?reg=" + Integer.toString(vehlist.get(index).getRegNo())  +">"    */   
+		        /*			+ "<input type=\"button\" value=\"ReserveNow\" " */
+		        	/*		+ "id=\"reserve\" );\"></input>" */
+		        			+ "<input type=\"button\" "
+		        			+ "onclick=\"reserve('" + Integer.toString(vehlist.get(index).getRegNo())  +"')\" value=\"Reserve Now\"></input>"
+		     /*   			+ "</a></font>"            */   
 		        			+ "</td></tr>");
 		        	System.out.print(vehlist.get(index).getRegNo() +"\t"+ vehlist.get(index).getCategory()+"\t"+ vehlist.get(index).getType() +"\t"+ vehlist.get(index).getBrand() +"\n");
 		        	index++;
@@ -125,7 +130,7 @@ public class SearchCarController extends HttpServlet {
 		        System.out.print("Servlet Exception"+e.getMessage());
 		    }
 		}
-		else // id==2
+		else if(request.getParameter("id").equals("2")) // id==2
 		{
 			ReservationDAO cancelRes = new ReservationDAO();
 			try {
@@ -155,6 +160,87 @@ public class SearchCarController extends HttpServlet {
 				e.printStackTrace();
 			}
 			
+		}
+		else if(request.getParameter("id").equals("3"))
+		{
+			ReservationDAO obj = new ReservationDAO();
+			double est= 0.00;
+			String ptime = new String(request.getParameter("ptime"));
+			String dtime = new String(request.getParameter("dtime"));
+			ptime = ptime.replace('/', '-');
+			ptime = ptime.concat(":00.00");
+			dtime = dtime.replace('/', '-');
+			dtime = dtime.concat(":00.00");
+			/*
+			try {
+				
+					SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+				    Date Date;
+					Date = date.parse(ptime);
+					Timestamp ptimestamp = new java.sql.Timestamp(Date.getTime());
+					
+				    Date = date.parse(dtime);
+				    Timestamp dtimestamp = new java.sql.Timestamp(Date.getTime());
+
+				    est = obj.calculateCharges(Integer.parseInt(request.getParameter("regNo")), Timestamp.valueOf(ptime) ,Timestamp.valueOf(dtime));
+					
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+*/			
+			est = obj.calculateCharges(Integer.parseInt(request.getParameter("regNo")), Timestamp.valueOf(ptime) ,Timestamp.valueOf(dtime));
+			String result = String.format("%.2f", est);
+			
+			String text ="<table border=\"0\" bordercolor=\"#7f8bb7\" cellspacing=\"0\" cellpadding=\"0\" bgcolor=\"#f3f5f8\">"
+						+"<tr>"
+						+ "<td colspan=\"4\" bgcolor=\"#7f8bb7\" width=\"100%\" height=\"25px\"><b><font color=\"#FFFFFF\" face=\"Arial\" size=\"2\">&nbsp;Reserve Vehicle</font></b>"
+						+ "</tr>"
+						+ "<tr>"
+						+ "<td width=5%></td>"
+						+"<td rowspan=\"7\" colspan=\"1\" ><div align=\"center\" style=\"border:1px solid #d3dae5;width:120px;height:100px;\">"
+						+ "<font  size=\"2\" face=\"Verdana\">"
+						+ "<label for=\"lblcost\" style=\"bgcolor:#7f8bb7\">Estimated Cost</label></font>"
+						+"<br><br><label for=\"cost\">CAD "+result+"</label></div></td>"
+								+ "<td width=5%></td>"
+						+"<td>"
+					+"<table border=\"0\" width=\"300\" border=\"0\" align=\"left\">"
+			   // 	+"<tr>"
+				
+				//	+"</tr>"
+					+ "<tr>"
+					+ "<td><font size=\"2\" face=\"Verdana\"><label for=\"username\">Name:</label></font></td>"
+					+"<td><input type=\"text\" id=\"username\" name=\"username\" size=\"20\" /></td>"
+					+"</tr><tr>"
+					+"<td><font size=\"2\" face=\"Verdana\"><label for=\"ph\">Phone Number:</label></font></td>"
+					+"<td><input type=\"text\" name=\"phn\" id=\"phn\" /></td>"
+					+"</tr><tr>"
+					+"<td><font size=\"2\" face=\"Verdana\"><label for=\"email\">Email Address:</label></font></td>"
+					+"<td><input type=\"text\" name=\"email\" id==\"email\" size=\"20\" /></td>"
+					+"</tr><tr>"
+					+"<td><font size=\"2\" face=\"Verdana\"><label for=\"address\">Residential Address:</label></font></td>"
+					+"<td><textarea rows=\"2\" cols=\"3\" name=\"desc\" id=\"desc\" style=\"height: 40px;width:150px\"></textarea></td>"
+					+"</tr><tr>"
+					+"<td><font size=\"2\" face=\"Verdana\"><label id=\"additional equipment\">Additional Equipment:</label></font></td>"
+					+"<td valign=\"bottom\"><select id=\"slct1\" name=\"slct1\" onchange=\"populate(this.id, 'slct2')\">"
+				   	+"<option value=\"\"></option>"
+			   		+"<option value=\"Yes\">Yes</option>"
+			   		+"<option value=\"No\">No</option>"
+					+"</select></td></tr><tr><td></td>"
+					+"<td id=\"slct2\"></td>"
+					+"</tr>"
+					+"<tr>"
+					+"<td></td>"
+					+"<td align=\"left\" valign=\"top\"><input type=\"button\" name=\"reserveit\" id=\"reserveit\" value=\"Submit\" />"
+					+"</td>"
+					+"</tr>"					+"</table>"
+					+"</td><td width=10%></td>"
+					+"</tr>"
+					+"</table>";
+			
+			
+			
+			response.getWriter().write(text);
 		}
 		//request.getRequestDispatcher("UpdatedSearchCarView.jsp").forward(request, response);
 	}
