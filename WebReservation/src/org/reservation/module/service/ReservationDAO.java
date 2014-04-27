@@ -96,11 +96,11 @@ public int cancelReservation(String confNo, String ph, String ptime) throws Pars
 	 * make reservation by updating reservation and makeReservation table
 	 */
 	
-	public boolean makeReservation(int uid, DateTime pickDate, DateTime dropDate, int regNo, String[] addEquip) throws ParseException{
+	public boolean makeReservation(int uid, Timestamp pickDate, Timestamp dropDate, int regNo, String[] addEquip) throws ParseException{
 		int confirmationNo = addReservation(regNo, pickDate, dropDate);
 		String regNum = String.valueOf(regNo);
 		for(int i=0; i<addEquip.length; i++){
-			if(!addEquip[i].isEmpty()){
+			if(!addEquip[i].equals("nothing")){
 				if(!addAdditionalEquip(confirmationNo, addEquip[i], getCategory(regNum))){
 					System.out.println("Error: while entering additional equipment");
 					return false;
@@ -135,10 +135,10 @@ public int cancelReservation(String confNo, String ph, String ptime) throws Pars
 		return false;
 	}
 	
-	private int addReservation(int regNo, DateTime pickDate, DateTime dropDate) throws ParseException{
+	private int addReservation(int regNo, Timestamp picktimeStamp, Timestamp droptimeStamp) throws ParseException{
 		int confirmationNo = 0;
-		Timestamp picktimeStamp = new Timestamp(pickDate.getMillis());
-		Timestamp droptimeStamp = new Timestamp(dropDate.getMillis());
+		//Timestamp picktimeStamp = new Timestamp(pickDate.getMillis());
+		//Timestamp droptimeStamp = new Timestamp(dropDate.getMillis());
 		double charges = calculateCharges(regNo, picktimeStamp, droptimeStamp);
 		/*
 		 * Inserted the values into reservation table
@@ -274,13 +274,14 @@ public int cancelReservation(String confNo, String ph, String ptime) throws Pars
 	 * add additional equipment
 	 */
 	private boolean addAdditionalEquip(int confirmationNo, String addEquip, String cat){
-		sql = "INSERT INTO RequireAdditionalEquipment values (?, ?, ?, ?)";
+		sql = "INSERT INTO RequireAdditionalEquipment values (?, ?, ?, ?,?)";
 		try {
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setInt(1, confirmationNo);
 			preparedStatement.setInt(2, 1);
 			preparedStatement.setString(3, addEquip);
 			preparedStatement.setString(4, cat);
+			preparedStatement.setInt(5, 0);
 			preparedStatement.executeUpdate();
 			
 			while(rs != null && rs.next()){
@@ -314,7 +315,8 @@ public int cancelReservation(String confNo, String ph, String ptime) throws Pars
 		UserDAO user = new UserDAO();
 		DateTime pdt = new DateTime(2014, 04, 25, 11, 0, 0, 0);
 		DateTime ddt = new DateTime(2014, 04, 26, 22, 0, 0, 0);
-		
+		Timestamp picktimeStamp = new Timestamp(pdt.getMillis());
+		Timestamp droptimeStamp = new Timestamp(ddt.getMillis());
 		/*
 		 * demo of reservation
 		 */
@@ -325,7 +327,7 @@ public int cancelReservation(String confNo, String ph, String ptime) throws Pars
 		s.setPhoneNumber(998776542);
 		int uid = user.addUser(s);
 		String[] add = {"CAR TOW", ""};
-		u.makeReservation(uid, pdt, ddt, 78380, add);
+		u.makeReservation(uid, picktimeStamp, droptimeStamp, 78380, add);
 		/*
 		 * to display list
 		 */
