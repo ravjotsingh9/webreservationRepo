@@ -241,9 +241,30 @@ public int cancelReservation(String confNo, String ph, String ptime) throws Pars
 	}
 	
 	/*
+	 * return category
+	 */
+	public String getCategory(String regNo){
+		int regNum = Integer.parseInt(regNo);
+		String cat = null;
+		sql = "Select category FROM Vehicle WHERE regNo=?";
+		try {
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, regNum);
+			rs = preparedStatement.executeQuery();
+			
+			while(rs != null && rs.next()){
+				cat = rs.getString("category");
+			}
+		}catch(Exception e){
+			System.out.println("Exception from getCategory() of ReservationDAO--->"+e.getMessage());
+		}
+		return cat;
+	}
+	
+	/*
 	 * alert for duplicate reservation????????????
 	 */
-	public boolean isReservationExists(int regNo, DateTime pickDate, DateTime dropDate){
+	private boolean isReservationExists(int regNo, DateTime pickDate, DateTime dropDate){
 		/*
 		 * incomplete-------------need to decide whether to implement or not
 		 */
