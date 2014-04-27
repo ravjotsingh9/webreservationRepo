@@ -929,7 +929,7 @@ A compact rental car offers more value than many other types of vehicles. Smalle
 
 <p align="center"><font face="Arial" size="1" color="#000000"><strong><b>© Copyright 2000
 All Rights Reserved SUPPERRENT.COM</b></strong></font></p>
-<input type="button" id="getpoint" name="getpoint" value="Reserveit" onclick="reserveit1();"> 
+
 </form>
 
 </body>
