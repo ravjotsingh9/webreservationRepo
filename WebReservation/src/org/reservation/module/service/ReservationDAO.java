@@ -96,8 +96,17 @@ public int cancelReservation(String confNo, String ph, String ptime) throws Pars
 	 * make reservation by updating reservation and makeReservation table
 	 */
 	
-	public boolean makeReservation(int uid, DateTime pickDate, DateTime dropDate, int regNo) throws ParseException{
+	public boolean makeReservation(int uid, DateTime pickDate, DateTime dropDate, int regNo, String[] addEquip) throws ParseException{
 		int confirmationNo = addReservation(regNo, pickDate, dropDate);
+		String regNum = String.valueOf(regNo);
+		for(int i=0; i<addEquip.length; i++){
+			if(!addEquip[i].isEmpty()){
+				if(!addAdditionalEquip(confirmationNo, addEquip[i], getCategory(regNum))){
+					System.out.println("Error: while entering additional equipment");
+					return false;
+				}
+			}
+		}
 		/*
 		 * Inserted the values into MakeReservation table
 		 */
@@ -126,7 +135,7 @@ public int cancelReservation(String confNo, String ph, String ptime) throws Pars
 		return false;
 	}
 	
-	public int addReservation(int regNo, DateTime pickDate, DateTime dropDate) throws ParseException{
+	private int addReservation(int regNo, DateTime pickDate, DateTime dropDate) throws ParseException{
 		int confirmationNo = 0;
 		Timestamp picktimeStamp = new Timestamp(pickDate.getMillis());
 		Timestamp droptimeStamp = new Timestamp(dropDate.getMillis());
@@ -210,22 +219,22 @@ public int cancelReservation(String confNo, String ph, String ptime) throws Pars
 				total = (d_hour - p_hour) * hourlyR;
 		}else {	//1
 				if(d_month == p_month){	//2 for same month
-					if((d_date - p_date) > 7){ //3 
+					if((d_date - p_date) > 5){ //3 
 						//impose weekly rates
 						System.out.println("3.weekly entry");
 						total = ((d_date - p_date)+1) * weeklyR;
-						}else if((d_date - p_date) < 7){
+						}else if((d_date - p_date) < 5){
 							//impose daily rates
 							System.out.println("3.daily entry");
 							total = ((d_date - p_date)+1) * dailyR;
 						}//3
 					}//2
 					else{ //for different months
-						if((d_date + (numDays-p_date)) > 7){
+						if((d_date + (numDays-p_date)) > 5){
 							//impose weekly rates
 							System.out.println("L.weekly entry");
 							total = (d_date + (numDays-p_date)+1) * weeklyR;
-						}else if((d_date + (numDays-p_date)) < 7){
+						}else if((d_date + (numDays-p_date)) < 5){
 							//impose daily rates
 							System.out.println("L.daily entry");
 							total = (d_date + (numDays-p_date)+1) * dailyR;
@@ -262,6 +271,28 @@ public int cancelReservation(String confNo, String ph, String ptime) throws Pars
 	}
 	
 	/*
+	 * add additional equipment
+	 */
+	private boolean addAdditionalEquip(int confirmationNo, String addEquip, String cat){
+		sql = "INSERT INTO RequireAdditionalEquipment values (?, ?, ?, ?)";
+		try {
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, confirmationNo);
+			preparedStatement.setInt(2, 1);
+			preparedStatement.setString(3, addEquip);
+			preparedStatement.setString(4, cat);
+			preparedStatement.executeUpdate();
+			
+			while(rs != null && rs.next()){
+				cat = rs.getString("category");
+			}
+			return true;
+		}catch(Exception e){
+			System.out.println("Exception from addAdditionalEquipment of ReservationDAO--->"+e.getMessage());
+		}
+		return false;
+	}
+	/*
 	 * alert for duplicate reservation????????????
 	 */
 	private boolean isReservationExists(int regNo, DateTime pickDate, DateTime dropDate){
@@ -293,7 +324,8 @@ public int cancelReservation(String confNo, String ph, String ptime) throws Pars
 		s.setName("Brouno");
 		s.setPhoneNumber(998776542);
 		int uid = user.addUser(s);
-		u.makeReservation(uid, pdt, ddt, 78380);
+		String[] add = {"CAR TOW", ""};
+		u.makeReservation(uid, pdt, ddt, 78380, add);
 		/*
 		 * to display list
 		 */
