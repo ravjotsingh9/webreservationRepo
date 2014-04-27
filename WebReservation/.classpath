@@ -13,10 +13,8 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="C:/Users/Owner/Desktop/CAR_RENTAL/sqlConnector/mysql-connector-java-5.1.18-bin.jar"/>
-	<classpathentry kind="lib" path="C:/eclipse/Apache_Tomcat/lib/jstl.jar"/>
-	<classpathentry kind="lib" path="C:/eclipse/Apache_Tomcat/lib/standard.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Owner/Desktop/CAR_RENTAL/datetime/joda-time-2.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Owner/Desktop/CAR_RENTAL/datetime/joda-time-2.3-sources.jar"/>
+	<classpathentry kind="lib" path="E:/sqlConnector/mysql-connector-java-5.1.18/mysql-connector-java-5.1.18-bin.jar"/>
+	<classpathentry kind="lib" path="E:/Extras/joda-time-2.3-dist/joda-time-2.3/joda-time-2.3.jar"/>
+	<classpathentry kind="lib" path="E:/Extras/joda-time-2.3-dist/joda-time-2.3/joda-time-2.3-sources.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

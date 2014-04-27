@@ -6,6 +6,7 @@ import java.util.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLTimeoutException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,7 +20,12 @@ import org.reservation.module.model.ReservationListModel;
 import org.reservation.module.model.ReservationModel;
 import org.reservation.module.model.UserBeanModel;
 
+/**
+ * ReservationDAO is used for making reservation and for cancelling reservation
+ *  
+ */
 public class ReservationDAO {
+	
 	private static Connection connection;
 	private static DatabaseConnection databaseConnection;
 	private static java.sql.Statement stmt;
@@ -28,15 +34,21 @@ public class ReservationDAO {
 	private PreparedStatement preparedStatement;
 	private static ReservationListModel reservations = new ReservationListModel();
 	
+	/**Connection with database must be established.
+	 * @invariant !getConnection()  
+	 */
 	public ReservationDAO(){
 		//open a connection
 				databaseConnection = new DatabaseConnection();
 				connection = databaseConnection.getConnection();
 	}
-	/*
-	 * display the reservation
-	 */
-public ReservationListModel displayReservations(){
+	
+	
+/** 
+ * @return all the reservations done so far  
+ * @throws SQLException 
+ */
+public ReservationListModel displayReservations() throws SQLException{
 	ReservationListModel cm = new ReservationListModel();
 	
 	sql = "SELECT r.confirmationNo, m.uid, r.pickDate, r.dropDate, m.date, m.regNo, r.charges FROM Reservation r, MakeReservation m WHERE r.confirmationNo = m.confirmationNo";
@@ -48,61 +60,106 @@ public ReservationListModel displayReservations(){
 			ReservationModel c1 = new ReservationModel();
 			c1.setConfirmationNo(rs.getInt(1));
 			c1.setUid(rs.getInt(2));
-			c1.setPickDate(new DateTime(rs.getTimestamp("pickDate").getTime()));
-			c1.setDropDate(new DateTime(rs.getTimestamp("dropDate").getTime()));
+			c1.setPickDate(rs.getTimestamp("pickDate"));
+			c1.setDropDate(rs.getTimestamp("dropDate"));
 			c1.setDate(rs.getDate(5));
 			c1.setRegNo(rs.getInt(6));
 			c1.setCharges(rs.getDouble(7));
 			reservations.getReservations().add(c1);
 		}
-	} catch (SQLException e) {
-		System.out.println("Exception coming from displayReservation() of ReservationDAO---> " + e.getMessage());
+	} catch (SQLTimeoutException e) {
+		//connection.rollback();
+		System.out.println("<<ROLLBACK DONE>>SQLTimeout Exception coming from displayReservation() of ReservationDAO-> " + e.getMessage());
+	}catch(SQLException e){
+		//connection.rollback();
+		System.out.println("<<ROLLBACK DONE>>SQLConnection Failure coming from displayReservation() of ReservationDAO-> " + e.getMessage());
+	}finally{
+		connection.close();
 	}
 	cm = reservations;
 	return cm;
 }
 
-public int cancelReservation(String confNo, String ph, String ptime) throws ParseException
+/**
+ * The cancelReservation() operation assumes that confirmation number shouldn't be empty.
+ * It updates the Reservation and makeReservation table in superrent database. 
+ * @param confirmationNo 
+ * @param phoneNumber
+ * @param picktime
+ * @pre !confNo.isEmpty()
+ * @return 0 on error, else positive value
+ * @throws ParseException
+ * @throws SQLException 
+ */
+public int cancelReservation(String confirmationNo, String phoneNumber, String picktime) throws ParseException, SQLException
 {
 	int retval=0;
 	try{
-	if(!confNo.isEmpty())
+	if(!confirmationNo.isEmpty())
 	{
-		System.out.println(confNo);
+		System.out.println(confirmationNo);
 		sql="Update Reservation set status=1 where confirmationNo=?";
 		preparedStatement = connection.prepareStatement(sql);
-		preparedStatement.setInt(1, Integer.valueOf(confNo));
+		preparedStatement.setInt(1, Integer.valueOf(confirmationNo));
+		retval= preparedStatement.executeUpdate();
+		if(retval!=0){
+			String sql1="Update makeReservation set status=3 where confirmationNo=?";
+			preparedStatement = connection.prepareStatement(sql1);
+			preparedStatement.setInt(1, Integer.valueOf(confirmationNo));
+			retval= preparedStatement.executeUpdate();
+		}
 	}
 	else
 	{
 		sql="Update Reservation set status=1 where ph=? AND pickDate=?";
 		preparedStatement = connection.prepareStatement(sql);
-		preparedStatement.setString(1, ph);
-		String source=ptime;              
+		preparedStatement.setString(1, phoneNumber);
+		String source=picktime;              
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy"); 
 		java.sql.Date d= new java.sql.Date(format.parse(source).getTime());
 		preparedStatement.setDate(2, d);
-	}
-
 		retval= preparedStatement.executeUpdate();
-
-	} catch (SQLException e) {
-		System.out.println("Exception coming from CancelReservation() of ReservationDAO" + e.getMessage());
+	}
+	} catch (SQLTimeoutException e) {
+		//connection.rollback();
+		System.out.println("<<ROLLBACK DONE>>SQLTimeout Exception coming from cancelReservation() of ReservationDAO-> " + e.getMessage());
 		return 0;
+	}catch(SQLException e){
+		//connection.rollback();
+		System.out.println("<<ROLLBACK DONE>>SQLConnection Failure coming from cancelReservation() of ReservationDAO-> " + e.getMessage());
+		return 0;
+	}finally{
+		connection.close();
 	}
 	return retval;
 }
-	/*
-	 * make reservation by updating reservation and makeReservation table
+
+	/**This makeReservation() updates reservation, makeReservation and RequireAdditionalEquip table in the superrent database
+	 * where the reservation table contains reservation related information, makeReservation contains reserved vehicle and
+	 * reservation relationship information and RequireAdditionalEquip contains the booked equipments along with reservation.
+	 * @pre !isReservationExists(regNo, pickDate, dropDate)
+	 * @pre addReservation(regNo, pickDate, dropDate) != -1
+	 * @pre category = getCategory(regNo)
+	 * @pre !addAddtionalEquip(confirmationNo, addEquip, category) 
+	 * @param userid
+	 * @param pickDate
+	 * @param dropDate
+	 * @param regNo
+	 * @param addEquip
+	 * @throws SQLException 
 	 */
-	
-	public boolean makeReservation(int uid, DateTime pickDate, DateTime dropDate, int regNo, String[] addEquip) throws ParseException{
+	public boolean makeReservation(int uid, Timestamp pickDate, Timestamp dropDate, int regNo, String[] addEquip) throws ParseException, SQLException{
+		if(!isReservationExists(regNo, pickDate, dropDate)){
+			System.out.println("Sorry! Now the requested vehicle is not available.");
+			return false;
+		}
 		int confirmationNo = addReservation(regNo, pickDate, dropDate);
 		String regNum = String.valueOf(regNo);
 		for(int i=0; i<addEquip.length; i++){
-			if(!addEquip[i].isEmpty()){
+			if(!addEquip[i].equals("nothing")){
 				if(!addAdditionalEquip(confirmationNo, addEquip[i], getCategory(regNum))){
 					System.out.println("Error: while entering additional equipment");
+					//connection.rollback();
 					return false;
 				}
 			}
@@ -110,6 +167,7 @@ public int cancelReservation(String confNo, String ph, String ptime) throws Pars
 		/*
 		 * Inserted the values into MakeReservation table
 		 */
+		if(confirmationNo != -1){
 		sql = "INSERT INTO MakeReservation (uid, confirmationNo, date, regNo) VALUES (?,?,?,?)";
 		try {
 			preparedStatement = connection.prepareStatement(sql);
@@ -120,6 +178,7 @@ public int cancelReservation(String confNo, String ph, String ptime) throws Pars
 			preparedStatement.setTimestamp(3, timestamp);
 			preparedStatement.setInt(4, regNo);
 			preparedStatement.executeUpdate();
+			connection.commit();
 			
 			//see the result
 			while(rs != null && rs.next()){
@@ -128,26 +187,42 @@ public int cancelReservation(String confNo, String ph, String ptime) throws Pars
                 //System.out.println("Generated User Id: "+rs.getTimestamp(2));
             }
 			return true;
-		} catch (SQLException e) {
-			System.out.println("Exception coming from makeReservation() of ReservationDAO" + e.getMessage());
+		} catch (SQLTimeoutException e) {
+			//connection.rollback();
+			System.out.println("<<ROLLBACK DONE>>SQLTimeout Exception coming from makeReservation() of ReservationDAO-> " + e.getMessage());
+		}catch(SQLException e){
+			//connection.rollback();
+			System.out.println("<<ROLLBACK DONE>>SQLConnection Failure coming from makeReservation() of ReservationDAO-> " + e.getMessage());
+		}finally{
+			connection.close();
 		}
-		
+		}
+		System.out.println("Sorry, Unable to make reservation..Try Again.");
 		return false;
 	}
 	
-	private int addReservation(int regNo, DateTime pickDate, DateTime dropDate) throws ParseException{
+	/**
+	 * The addReservation() operation adds the record to the Reservation table of superrent database.
+	 * @param regNo
+	 * @param pickDate
+	 * @param dropDate
+	 * @return 0 if corresponding record doesn't exits else positive integer
+	 * @throws ParseException
+	 * @throws SQLException 
+	 */
+	private int addReservation(int regNo, Timestamp pickDate, Timestamp dropDate) throws ParseException, SQLException{
 		int confirmationNo = 0;
-		Timestamp picktimeStamp = new Timestamp(pickDate.getMillis());
-		Timestamp droptimeStamp = new Timestamp(dropDate.getMillis());
-		double charges = calculateCharges(regNo, picktimeStamp, droptimeStamp);
+		//Timestamp picktimeStamp = new Timestamp(pickDate.getMillis());
+		//Timestamp droptimeStamp = new Timestamp(dropDate.getMillis());
+		double charges = calculateCharges(regNo, pickDate, dropDate);
 		/*
 		 * Inserted the values into reservation table
 		 */
 		sql = "INSERT INTO Reservation (pickDate, dropDate, creationDate, charges, status) VALUES (?,?,?,?,?)";
 		try {
 			preparedStatement = connection.prepareStatement(sql, stmt.RETURN_GENERATED_KEYS);
-			preparedStatement.setTimestamp(1, picktimeStamp);
-			preparedStatement.setTimestamp(2, droptimeStamp);
+			preparedStatement.setTimestamp(1, pickDate);
+			preparedStatement.setTimestamp(2, dropDate);
 			java.util.Date curr_date = new java.util.Date();
 			java.sql.Timestamp d = new java.sql.Timestamp(curr_date.getTime());
 			preparedStatement.setTimestamp(3, d);
@@ -160,19 +235,30 @@ public int cancelReservation(String confNo, String ph, String ptime) throws Pars
 			while(rs != null && rs.next()){
 				confirmationNo = rs.getInt(1);
                 System.out.println("Generated User Id: "+confirmationNo);
-                //System.out.println("Generated User Id: "+rs.getTimestamp(2));
             }
-		} catch (SQLException e) {
-			System.out.println("Exception coming from addReservation() of ReservationDAO" + e.getMessage());
+		} catch (SQLTimeoutException e) {
+			//connection.rollback();
+			System.out.println("<<ROLLBACK DONE>>SQLTimeout Exception coming from addReservation() of ReservationDAO-> " + e.getMessage());
+		}catch(SQLException e){
+			//connection.rollback();
+			System.out.println("<<ROLLBACK DONE>>SQLConnection Failure coming from addReservation() of ReservationDAO-> " + e.getMessage());
+		}finally{
+			connection.close();
 		}
 		return confirmationNo;
 	}
 	
-	/*
-	 * to calculate estimated reservation charges
+	/**
+	 * The calculateCharges() operation calculates the estimated reservation charges
+	 * @pre drop.compareTo(pick)<=0
+	 * @pre pick.compareTo(currentTime)<=0
+	 * @param regNo
+	 * @param pick
+	 * @param drop
+	 * @return double
+	 * @throws SQLException 
 	 */
-	
-	public double calculateCharges(int regNo, Timestamp pick, Timestamp drop){
+	public double calculateCharges(int regNo, Timestamp pick, Timestamp drop) throws SQLException{
 		int d_month = drop.getMonth(), p_month = pick.getMonth(); //return 0 to 11
 		int d_date = drop.getDate(), p_date = pick.getDate();//return 1 to 31
 		int d_year = drop.getYear()+1900, p_year = pick.getYear()+1900;
@@ -201,15 +287,26 @@ public int cancelReservation(String confNo, String ph, String ptime) throws Pars
 				weeklyR = rs.getDouble("weeklyRate");
 				hourlyR = rs.getDouble("hourlyRate");
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (SQLTimeoutException e) {
+			//connection.rollback();
+			System.out.println("<<ROLLBACK DONE>>SQLTimeout Exception coming from calculateCharges() of ReservationDAO-> " + e.getMessage());
+		}catch(SQLException e){
+			//connection.rollback();
+			System.out.println("<<ROLLBACK DONE>>SQLConnection Failure coming from calculateCharges() of ReservationDAO-> " + e.getMessage());
+		}finally{
+			connection.close();
 		}
 		/*
 		 * computation
 		 */
+		java.util.Date date= new java.util.Date();
+		Timestamp currentTime = new Timestamp(date.getTime());
+		if(pick.compareTo(currentTime)<=0){
+			System.out.println("Pickup date can't be before current date...");
+			return -1;
+		}
 		if (drop.compareTo(pick)<=0){
-			System.out.println("Conflict in pickup and drop dates");
+			System.out.println("Conflict in pickup and drop dates...");
 			return -1;
 		}
 		
@@ -249,10 +346,13 @@ public int cancelReservation(String confNo, String ph, String ptime) throws Pars
 		return total;
 	}
 	
-	/*
-	 * return category
+	/**
+	 * This getCategory() operation takes the registration number and returns its category
+	 * @param regNo
+	 * @return String
+	 * @throws SQLException 
 	 */
-	public String getCategory(String regNo){
+	public String getCategory(String regNo) throws SQLException{
 		int regNum = Integer.parseInt(regNo);
 		String cat = null;
 		sql = "Select category FROM Vehicle WHERE regNo=?";
@@ -264,16 +364,26 @@ public int cancelReservation(String confNo, String ph, String ptime) throws Pars
 			while(rs != null && rs.next()){
 				cat = rs.getString("category");
 			}
-		}catch(Exception e){
-			System.out.println("Exception from getCategory() of ReservationDAO--->"+e.getMessage());
+		}catch (SQLTimeoutException e) {
+			//connection.rollback();
+			System.out.println("<<ROLLBACK DONE>>SQLTimeout Exception coming from getCategory() of ReservationDAO-> " + e.getMessage());
+		}catch(SQLException e){
+			//connection.rollback();
+			System.out.println("<<ROLLBACK DONE>>SQLConnection Failure coming from getCategory() of ReservationDAO-> " + e.getMessage());
 		}
 		return cat;
 	}
 	
-	/*
-	 * add additional equipment
+	/**
+	 * The addAdditionalEquip() operation updates the requireAdditionalEquip table in superrent database.
+	 * @pre !addEquip[i].equals("nothing")
+	 * @param confirmationNo
+	 * @param addEquip
+	 * @param cat
+	 * @return true on success else false
+	 * @throws SQLException 
 	 */
-	private boolean addAdditionalEquip(int confirmationNo, String addEquip, String cat){
+	private boolean addAdditionalEquip(int confirmationNo, String addEquip, String cat) throws SQLException{
 		sql = "INSERT INTO RequireAdditionalEquipment values (?, ?, ?, ?)";
 		try {
 			preparedStatement = connection.prepareStatement(sql);
@@ -287,29 +397,57 @@ public int cancelReservation(String confNo, String ph, String ptime) throws Pars
 				cat = rs.getString("category");
 			}
 			return true;
-		}catch(Exception e){
-			System.out.println("Exception from addAdditionalEquipment of ReservationDAO--->"+e.getMessage());
+		}catch (SQLTimeoutException e) {
+			//connection.rollback();
+			System.out.println("<<ROLLBACK DONE>>SQLTimeout Exception coming from addAdditionalEuip() of ReservationDAO-> " + e.getMessage());
+		}catch(SQLException e){
+			//connection.rollback();
+			System.out.println("<<ROLLBACK DONE>>SQLConnection Failure coming from addAdditionalEuip() of ReservationDAO-> " + e.getMessage());
+		}finally{
+			connection.close();
 		}
 		return false;
 	}
-	/*
-	 * alert for duplicate reservation????????????
+	
+	/**
+	 * The isReservationExists() operation checks if the requested vehicle is now available
+	 * or not while entering the records for the completion of reservation.
+	 * @param regNo
+	 * @param pickDate
+	 * @param dropDate
+	 * @return true on success else false
+	 * @throws SQLException 
 	 */
-	private boolean isReservationExists(int regNo, DateTime pickDate, DateTime dropDate){
-		/*
-		 * incomplete-------------need to decide whether to implement or not
-		 */
-		
-		sql = "SELECT * FROM Vehicle WHERE regNo IN("
-				+ "SELECT V.regNo FROM Vehicle V, MakeReservation M, Reservation R "
-				+ "WHERE V.regNo = M.regNo AND M.confirmationNo = R.confirmationNo "
-				+ "AND R.status = 0 "
-				+ "AND((dropDate > ? AND pickDate < ?) OR(dropDate > ? AND pickDate < ?)))";
+	private boolean isReservationExists(int regNo, Timestamp pickDate, Timestamp dropDate) throws SQLException{
+		sql = "SELECT M.confirmationNo from MakeReservation M WHERE M.regNo = ? AND M.status=0 "
+				+ "AND M.confirmationNo IN(SELECT R.confirmationNo from Reservation R WHERE R.confirmationNo=M.confirmationNo AND R.pickDate=? AND R.dropDate=?)";
+		try {
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, regNo);
+			preparedStatement.setTimestamp(2, pickDate);
+			preparedStatement.setTimestamp(3, dropDate);
+			preparedStatement.executeQuery();
+			
+			while(rs != null && rs.next()){
+				return false;
+			}
+			return true;
+		}catch (SQLTimeoutException e) {
+			//connection.rollback();
+			System.out.println("<<ROLLBACK DONE>>SQLTimeout Exception coming from isReservationExists() of ReservationDAO-> " + e.getMessage());
+		}catch(SQLException e){
+			//connection.rollback();
+			System.out.println("<<ROLLBACK DONE>>SQLConnection Failure coming from isReservationExists() of ReservationDAO-> " + e.getMessage());
+		}finally{
+			connection.close();
+		}
 		return false;
 	}
 	
 	
-	public static void main(String args[]) throws ParseException{
+	
+	
+	public static void main(String args[]) throws ParseException, SQLException{
 		ReservationDAO u = new ReservationDAO();
 		UserDAO user = new UserDAO();
 		DateTime pdt = new DateTime(2014, 04, 25, 11, 0, 0, 0);
@@ -325,14 +463,14 @@ public int cancelReservation(String confNo, String ph, String ptime) throws Pars
 		s.setPhoneNumber(998776542);
 		int uid = user.addUser(s);
 		String[] add = {"CAR TOW", ""};
-		u.makeReservation(uid, pdt, ddt, 78380, add);
+		//u.makeReservation(uid, pdt, ddt, 78380, add);
 		/*
 		 * to display list
 		 */
 		ReservationListModel m = new ReservationListModel();
 		ReservationDAO dao = new ReservationDAO();
 		ArrayList<ReservationModel> members = new ArrayList<ReservationModel>();
-		m = dao.displayReservations();
+		//m = dao.displayReservations();
 		//display
 		members = m.getReservations();
 		for (int i=0; i<members.size(); i++){

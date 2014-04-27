@@ -23,11 +23,11 @@ public class DatabaseConnection {
 			return con;
 		} 
 		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-		} 
-	catch (SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("ClassNotFoundException: raised while loading the class [occured in DatabaseConnection]: "+e.getMessage());
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			System.out.println("Oops! Unable to make connection with database: "+e.getMessage());
 		}
 		System.out.print("Noooo Success");
 		return null;

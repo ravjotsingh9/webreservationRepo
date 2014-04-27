@@ -1,14 +1,15 @@
 package org.reservation.module.model;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import org.joda.time.DateTime;
 
 public class ReservationModel{
 	int confirmationNo;
 	int uid;
-	DateTime pickDate;
-	DateTime dropDate;
+	Timestamp pickDate;
+	Timestamp dropDate;
 	Date date;
 	int regNo;
 	double charges;
@@ -25,16 +26,16 @@ public class ReservationModel{
 	public void setConfirmationNo(int confirmationNo) {
 		this.confirmationNo = confirmationNo;
 	}
-	public DateTime getPickDate() {
+	public Timestamp getPickDate() {
 		return pickDate;
 	}
-	public void setPickDate(DateTime pickDate) {
+	public void setPickDate(Timestamp pickDate) {
 		this.pickDate = pickDate;
 	}
-	public DateTime getDropDate() {
+	public Timestamp getDropDate() {
 		return dropDate;
 	}
-	public void setDropDate(DateTime dropDate) {
+	public void setDropDate(Timestamp dropDate) {
 		this.dropDate = dropDate;
 	}
 	public Date getDate() {
