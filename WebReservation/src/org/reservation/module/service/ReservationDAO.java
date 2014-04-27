@@ -163,7 +163,7 @@ public int cancelReservation(String confNo, String ph, String ptime) throws Pars
 	 * to calculate estimated reservation charges
 	 */
 	
-	private double calculateCharges(int regNo, Timestamp pick, Timestamp drop){
+	public double calculateCharges(int regNo, Timestamp pick, Timestamp drop){
 		int d_month = drop.getMonth(), p_month = pick.getMonth(); //return 0 to 11
 		int d_date = drop.getDate(), p_date = pick.getDate();//return 1 to 31
 		int d_year = drop.getYear()+1900, p_year = pick.getYear()+1900;
