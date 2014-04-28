@@ -1,17 +1,19 @@
 package org.reservation.module.model;
 
+import java.sql.Timestamp;
+
 import org.joda.time.DateTime;
 
 public class VehicleBeanModel {
-	int regNo;
+	String regNo;
 	String category, type, brand;
-	DateTime purchaseDate;
+	Timestamp purchaseDate;
 	int status;
 
-	public int getRegNo() {
+	public String getRegNo() {
 		return regNo;
 	}
-	public void setRegNo(int regNo) {
+	public void setRegNo(String regNo) {
 		this.regNo = regNo;
 	}
 	public String getCategory() {
@@ -32,10 +34,10 @@ public class VehicleBeanModel {
 	public void setBrand(String brand) {
 		this.brand = brand;
 	}
-	public DateTime getPurchaseDate() {
+	public Timestamp getPurchaseDate() {
 		return purchaseDate;
 	}
-	public void setPurchaseDate(DateTime purchaseDate) {
+	public void setPurchaseDate(Timestamp purchaseDate) {
 		this.purchaseDate = purchaseDate;
 	}
 	public int getStatus() {

@@ -27,8 +27,7 @@ public class SearchVehicleDAO {
 	private String type;
 	private String brand;
 	
-	//private JTable table;
-	//private JScrollPane scrollPane;
+	
 	public static void main(String arg[]) {
 		SearchVehicleDAO s= new SearchVehicleDAO();
 		VehicleListBeanModel v = new VehicleListBeanModel();
@@ -100,7 +99,7 @@ public class SearchVehicleDAO {
 			while(rs.next())
 			{
 				VehicleBeanModel veh = new VehicleBeanModel();
-				veh.setRegNo(rs.getInt("regNo"));
+				veh.setRegNo(rs.getString("regNo"));
 				veh.setCategory(rs.getString("category"));
 				veh.setType(rs.getString("type"));
 				veh.setBrand(rs.getString("brand"));
