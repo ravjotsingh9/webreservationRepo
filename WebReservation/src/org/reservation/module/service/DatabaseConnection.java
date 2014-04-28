@@ -19,6 +19,7 @@ public class DatabaseConnection {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(url, username, password);
+			con.setAutoCommit(false);
 			System.out.print("Success");
 			return con;
 		} 

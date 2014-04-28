@@ -73,8 +73,6 @@ public ReservationListModel displayReservations() throws SQLException{
 	}catch(SQLException e){
 		//connection.rollback();
 		System.out.println("<<ROLLBACK DONE>>SQLConnection Failure coming from displayReservation() of ReservationDAO-> " + e.getMessage());
-	}finally{
-		connection.close();
 	}
 	cm = reservations;
 	return cm;
@@ -128,8 +126,6 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 		//connection.rollback();
 		System.out.println("<<ROLLBACK DONE>>SQLConnection Failure coming from cancelReservation() of ReservationDAO-> " + e.getMessage());
 		return 0;
-	}finally{
-		connection.close();
 	}
 	return retval;
 }
@@ -187,14 +183,12 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
                 //System.out.println("Generated User Id: "+rs.getTimestamp(2));
             }
 			return true;
-		} catch (SQLTimeoutException e) {
-			//connection.rollback();
+		}catch (SQLTimeoutException e) {
+			connection.rollback();
 			System.out.println("<<ROLLBACK DONE>>SQLTimeout Exception coming from makeReservation() of ReservationDAO-> " + e.getMessage());
 		}catch(SQLException e){
-			//connection.rollback();
+			connection.rollback();
 			System.out.println("<<ROLLBACK DONE>>SQLConnection Failure coming from makeReservation() of ReservationDAO-> " + e.getMessage());
-		}finally{
-			connection.close();
 		}
 		}
 		System.out.println("Sorry, Unable to make reservation..Try Again.");
@@ -242,8 +236,6 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 		}catch(SQLException e){
 			//connection.rollback();
 			System.out.println("<<ROLLBACK DONE>>SQLConnection Failure coming from addReservation() of ReservationDAO-> " + e.getMessage());
-		}finally{
-			connection.close();
 		}
 		return confirmationNo;
 	}
@@ -293,8 +285,6 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 		}catch(SQLException e){
 			//connection.rollback();
 			System.out.println("<<ROLLBACK DONE>>SQLConnection Failure coming from calculateCharges() of ReservationDAO-> " + e.getMessage());
-		}finally{
-			connection.close();
 		}
 		/*
 		 * computation
@@ -404,8 +394,6 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 		}catch(SQLException e){
 			//connection.rollback();
 			System.out.println("<<ROLLBACK DONE>>SQLConnection Failure coming from addAdditionalEuip() of ReservationDAO-> " + e.getMessage());
-		}finally{
-			connection.close();
 		}
 		return false;
 	}
@@ -434,13 +422,11 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 			}
 			return true;
 		}catch (SQLTimeoutException e) {
-			//connection.rollback();
+			connection.rollback();
 			System.out.println("<<ROLLBACK DONE>>SQLTimeout Exception coming from isReservationExists() of ReservationDAO-> " + e.getMessage());
 		}catch(SQLException e){
-			//connection.rollback();
+			connection.rollback();
 			System.out.println("<<ROLLBACK DONE>>SQLConnection Failure coming from isReservationExists() of ReservationDAO-> " + e.getMessage());
-		}finally{
-			connection.close();
 		}
 		return false;
 	}

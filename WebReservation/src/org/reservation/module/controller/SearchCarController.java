@@ -7,6 +7,7 @@ import org.reservation.module.model.*;
 import org.reservation.module.service.*;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -166,6 +167,9 @@ public class SearchCarController extends HttpServlet {
 			catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			
 		}
@@ -197,9 +201,23 @@ public class SearchCarController extends HttpServlet {
 				e.printStackTrace();
 			}
 */			
-			est = obj.calculateCharges(Integer.parseInt(request.getParameter("regNo")), Timestamp.valueOf(ptime) ,Timestamp.valueOf(dtime));
+			try {
+				est = obj.calculateCharges(Integer.parseInt(request.getParameter("regNo")), Timestamp.valueOf(ptime) ,Timestamp.valueOf(dtime));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			String result = String.format("%.2f", est);
-			String category = obj.getCategory(request.getParameter("regNo"));
+			String category = null;
+			try {
+				category = obj.getCategory(request.getParameter("regNo"));
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			System.out.println(category);
 			String text ="<table border=\"0\" bordercolor=\"#7f8bb7\" cellspacing=\"0\" cellpadding=\"0\" bgcolor=\"#f3f5f8\">"
 						+"<tr>"
@@ -347,7 +365,12 @@ public class SearchCarController extends HttpServlet {
 			}
 			
 			try {
-				confirmed=  r.makeReservation(uid,Timestamp.valueOf(ptime),Timestamp.valueOf(dtime),Integer.parseInt(regNo), addEquip);
+				try {
+					confirmed=  r.makeReservation(uid,Timestamp.valueOf(ptime),Timestamp.valueOf(dtime),Integer.parseInt(regNo), addEquip);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -409,6 +432,9 @@ public class SearchCarController extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
