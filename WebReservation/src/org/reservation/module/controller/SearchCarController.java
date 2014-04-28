@@ -70,13 +70,22 @@ public class SearchCarController extends HttpServlet {
 		    	response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
 		    	response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
 		    	ClubMemberDAO result = new ClubMemberDAO();
-		    	text = Integer.toString(result.viewPoints(memNo));
+		    	int point = result.viewPoints(memNo);
+		    	if(point==-1)
+		    	{
+		    		text= "Membership No. does not exist";
+		    	}
+		    	else
+		    	{
+		    		text = Integer.toString(result.viewPoints(memNo));
+		    	}
 		    	System.out.print(text);
 		    	response.getWriter().write(text);
 	    	}
 	    	catch(Exception e)
 	    	{
 	    		System.out.print(e.getMessage());
+	    		response.getWriter().write(e.getMessage());
 	    	}
     	}
     }
@@ -85,7 +94,7 @@ public class SearchCarController extends HttpServlet {
 		if(request.getParameter("id").equals("1"))
 		{
 			try {
-				SearchVehicleDAO s = new SearchVehicleDAO();
+				SearchVehiclesDAO s = new SearchVehiclesDAO();
 		        VehicleListBeanModel vehicles = new VehicleListBeanModel();
 		        System.out.print(request.getParameter("id")+"\t"+request.getParameter("category")+"\t"+request.getParameter("type")+"\t"+ request.getParameter("ptime")+"\t"+request.getParameter("dtime")+"\n");
 		        
@@ -114,8 +123,8 @@ public class SearchCarController extends HttpServlet {
 		    /*   			+ "<a href=ReservationView.jsp?reg=" + Integer.toString(vehlist.get(index).getRegNo())  +">"    */   
 		        /*			+ "<input type=\"button\" value=\"ReserveNow\" " */
 		        	/*		+ "id=\"reserve\" );\"></input>" */
-		        			+ "<input type=\"button\" "
-		        			+ "onclick=\"reserve('" + Integer.toString(vehlist.get(index).getRegNo())  +"')\" value=\"Reserve Now\"></input>"
+		        			+ "<input type=\"button\" id=\"res\" "
+		        			+ "onclick=\"reserve('" + (vehlist.get(index).getRegNo()).toString()  +"')\" value=\"Reserve Now\"></input>"
 		     /*   			+ "</a></font>"            */   
 		        			+ "</td></tr>");
 		        	System.out.print(vehlist.get(index).getRegNo() +"\t"+ vehlist.get(index).getCategory()+"\t"+ vehlist.get(index).getType() +"\t"+ vehlist.get(index).getBrand() +"\n");
@@ -137,12 +146,16 @@ public class SearchCarController extends HttpServlet {
 		        //request.setAttribute("vehicles", vehicles); // Will be available as ${vehicles} in JSP
 		    } catch (Exception e) {
 		        System.out.print("Servlet Exception"+e.getMessage());
+		        response.getWriter().write(e.getMessage());
 		    }
 		}
 		else if(request.getParameter("id").equals("2")) // id==2
 		{
-			ReservationDAO cancelRes = new ReservationDAO();
+			ReservationDAO cancelRes;
 			try {
+				cancelRes = new ReservationDAO();
+			
+			
 					String text= new String();
 					System.out.print(request.getParameter("id")+"\t"+request.getParameter("conf")+"\t"+request.getParameter("ph")+"\t"+ request.getParameter("ptime")+"\n");
 					int result= cancelRes.cancelReservation(request.getParameter("conf"), request.getParameter("ph"), request.getParameter("ptime"));
@@ -167,15 +180,22 @@ public class SearchCarController extends HttpServlet {
 			catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				response.getWriter().write(e.getMessage());
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				response.getWriter().write(e.getMessage());
+			}
+			 catch (Exception e1) {
+			// TODO Auto-generated catch block
+				e1.printStackTrace();
+				response.getWriter().write(e1.getMessage());
 			}
 			
 		}
 		else if(request.getParameter("id").equals("3"))
 		{
-			ReservationDAO obj = new ReservationDAO();
+			
 			double est= 0.00;
 			String ptime = new String(request.getParameter("ptime"));
 			String dtime = new String(request.getParameter("dtime"));
@@ -200,15 +220,27 @@ public class SearchCarController extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-*/			
+*/			ReservationDAO obj;
 			try {
+				
+				obj = new ReservationDAO();
 				est = obj.calculateCharges(Integer.parseInt(request.getParameter("regNo")), Timestamp.valueOf(ptime) ,Timestamp.valueOf(dtime));
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				response.getWriter().write(e.getMessage());
+				return;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				response.getWriter().write(e.getMessage());
+				return;
+			}
+			catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				response.getWriter().write(e1.getMessage());
+				return;
 			}
 			String result = String.format("%.2f", est);
 			String category = null;
@@ -338,7 +370,15 @@ public class SearchCarController extends HttpServlet {
 			String skirack= request.getParameter("skirack");
 			String ptime= request.getParameter("ptime");
 			String dtime= request.getParameter("dtime");
-			UserDAO u = new UserDAO();
+			UserDAO u;
+			try {
+				u = new UserDAO();
+			} catch (Exception e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+				response.getWriter().write(e2.getMessage());
+				return;
+			}
 			UserBeanModel user= new UserBeanModel();
 			user.setAddress(add);
 			user.setEmail(email);
@@ -349,9 +389,22 @@ public class SearchCarController extends HttpServlet {
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				response.getWriter().write(e.getMessage());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				response.getWriter().write(e.getMessage());
 			}
 			
-			ReservationDAO r = new ReservationDAO();
+			ReservationDAO r;
+			try {
+				r = new ReservationDAO();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				response.getWriter().write(e1.getMessage());
+				return;
+			}
 			String[] addEquip= {
 					"nothing","nothing"
 			};
@@ -401,7 +454,15 @@ public class SearchCarController extends HttpServlet {
 			String liftgate= request.getParameter("liftgate");
 			String ptime= request.getParameter("ptime");
 			String dtime= request.getParameter("dtime");
-			UserDAO u = new UserDAO();
+			UserDAO u;
+			try {
+				u = new UserDAO();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				response.getWriter().write(e1.getMessage());
+				return;
+			}
 			UserBeanModel user= new UserBeanModel();
 			user.setAddress(add);
 			user.setEmail(email);
@@ -412,9 +473,22 @@ public class SearchCarController extends HttpServlet {
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				response.getWriter().write(e.getMessage());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				response.getWriter().write(e.getMessage());
 			}
 			
-			ReservationDAO r = new ReservationDAO();
+			ReservationDAO r;
+			try {
+				r = new ReservationDAO();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				response.getWriter().write(e1.getMessage());
+				return;
+			}
 			String[] addEquip= new String[2];
 			if(cartow.equalsIgnoreCase("true"))
 			{

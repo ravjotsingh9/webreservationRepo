@@ -17,10 +17,17 @@ public class ClubMemberDAO {
 	private PreparedStatement preparedStatement;
 	private static ClubMemberListModel members = new ClubMemberListModel();
 	
-	public ClubMemberDAO(){
+	public ClubMemberDAO() throws Exception{
 		//open a connection
+		try
+		{
 		databaseConnection = new DatabaseConnection();
 		connection = databaseConnection.getConnection();
+		}
+		catch(Exception e)
+		{
+			throw new Exception(e.getMessage());
+		}
 	}
 	
 	public ClubMemberListModel displayClubMembers(){
@@ -41,12 +48,13 @@ public class ClubMemberDAO {
 			}
 		} catch (SQLException e) {
 			System.out.println("Exception coming from displayClubMember() of CLubMemberDAO---> " + e.getMessage());
+			
 		}
 		cm = members;
 		return cm;
 	}
 	
-	public int viewPoints(int membershipNo){
+	public int viewPoints(int membershipNo) throws Exception{
 		
 		sql = "SELECT points FROM ClubMember where membershipNo=?";
 		try {
@@ -59,16 +67,24 @@ public class ClubMemberDAO {
 			}
 			}catch(SQLException e){
 				System.out.println("Exception coming from viewPoints() of CLubMemberDAO---> " + e.getMessage());
+				throw new Exception(e.getMessage());
 			}
-		return 0;
+		return -1;
 	}
 	
-	public static void main(String args[]){
+	public static void main(String args[]) {
 		/*
 		 * Demo to display list
 		 */
 		ClubMemberListModel m = new ClubMemberListModel();
-		ClubMemberDAO dao = new ClubMemberDAO();
+		ClubMemberDAO dao = null;
+		try {
+			dao = new ClubMemberDAO();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
 		ArrayList<ClubMemberBeanModel> members = new ArrayList<ClubMemberBeanModel>();
 		m = dao.displayClubMembers();
 		//display
@@ -84,7 +100,14 @@ public class ClubMemberDAO {
 		/*
 		 * Demo to view points
 		 */
-		double pts = dao.viewPoints(456);
+		double pts = 0;
+		try {
+			pts = dao.viewPoints(456);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		}
 		System.out.println("Points="+pts);
 	}
 }

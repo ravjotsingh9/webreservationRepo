@@ -477,7 +477,7 @@ Your Link</font></b>
 		<td><font size="2" face="Verdana" color="#62799e"><% out.write(veh.getBrand()); %></font></td>
 		<td><font size="2" face="Verdana" color="#62799e"><% out.write(veh.getType()); %></font></td>
 		<td><font size="2" face="Verdana" color="#62799e" >
-		<a href=ReservationView.jsp?reg=<% out.write(Integer.toString(veh.getRegNo())); %>>
+		<a href=ReservationView.jsp?reg=<% out.write((veh.getRegNo()).toString()); %>>
 		<input type="button" value="Reserve Now"></input>
 		</a>
 		</font></td>    	

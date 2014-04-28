@@ -67,17 +67,24 @@ jquery_latest(document).ready(function() {                        // When the HT
 	   		if(formembership(memNum)==false){
 	   			return false;
 	   		}
+	   		jquery_latest('#showpoints').text("");         // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
+			jquery_latest('#pointslbl').text("");
+	   		document.getElementById("getpoints").disabled = true;
+	   		jquery_latest('#getpoints').val("Retreiving...");
     		jquery_latest.ajax({
   				type: 'GET',
   				url: 'SearchCar',
   				data: { txt1: jquery_latest("#memNo").val()},
   				error: function (request, status, error) {
+  					jquery_latest('#getpoints').val("Submit");
   			        alert(request.responseText);
+  			      document.getElementById("getpoints").disabled = false;
   			    },
   				success: function(responseText) {
 	  				jquery_latest('#showpoints').text(responseText);         // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
 					jquery_latest('#pointslbl').text("Points Available:");
-					jquery_latest('#getpoints').text("Retreiving...");
+					jquery_latest('#getpoints').val("Submit");
+					document.getElementById("getpoints").disabled = false;
   				},
   				dataType: 'JSON'
 			});
@@ -93,7 +100,8 @@ jquery_latest(document).ready(function() {                        // When the HT
 		if(forsearch(opt, pick, drop)==false){
 			return false;
 		}
-		
+		document.getElementById("Search").disabled = true;
+		jquery_latest('#Search').val("Searching...");
 		jquery_latest.ajax({
   				type: 'POST',
   				url: 'SearchCar',
@@ -104,11 +112,17 @@ jquery_latest(document).ready(function() {                        // When the HT
   						dtime: jquery_latest("#dropdatetimepicker").val(),
   						loc: jquery_latest("#branchlocation").val()
   						},
+  						error: function (request, status, error) {
+  							jquery_latest('#Search').val("Submit");
+  							alert(request.responseText);
+  							document.getElementById("Search").disabled = false;
+  		  			    },
   				success: function(data) {  					
   					//jquery_latest('#SearchResult').text(data) ;
   					//var result = jquery_latest('<div />').append(responseText).find('#result').html();
   					jquery_latest('#SearchResult').html(data);
-  					
+  					jquery_latest('#Search').val("Submit");
+  					document.getElementById("Search").disabled = false;
   				},
   				dataType: 'HTML'
 			});
@@ -123,8 +137,11 @@ jquery_latest(document).ready(function() {                        // When the HT
 		ph = document.getElementById("ph");
 		if((forcancel(conf, ph, dt)==false)){
 				return false;
-			}		
-		
+			}	
+		jquery_latest("#cancelResult").text("");
+		jquery_latest('#Status').text("");
+		document.getElementById("CancelReservationbtn").disabled = true;
+		jquery_latest('#CancelReservationbtn').val("Cancelling...");
 		jquery_latest.ajax({
   				type: 'POST',
   				url: 'SearchCar', 
@@ -133,12 +150,18 @@ jquery_latest(document).ready(function() {                        // When the HT
   						ptime:jquery_latest("#pickupdatetime").val(),
   						conf:jquery_latest("#conf").val()
   						},
+  						error: function (request, status, error) {
+  							jquery_latest('#CancelReservationbtn').val("Cancel");
+  							alert(request.responseText);
+  							document.getElementById("CancelReservationbtn").disabled = false;
+  		  			    },
   				success: function(responseText) {  					
   					jquery_latest("#cancelResult").text(responseText);
   					//var result = jquery_latest('<div />').append(responseText).find('#result').html();
   					//jquery_latest('#SearchResult').html(data);
+  					jquery_latest('#CancelReservationbtn').val("Cancel");
   					jquery_latest('#Status').text("Status:");
-  					
+  					document.getElementById("CancelReservationbtn").disabled = false;
   				},
   				dataType: 'text'
 			});
@@ -148,6 +171,8 @@ jquery_latest(document).ready(function() {                        // When the HT
 
 function reserve(regNum)
 {
+	document.getElementById("res").disabled = true;
+	jquery_latest('#res').val("wait...");
 	var hdnptime= document.getElementById("hptime");
 	var hdndtime= document.getElementById("hdtime");
 		jquery_latest.ajax({
@@ -160,6 +185,11 @@ function reserve(regNum)
   						dtime: jquery_latest("#dropdatetimepicker").val(),
   					//	dtime:hdndtime.value
   						},
+  						error: function (request, status, error) {
+  							jquery_latest('#res').val("Reserve Now");
+  		  			        alert(request.responseText);
+  		  			    document.getElementById("res").disabled = false;
+  		  			    },
   				success: function(data) {  					
   					jquery_latest('#SearchResult').html(data);
   					//var result = jquery_latest('<div />').append(responseText).find('#result').html();
@@ -259,6 +289,8 @@ function reservecar(){               // Locate HTML DOM element with ID "somebut
 			return false;
 		}
 		*/
+			document.getElementById("reserveit").disabled = true;
+			jquery_latest('#reserveit').val("Reserving...");
 			var x="";
 			var y="";
 			if(jquery_latest("#childseat").is(":checked"))
@@ -294,6 +326,11 @@ function reservecar(){               // Locate HTML DOM element with ID "somebut
 	  							ptime: jquery_latest("#hdptime").text(),
 	  							dtime: jquery_latest("#hddtime").text()
 		  						},
+		  						error: function (request, status, error) {
+		  							jquery_latest('#reserveit').val("Reserve it");
+		  		  			        alert(request.responseText);
+		  		  			    document.getElementById("reserveit").disabled = true;
+		  		  			    },
 		  				success: function(data) {  					
 		  					//jquery_latest('#SearchResult').text(data) ;
 		  					//var result = jquery_latest('<div />').append(responseText).find('#result').html();
@@ -320,6 +357,8 @@ function reservetruck(){               // Locate HTML DOM element with ID "someb
 			return false;
 		}
 		*/
+		document.getElementById("reserveit").disabled = true;
+		jquery_latest('#reserveit').val("Reserving...");
 			var x="";
 			var y="";
 			if(jquery_latest("#cartow").is(":checked"))
@@ -355,6 +394,11 @@ function reservetruck(){               // Locate HTML DOM element with ID "someb
 	  							ptime: jquery_latest("#hdptime").text(),
 	  							dtime: jquery_latest("#hddtime").text()
 		  						},
+		  						error: function (request, status, error) {
+		  							jquery_latest('#reserveit').val("Reserve it");
+		  							alert(request.responseText);
+		  							document.getElementById("reserveit").disabled = false;
+		  		  			    },
 		  				success: function(data) {  					
 		  					//jquery_latest('#SearchResult').text(data) ;
 		  					//var result = jquery_latest('<div />').append(responseText).find('#result').html();

@@ -24,7 +24,13 @@ public class VehicleTypeDAO {
 	private static VehicleListBeanModel vehicles = new VehicleListBeanModel();
 	
 	public static void main(String args[]){
-		VehicleTypeDAO c = new VehicleTypeDAO();
+		VehicleTypeDAO c = null;
+		try {
+			c = new VehicleTypeDAO();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		c.getFilteredList("");
 		
 		//update the column
@@ -43,10 +49,16 @@ public class VehicleTypeDAO {
 		
 	}
 	
-	public VehicleTypeDAO(){
+	public VehicleTypeDAO() throws Exception{
 		//open a connection
 		databaseConnection = new DatabaseConnection();
-		connection = databaseConnection.getConnection();
+		try {
+			connection = databaseConnection.getConnection();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
 	}
 	
 	public VehicleTypeListBeanModel getFilteredList(String Category){

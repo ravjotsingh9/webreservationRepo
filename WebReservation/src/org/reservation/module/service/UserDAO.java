@@ -29,13 +29,19 @@ public class UserDAO {
 	private UserBeanModel user = new UserBeanModel();
 	
 	//intialization
-	public UserDAO(){
+	public UserDAO() throws Exception{
 		//open a connection
 		databaseConnection = new DatabaseConnection();
-		connection = databaseConnection.getConnection();
+		try {
+			connection = databaseConnection.getConnection();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
 	}
 	
-	public UserListModel displayUsers(){
+	public UserListModel displayUsers() throws Exception{
 		UserListModel cm = new UserListModel();
 		
 		sql = "SELECT * FROM user";
@@ -54,6 +60,7 @@ public class UserDAO {
 			}
 		} catch (SQLException e) {
 			System.out.println("Exception coming from displayClubMember() of CLubMemberDAO---> " + e.getMessage());
+			throw new  SQLException(e.getMessage());
 		}
 		cm = users;
 		return cm;
@@ -62,7 +69,7 @@ public class UserDAO {
 	/*
 	 * Add the user record at the time of reservation
 	 */
-	public int addUser(UserBeanModel user1) throws ParseException{
+	public int addUser(UserBeanModel user1) throws ParseException, Exception{
 		int uid = isUserExist(user1.getEmail());
 		if(uid != 0){	
 			return uid;
@@ -92,6 +99,7 @@ public class UserDAO {
 				rs = preparedStatement.getGeneratedKeys();
 			} catch (SQLException e) {
 				System.out.println("Exception coming from addUser(2) of USERDAO---> " + e.getMessage());
+				throw new  SQLException(e.getMessage());
 			}
 			int newUid = isUserExist(user1.getEmail());
 			return newUid;
@@ -102,7 +110,7 @@ public class UserDAO {
 	 * check; if the user already has the entry in table
 	 */
 	
-	private int isUserExist(String email){
+	private int isUserExist(String email) throws Exception{
 		sql = "SELECT * from User where email=?";
 		try {
 			preparedStatement = connection.prepareStatement(sql);
@@ -121,6 +129,7 @@ public class UserDAO {
 			}
 		} catch (SQLException e) {
 			System.out.println("Exception coming from isUserExist() of USERDAO---> " + e.getMessage());
+			throw new  SQLException(e.getMessage());
 		}
 		int uid = user.getUid();
 		return uid;
@@ -132,9 +141,20 @@ public class UserDAO {
 		 * Demo to display list
 		 */
 		UserListModel m = new UserListModel();
-		UserDAO dao = new UserDAO();
+		UserDAO dao = null;
+		try {
+			dao = new UserDAO();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		ArrayList<UserBeanModel> members = new ArrayList<UserBeanModel>();
-		m = dao.displayUsers();
+		try {
+			m = dao.displayUsers();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		//display
 		members = m.getUsers();
 		for (int i=0; i<members.size(); i++){
@@ -147,13 +167,25 @@ public class UserDAO {
 		/*
 		 * Demo to add user
 		 */
-		UserDAO u = new UserDAO();
+		UserDAO u = null;
+		try {
+			u = new UserDAO();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		UserBeanModel s = new UserBeanModel();
 		s.setAddress("Surrey");
 		s.setEmail("jenny@mypet.ca");
 		s.setName("Jenny");
 		s.setPhoneNumber(89382);
-		int res = u.addUser(s);
+		int res = 0;
+		try {
+			res = u.addUser(s);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("Result = "+res);
 	}
 }

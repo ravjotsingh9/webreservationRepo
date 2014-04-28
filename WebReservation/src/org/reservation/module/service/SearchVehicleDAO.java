@@ -3,6 +3,7 @@ package org.reservation.module.service;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLTimeoutException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -29,13 +30,24 @@ public class SearchVehicleDAO {
 	
 	
 	public static void main(String arg[]) {
-		SearchVehicleDAO s= new SearchVehicleDAO();
+		SearchVehicleDAO s = null;
+		try {
+			s = new SearchVehicleDAO();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		VehicleListBeanModel v = new VehicleListBeanModel();
-		v = s.search("TRUCK", "SELECT","2014-5-21 12:00","2014-5-22 12:00");
+		try {
+			v = s.search("TRUCK", "SELECT","2014-5-21 12:00","2014-5-22 12:00");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
-	public SearchVehicleDAO () {
+	public SearchVehicleDAO () throws Exception {
 		
 		/* Connect to database */
 		try {
@@ -46,16 +58,17 @@ public class SearchVehicleDAO {
 			//DatabaseConnection.rollback(connection);
 			//DatabaseConnection.close(connection);
 			e.printStackTrace();
+			throw new Exception(e.getMessage());
 		} 
 	}
-	public VehicleListBeanModel search(String category, String type, String picktime, String droptime) {
+	public VehicleListBeanModel search(String category, String type, String picktime, String droptime) throws Exception {
 		
 		System.out.println("You are going to search "+ category + " with phone number"+ type + " in the database");
 		ArrayList<VehicleBeanModel> vehlist = new ArrayList<VehicleBeanModel>();
 		/* Create SQL query and perform the search */
 		try{
 			ResultSet rs;
-			Statement st = connection.createStatement();
+			
 			String query;
 			if(type.isEmpty())
 			{
@@ -95,6 +108,7 @@ public class SearchVehicleDAO {
 			}
 			//String query = "SELECT name,email,phoneNumber,type,address FROM User WHERE name='" + name +"'" + " AND phoneNumber='" + phone + "'";
 			System.out.println("query is: " + query);
+			Statement st = connection.prepareStatement(query);
 			rs = st.executeQuery(query);
 			while(rs.next())
 			{
@@ -108,6 +122,7 @@ public class SearchVehicleDAO {
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
+			throw new Exception(e.getMessage());
 		} finally {
 			//DatabaseConnection.close(connection);
 		}

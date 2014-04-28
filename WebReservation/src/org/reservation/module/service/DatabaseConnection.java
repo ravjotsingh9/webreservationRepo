@@ -1,17 +1,55 @@
 package org.reservation.module.service;
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import com.mysql.jdbc.Driver;
+import java.sql.Statement;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 public class DatabaseConnection {
 	
 	public static void main(String args[]){
 		DatabaseConnection c = new DatabaseConnection();
-		c.getConnection();
+		try {
+			c.getConnection();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
 		
 	}
 
-	public Connection getConnection() {
+	public Connection getConnection() throws Exception{
+		Connection c = null;
+		try {
+				Context ctx = new InitialContext();		
+				DataSource ds = (DataSource)ctx.lookup("java:comp/env/jdbc/mydatabase");
+				c = ds.getConnection();
+				//c.setAutoCommit(false);
+				return c;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+				System.out.println("Oops! Unable to make connection with database: "+e.getMessage());
+				throw new SQLException(e.getMessage());
+	
+			}
+			catch (NamingException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+				System.out.println(e.getMessage());
+				throw new NamingException(e.getMessage());
+			}
+		
+		
+		
+		
+		
+		/*
 		Connection con;
 		String url = "jdbc:mysql://superrent.c6stxmjzckce.us-west-2.rds.amazonaws.com:3306/superrent";
 		String username = "superrent";
@@ -32,5 +70,6 @@ public class DatabaseConnection {
 		}
 		System.out.print("Noooo Success");
 		return null;
+		*/
 	}
 }

@@ -22,17 +22,26 @@ public class SearchVehiclesDAO {
 	/**Connection with database must be established.
 	 * @invariant !getConnection()  
 	 */
-	public SearchVehiclesDAO(){
+	public SearchVehiclesDAO() throws Exception{
 		//open a connection
+		
 				databaseConnection = new DatabaseConnection();
-				connection = databaseConnection.getConnection();
+				try {
+					connection = databaseConnection.getConnection();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					throw new Exception(e.getMessage());
+				}
 	}
 	
-	public VehicleListBeanModel search(String category, String type, String picktime, String droptime) {
+	public VehicleListBeanModel search(String category, String type, String picktime, String droptime) throws Exception {
 		System.out.println("You are going to search "+ category + " with phone number"+ type + " in the database");
 		ArrayList<VehicleBeanModel> vehlist = new ArrayList<VehicleBeanModel>();
-		Timestamp pick = Timestamp.valueOf(picktime);
-		Timestamp drop = Timestamp.valueOf(droptime);
+		picktime= picktime.replace('/', '-');
+		droptime= droptime.replace('/', '-');
+		Timestamp pick = Timestamp.valueOf(picktime+":00");
+		Timestamp drop = Timestamp.valueOf(droptime+":00");
 		
 		sql="(SELECT VV.regNo, VV.category, VV.type, VV.brand, VV.purchaseDate, VV.status FROM Vehicle VV WHERE VV.category=? AND VV.type=? AND (VV.status=0) AND "
 				+ "VV.regNo NOT IN (SELECT V.regNo FROM Vehicle V,  MakeReservation M WHERE V.regNo=M.regNo AND (M.status=0) AND "
@@ -67,19 +76,32 @@ public class SearchVehiclesDAO {
 		}catch (SQLTimeoutException e) {
 			//connection.rollback();
 			System.out.println("<<ROLLBACK DONE>>SQLTimeout Exception coming from search() of SearchVehiclesDAO-> " + e.getMessage());
+			throw new  SQLTimeoutException(e.getMessage());
 		}catch(SQLException e){
 			//connection.rollback();
 			System.out.println("<<ROLLBACK DONE>>SQLException coming from search() of SearchVehiclesDAO-> " + e.getMessage());
+			throw new  SQLException(e.getMessage());
 		}
-		return null;
+		//return null;
 	}
 	
 
 	public static void main(String arg[]) {
-		SearchVehiclesDAO s= new SearchVehiclesDAO();
+		SearchVehiclesDAO s = null;
+		try {
+			s = new SearchVehiclesDAO();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		VehicleListBeanModel v = new VehicleListBeanModel();
 		ArrayList<VehicleBeanModel> vehlist = new ArrayList<VehicleBeanModel>();
-		v = s.search("TRUCK", "24-FOOT","2014-5-21 12:00:00","2014-5-22 12:00:00");
+		try {
+			v = s.search("CAR", "ECONOMY","2014-5-21 12:00:00","2014-5-22 12:00:00");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		vehlist = v.getVehlist();
 		
 		System.out.println("***************Avaliable Vehicles***********");

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context>
+
+<!-- Specify a JDBC datasource -->
+
+<Resource name="jdbc/mydatabase"
+
+auth="Container"
+
+type="javax.sql.DataSource"
+
+username="superrent"
+
+password="justdoit505"
+
+driverClassName="com.mysql.jdbc.Driver"
+
+url="jdbc:mysql://superrent.c6stxmjzckce.us-west-2.rds.amazonaws.com:3306/superrent"
+
+ 
+
+maxActive="50"
+
+maxIdle="1"/>
+
+</Context>
+
+<!-- validationQuery="select 1"  -->

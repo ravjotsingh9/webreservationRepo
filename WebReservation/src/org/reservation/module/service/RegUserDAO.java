@@ -17,10 +17,17 @@ public class RegUserDAO {
 	private PreparedStatement preparedStatement;
 	private static RegUserListModel regusers = new RegUserListModel();
 	
-	public RegUserDAO(){
+	public RegUserDAO() throws Exception{
 		//open a connection
-		databaseConnection = new DatabaseConnection();
-		connection = databaseConnection.getConnection();
+		try{
+			databaseConnection = new DatabaseConnection();
+			connection = databaseConnection.getConnection();
+		}
+		catch(Exception e)
+		{
+			throw new Exception(e.getMessage());
+		}
+		
 	}
 	
 	public RegUserListModel displayRegUsers(){
@@ -45,7 +52,7 @@ public class RegUserDAO {
 		return ru;
 	}
 	
-	public boolean isLogin(String username, String password){
+	public boolean isLogin(String username, String password) throws Exception{
 		sql = "SELECT count(*) FROM RegUser WHERE username=? AND password=?";
 		try {
 			preparedStatement = connection.prepareStatement(sql);
@@ -59,6 +66,7 @@ public class RegUserDAO {
 			}
 		} catch (SQLException e) {
 			System.out.println("Exception coming from isLogin() of RegUserDAO---> " + e.getMessage());
+			throw new Exception(e.getMessage());
 		}
 		return false;
 	}
@@ -69,7 +77,13 @@ public class RegUserDAO {
 		 * Demo to display list
 		 */
 		RegUserListModel m = new RegUserListModel();
-		RegUserDAO dao = new RegUserDAO();
+		RegUserDAO dao = null;
+		try {
+			dao = new RegUserDAO();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		ArrayList<RegUserBeanModel> members = new ArrayList<RegUserBeanModel>();
 		m = dao.displayRegUsers();
 		//display
@@ -85,7 +99,13 @@ public class RegUserDAO {
 		/*
 		 * Demo to view points
 		 */
-		boolean pts = dao.isLogin("clubmember", "newpasswo");
+		boolean pts = false;
+		try {
+			pts = dao.isLogin("clubmember", "newpasswo");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("Can Login? ="+pts);
 	}
 }

@@ -35,12 +35,19 @@ public class ReservationDAO {
 	private static ReservationListModel reservations = new ReservationListModel();
 	
 	/**Connection with database must be established.
+	 * @throws Exception 
 	 * @invariant !getConnection()  
 	 */
-	public ReservationDAO(){
+	public ReservationDAO() throws Exception{
 		//open a connection
+		try{
 				databaseConnection = new DatabaseConnection();
 				connection = databaseConnection.getConnection();
+		}
+		catch(Exception e)
+		{
+			throw new Exception(e.getMessage());
+		}
 	}
 	
 	
@@ -70,9 +77,11 @@ public ReservationListModel displayReservations() throws SQLException{
 	} catch (SQLTimeoutException e) {
 		//connection.rollback();
 		System.out.println("<<ROLLBACK DONE>>SQLTimeout Exception coming from displayReservation() of ReservationDAO-> " + e.getMessage());
+		throw new SQLTimeoutException(e.getMessage());
 	}catch(SQLException e){
 		//connection.rollback();
 		System.out.println("<<ROLLBACK DONE>>SQLConnection Failure coming from displayReservation() of ReservationDAO-> " + e.getMessage());
+		throw new SQLException(e.getMessage());
 	}
 	cm = reservations;
 	return cm;
@@ -101,7 +110,7 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 		preparedStatement.setInt(1, Integer.valueOf(confirmationNo));
 		retval= preparedStatement.executeUpdate();
 		if(retval!=0){
-			String sql1="Update makeReservation set status=3 where confirmationNo=?";
+			String sql1="Update MakeReservation set status=3 where confirmationNo=?";
 			preparedStatement = connection.prepareStatement(sql1);
 			preparedStatement.setInt(1, Integer.valueOf(confirmationNo));
 			retval= preparedStatement.executeUpdate();
@@ -121,11 +130,12 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 	} catch (SQLTimeoutException e) {
 		//connection.rollback();
 		System.out.println("<<ROLLBACK DONE>>SQLTimeout Exception coming from cancelReservation() of ReservationDAO-> " + e.getMessage());
-		return 0;
+		throw new SQLTimeoutException(e.getMessage());
+		
 	}catch(SQLException e){
 		//connection.rollback();
 		System.out.println("<<ROLLBACK DONE>>SQLConnection Failure coming from cancelReservation() of ReservationDAO-> " + e.getMessage());
-		return 0;
+		throw new SQLException(e.getMessage());
 	}
 	return retval;
 }
@@ -186,9 +196,11 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 		}catch (SQLTimeoutException e) {
 			connection.rollback();
 			System.out.println("<<ROLLBACK DONE>>SQLTimeout Exception coming from makeReservation() of ReservationDAO-> " + e.getMessage());
+			throw new SQLTimeoutException(e.getMessage());
 		}catch(SQLException e){
 			connection.rollback();
 			System.out.println("<<ROLLBACK DONE>>SQLExpection coming from makeReservation() of ReservationDAO-> " + e.getMessage());
+			throw new SQLException(e.getMessage());
 		}finally{
 			connection.close();
 			System.out.println("Connection closed!");
@@ -236,9 +248,11 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 		} catch (SQLTimeoutException e) {
 			//connection.rollback();
 			System.out.println("<<ROLLBACK DONE>>SQLTimeout Exception coming from addReservation() of ReservationDAO-> " + e.getMessage());
+			throw new SQLTimeoutException(e.getMessage());
 		}catch(SQLException e){
 			//connection.rollback();
 			System.out.println("<<ROLLBACK DONE>>SQLConnection Failure coming from addReservation() of ReservationDAO-> " + e.getMessage());
+			throw new SQLException(e.getMessage());
 		}
 		return confirmationNo;
 	}
@@ -285,9 +299,11 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 		} catch (SQLTimeoutException e) {
 			//connection.rollback();
 			System.out.println("<<ROLLBACK DONE>>SQLTimeout Exception coming from calculateCharges() of ReservationDAO-> " + e.getMessage());
+			throw new SQLTimeoutException(e.getMessage());
 		}catch(SQLException e){
 			//connection.rollback();
 			System.out.println("<<ROLLBACK DONE>>SQLConnection Failure coming from calculateCharges() of ReservationDAO-> " + e.getMessage());
+			throw new SQLException(e.getMessage());
 		}
 		/*
 		 * computation
@@ -360,9 +376,11 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 		}catch (SQLTimeoutException e) {
 			//connection.rollback();
 			System.out.println("<<ROLLBACK DONE>>SQLTimeout Exception coming from getCategory() of ReservationDAO-> " + e.getMessage());
+			throw new SQLTimeoutException(e.getMessage());
 		}catch(SQLException e){
 			//connection.rollback();
 			System.out.println("<<ROLLBACK DONE>>SQLConnection Failure coming from getCategory() of ReservationDAO-> " + e.getMessage());
+			throw new SQLException(e.getMessage());
 		}
 		return cat;
 	}
@@ -464,9 +482,20 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 	
 	
 	
-	public static void main(String args[]) throws ParseException, SQLException{
-		ReservationDAO u = new ReservationDAO();
-		UserDAO user = new UserDAO();
+	public static void main(String args[]) throws Exception{
+		try {
+			ReservationDAO u = new ReservationDAO();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		UserDAO user = null;
+		try {
+			user = new UserDAO();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		DateTime pdt = new DateTime(2014, 04, 25, 11, 0, 0, 0);
 		DateTime ddt = new DateTime(2014, 04, 26, 22, 0, 0, 0);
 		Timestamp picktimeStamp = new Timestamp(pdt.getMillis());
@@ -479,7 +508,13 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 		s.setEmail("brouno@mypet.ca");
 		s.setName("Brouno");
 		s.setPhoneNumber(998776542);
-		int uid = user.addUser(s);
+		try {
+			int uid = user.addUser(s);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			throw new  Exception(e1.getMessage());
+		}
 		String[] add = {"CAR TOW", ""};
 
 		//u.makeReservation(uid, pdt, ddt, 78380, add);
@@ -487,7 +522,12 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 		 * to display list
 		 */
 		ReservationListModel m = new ReservationListModel();
-		ReservationDAO dao = new ReservationDAO();
+		try {
+			ReservationDAO dao = new ReservationDAO();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		ArrayList<ReservationModel> members = new ArrayList<ReservationModel>();
 		//m = dao.displayReservations();
 		//display
