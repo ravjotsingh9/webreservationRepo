@@ -123,7 +123,7 @@ public class SearchCarController extends HttpServlet {
 		    /*   			+ "<a href=ReservationView.jsp?reg=" + Integer.toString(vehlist.get(index).getRegNo())  +">"    */   
 		        /*			+ "<input type=\"button\" value=\"ReserveNow\" " */
 		        	/*		+ "id=\"reserve\" );\"></input>" */
-		        			+ "<input type=\"button\" id=\"res\" "
+		        			+ "<input type=\"button\" id=\"res\"  "
 		        			+ "onclick=\"reserve('" + (vehlist.get(index).getRegNo()).toString()  +"')\" value=\"Reserve Now\"></input>"
 		     /*   			+ "</a></font>"            */   
 		        			+ "</td></tr>");

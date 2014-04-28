@@ -171,8 +171,9 @@ jquery_latest(document).ready(function() {                        // When the HT
 
 function reserve(regNum)
 {
-	document.getElementById("res").disabled = true;
-	jquery_latest('#res').val("wait...");
+	jquery_latest('#SearchResult').html("<img border=\"0\" src=\"images/waiting1.gif\" width=\"100%\" height=\"2px\" alt=\"Please wait...\" >");
+	//document.getElementsById().disabled = true;
+	//jquery_latest(id).val("wait...");
 	var hdnptime= document.getElementById("hptime");
 	var hdndtime= document.getElementById("hdtime");
 		jquery_latest.ajax({
@@ -188,7 +189,7 @@ function reserve(regNum)
   						error: function (request, status, error) {
   							jquery_latest('#res').val("Reserve Now");
   		  			        alert(request.responseText);
-  		  			    document.getElementById("res").disabled = false;
+  		  			    //document.getElementById("res").disabled = false;
   		  			    },
   				success: function(data) {  					
   					jquery_latest('#SearchResult').html(data);
