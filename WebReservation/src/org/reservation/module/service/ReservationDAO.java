@@ -12,6 +12,19 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Properties;
+
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.joda.time.DateTime;
 import org.reservation.module.model.ClubMemberBeanModel;
@@ -49,7 +62,6 @@ public class ReservationDAO {
 			throw new Exception(e.getMessage());
 		}
 	}
-	
 	
 /** 
  * @return all the reservations done so far  
@@ -387,7 +399,7 @@ public int cancelReservation(String confirmationNo, String phoneNumber, Timestam
 		return cat;
 	}
 	
-	public String getConfNobyPhone(String phoneNumber) throws SQLException{
+	private String getConfNobyPhone(String phoneNumber) throws SQLException{
 		//int regNum = Integer.parseInt(regNo);
 		String cat = null;
 		sql = "Select M.confirmationNo FROM User U, MakeReservation M WHERE U.uid=M.uid AND U.phoneNumber=?";
@@ -504,9 +516,6 @@ public int cancelReservation(String confirmationNo, String phoneNumber, Timestam
 		}
 		return false;
 	}
-	
-	
-	
 	
 	public static void main(String args[]) throws Exception{
 		try {

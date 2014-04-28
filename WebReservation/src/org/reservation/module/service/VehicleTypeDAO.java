@@ -1,7 +1,7 @@
 
 package org.reservation.module.service;
-import org.reservation.module.model.VehicleListBeanModel;
 import org.reservation.module.model.VehicleTypeBeanModel;
+import org.reservation.module.model.VehicleListBeanModel;
 import org.reservation.module.model.VehicleTypeListBeanModel;
 
 import java.sql.Connection;
