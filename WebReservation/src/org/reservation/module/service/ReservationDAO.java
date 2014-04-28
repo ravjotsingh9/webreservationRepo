@@ -188,7 +188,10 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 			System.out.println("<<ROLLBACK DONE>>SQLTimeout Exception coming from makeReservation() of ReservationDAO-> " + e.getMessage());
 		}catch(SQLException e){
 			connection.rollback();
-			System.out.println("<<ROLLBACK DONE>>SQLConnection Failure coming from makeReservation() of ReservationDAO-> " + e.getMessage());
+			System.out.println("<<ROLLBACK DONE>>SQLExpection coming from makeReservation() of ReservationDAO-> " + e.getMessage());
+		}finally{
+			connection.close();
+			System.out.println("Connection closed!");
 		}
 		}
 		System.out.println("Sorry, Unable to make reservation..Try Again.");
@@ -364,6 +367,33 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 		return cat;
 	}
 	
+	/**
+	 * This getConfirmationNo() operation takes the registration number and returns its confirmationNo
+	 * @param regNo
+	 * @return String
+	 * @throws SQLException
+	 */
+	public String getConfirmationNo(String regNo) throws SQLException{
+		int regNum = Integer.parseInt(regNo);
+		String cat = null;
+		sql = "Select confirmationNo FROM makeReservation WHERE regNo=?";
+		try {
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, regNum);
+			rs = preparedStatement.executeQuery();
+			
+			while(rs != null && rs.next()){
+				cat = rs.getString("confirmationNo");
+			}
+		}catch (SQLTimeoutException e) {
+			//connection.rollback();
+			System.out.println("<<ROLLBACK DONE>>SQLTimeout Exception coming from getCategory() of ReservationDAO-> " + e.getMessage());
+		}catch(SQLException e){
+			//connection.rollback();
+			System.out.println("<<ROLLBACK DONE>>SQLConnection Failure coming from getCategory() of ReservationDAO-> " + e.getMessage());
+		}
+		return cat;
+	}
 	/**
 	 * The addAdditionalEquip() operation updates the requireAdditionalEquip table in superrent database.
 	 * @pre !addEquip[i].equals("nothing")
