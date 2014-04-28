@@ -289,6 +289,16 @@ function reservecar(){               // Locate HTML DOM element with ID "somebut
 			return false;
 		}
 		*/
+		//handling for invalid entry
+		var uname = document.getElementById("username");
+		var uadd = document.getElementById("desc");
+		var uzip = document.getElementById("phone");
+		var uemail = document.getElementById("email1");
+
+		if((formValidation(uname, uadd, uzip, uemail)==false)){
+			return false;
+		}
+		
 			document.getElementById("reserveit").disabled = true;
 			jquery_latest('#reserveit').val("Reserving...");
 			var x="";
@@ -329,7 +339,7 @@ function reservecar(){               // Locate HTML DOM element with ID "somebut
 		  						error: function (request, status, error) {
 		  							jquery_latest('#reserveit').val("Reserve it");
 		  		  			        alert(request.responseText);
-		  		  			    document.getElementById("reserveit").disabled = true;
+		  		  			    document.getElementById("reserveit").disabled = false;
 		  		  			    },
 		  				success: function(data) {  					
 		  					//jquery_latest('#SearchResult').text(data) ;
@@ -357,6 +367,15 @@ function reservetruck(){               // Locate HTML DOM element with ID "someb
 			return false;
 		}
 		*/
+	//handling for invalid entry
+		var uname = document.getElementById("username");
+		var uadd = document.getElementById("desc");
+		var uzip = document.getElementById("phone");
+		var uemail = document.getElementById("email1");
+
+		if((formValidation(uname, uadd, uzip, uemail)==false)){
+			return false;
+		}
 		document.getElementById("reserveit").disabled = true;
 		jquery_latest('#reserveit').val("Reserving...");
 			var x="";

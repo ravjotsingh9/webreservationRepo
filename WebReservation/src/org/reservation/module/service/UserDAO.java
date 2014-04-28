@@ -54,7 +54,7 @@ public class UserDAO {
 				c1.setUid(rs.getInt("uid"));
 				c1.setName(rs.getString(2));
 				c1.setEmail(rs.getString(3));
-				c1.setPhoneNumber(rs.getInt(4));
+				c1.setPhoneNumber(rs.getLong(4));
 				c1.setDateCreated(rs.getDate(5));
 				users.getUsers().add(c1);
 			}
@@ -84,7 +84,7 @@ public class UserDAO {
 				preparedStatement = connection.prepareStatement(sql, stmt.RETURN_GENERATED_KEYS);
 				preparedStatement.setString(1, user1.getName());
 				preparedStatement.setString(2, user1.getEmail());
-				preparedStatement.setInt(3, user1.getPhoneNumber());
+				preparedStatement.setLong(3, user1.getPhoneNumber());
 				java.util.Date curr_date = new java.util.Date();
 		       /* SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
 		        String source= format.format(curr_date);
@@ -92,11 +92,12 @@ public class UserDAO {
 				*/
 				java.sql.Timestamp d = new java.sql.Timestamp(curr_date.getTime());
 				preparedStatement.setTimestamp(4, d);
-				preparedStatement.setInt(5, 1);
+				preparedStatement.setInt(5, 0);
 				preparedStatement.setString(6, user1.getAddress());
 				
 				preparedStatement.executeUpdate();
 				rs = preparedStatement.getGeneratedKeys();
+				connection.commit();
 			} catch (SQLException e) {
 				System.out.println("Exception coming from addUser(2) of USERDAO---> " + e.getMessage());
 				throw new  SQLException(e.getMessage());

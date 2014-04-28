@@ -70,7 +70,7 @@ public ReservationListModel displayReservations() throws SQLException{
 			c1.setPickDate(rs.getTimestamp("pickDate"));
 			c1.setDropDate(rs.getTimestamp("dropDate"));
 			c1.setDate(rs.getDate(5));
-			c1.setRegNo(rs.getInt(6));
+			c1.setRegNo(rs.getString(6));
 			c1.setCharges(rs.getDouble(7));
 			reservations.getReservations().add(c1);
 		}
@@ -98,7 +98,7 @@ public ReservationListModel displayReservations() throws SQLException{
  * @throws ParseException
  * @throws SQLException 
  */
-public int cancelReservation(String confirmationNo, String phoneNumber, String picktime) throws ParseException, SQLException
+public int cancelReservation(String confirmationNo, String phoneNumber, Timestamp picktime) throws ParseException, SQLException
 {
 	int retval=0;
 	try{
@@ -114,18 +114,20 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 			preparedStatement = connection.prepareStatement(sql1);
 			preparedStatement.setInt(1, Integer.valueOf(confirmationNo));
 			retval= preparedStatement.executeUpdate();
+			connection.commit();
 		}
 	}
 	else
 	{
-		sql="Update Reservation set status=1 where ph=? AND pickDate=?";
+		String confNo = getConfNobyPhone(phoneNumber);
+		sql="Update Reservation set status=1 where confirmationNo=? AND pickDate=?";
 		preparedStatement = connection.prepareStatement(sql);
-		preparedStatement.setString(1, phoneNumber);
-		String source=picktime;              
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy"); 
-		java.sql.Date d= new java.sql.Date(format.parse(source).getTime());
-		preparedStatement.setDate(2, d);
+		preparedStatement.setString(1, confNo);
+		//Timestamp pick = Timestamp.valueOf(picktime+":00");
+	    
+		preparedStatement.setTimestamp(2, picktime);
 		retval= preparedStatement.executeUpdate();
+		connection.commit();
 	}
 	} catch (SQLTimeoutException e) {
 		//connection.rollback();
@@ -154,7 +156,7 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 	 * @param addEquip
 	 * @throws SQLException 
 	 */
-	public boolean makeReservation(int uid, Timestamp pickDate, Timestamp dropDate, int regNo, String[] addEquip) throws ParseException, SQLException{
+	public boolean makeReservation(int uid, Timestamp pickDate, Timestamp dropDate, String regNo, String[] addEquip) throws ParseException, SQLException{
 		if(!isReservationExists(regNo, pickDate, dropDate)){
 			System.out.println("Sorry! Now the requested vehicle is not available.");
 			return false;
@@ -182,7 +184,7 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 			Calendar cal = Calendar.getInstance();
 			java.sql.Timestamp timestamp = new java.sql.Timestamp(cal.getTimeInMillis());
 			preparedStatement.setTimestamp(3, timestamp);
-			preparedStatement.setInt(4, regNo);
+			preparedStatement.setString(4, regNo);
 			preparedStatement.executeUpdate();
 			connection.commit();
 			
@@ -219,7 +221,7 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 	 * @throws ParseException
 	 * @throws SQLException 
 	 */
-	private int addReservation(int regNo, Timestamp pickDate, Timestamp dropDate) throws ParseException, SQLException{
+	private int addReservation(String regNo, Timestamp pickDate, Timestamp dropDate) throws ParseException, SQLException{
 		int confirmationNo = 0;
 		//Timestamp picktimeStamp = new Timestamp(pickDate.getMillis());
 		//Timestamp droptimeStamp = new Timestamp(dropDate.getMillis());
@@ -267,7 +269,7 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 	 * @return double
 	 * @throws SQLException 
 	 */
-	public double calculateCharges(int regNo, Timestamp pick, Timestamp drop) throws SQLException{
+	public double calculateCharges(String regNo, Timestamp pick, Timestamp drop) throws SQLException{
 		int d_month = drop.getMonth(), p_month = pick.getMonth(); //return 0 to 11
 		int d_date = drop.getDate(), p_date = pick.getDate();//return 1 to 31
 		int d_year = drop.getYear()+1900, p_year = pick.getYear()+1900;
@@ -286,8 +288,8 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 				+ " AND type IN(Select type FROM Vehicle WHERE regNo=?)";
 		try {
 			preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setInt(1, regNo);
-			preparedStatement.setInt(2, regNo);
+			preparedStatement.setString(1, regNo);
+			preparedStatement.setString(2, regNo);
 			rs = preparedStatement.executeQuery();
 		
 			//put the raates in local variable
@@ -362,12 +364,12 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 	 * @throws SQLException 
 	 */
 	public String getCategory(String regNo) throws SQLException{
-		int regNum = Integer.parseInt(regNo);
+		//int regNum = Integer.parseInt(regNo);
 		String cat = null;
 		sql = "Select category FROM Vehicle WHERE regNo=?";
 		try {
 			preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setInt(1, regNum);
+			preparedStatement.setString(1, regNo);
 			rs = preparedStatement.executeQuery();
 			
 			while(rs != null && rs.next()){
@@ -385,6 +387,30 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 		return cat;
 	}
 	
+	public String getConfNobyPhone(String phoneNumber) throws SQLException{
+		//int regNum = Integer.parseInt(regNo);
+		String cat = null;
+		sql = "Select M.confirmationNo FROM User U, MakeReservation M WHERE U.uid=M.uid AND U.phoneNumber=?";
+		try {
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, phoneNumber);
+			rs = preparedStatement.executeQuery();
+			
+			while(rs != null && rs.next()){
+				cat = rs.getString("confirmationNo");
+			}
+		}catch (SQLTimeoutException e) {
+			//connection.rollback();
+			System.out.println("<<ROLLBACK DONE>>SQLTimeout Exception coming from getConfNobyPhone() of ReservationDAO-> " + e.getMessage());
+			throw new SQLTimeoutException(e.getMessage());
+		}catch(SQLException e){
+			//connection.rollback();
+			System.out.println("<<ROLLBACK DONE>>SQLConnection Failure coming from getConfNobyPhone() of ReservationDAO-> " + e.getMessage());
+			throw new SQLException(e.getMessage());
+		}
+		return cat;
+	}
+	
 	/**
 	 * This getConfirmationNo() operation takes the registration number and returns its confirmationNo
 	 * @param regNo
@@ -392,12 +418,12 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 	 * @throws SQLException
 	 */
 	public String getConfirmationNo(String regNo) throws SQLException{
-		int regNum = Integer.parseInt(regNo);
+		//int regNum = Integer.parseInt(regNo);
 		String cat = null;
 		sql = "Select confirmationNo FROM makeReservation WHERE regNo=?";
 		try {
 			preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setInt(1, regNum);
+			preparedStatement.setString(1, regNo);
 			rs = preparedStatement.executeQuery();
 			
 			while(rs != null && rs.next()){
@@ -455,12 +481,12 @@ public int cancelReservation(String confirmationNo, String phoneNumber, String p
 	 * @return true on success else false
 	 * @throws SQLException 
 	 */
-	private boolean isReservationExists(int regNo, Timestamp pickDate, Timestamp dropDate) throws SQLException{
+	private boolean isReservationExists(String regNo, Timestamp pickDate, Timestamp dropDate) throws SQLException{
 		sql = "SELECT M.confirmationNo from MakeReservation M WHERE M.regNo = ? AND M.status=0 "
 				+ "AND M.confirmationNo IN(SELECT R.confirmationNo from Reservation R WHERE R.confirmationNo=M.confirmationNo AND R.pickDate=? AND R.dropDate=?)";
 		try {
 			preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setInt(1, regNo);
+			preparedStatement.setString(1, regNo);
 			preparedStatement.setTimestamp(2, pickDate);
 			preparedStatement.setTimestamp(3, dropDate);
 			preparedStatement.executeQuery();

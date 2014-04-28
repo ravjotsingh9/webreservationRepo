@@ -11,7 +11,7 @@ public class ReservationModel{
 	Timestamp pickDate;
 	Timestamp dropDate;
 	Date date;
-	int regNo;
+	String regNo;
 	double charges;
 	
 	public int getConfirmationNo() {
@@ -44,10 +44,10 @@ public class ReservationModel{
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public int getRegNo() {
+	public String getRegNo() {
 		return regNo;
 	}
-	public void setRegNo(int regNo) {
+	public void setRegNo(String regNo) {
 		this.regNo = regNo;
 	}
 	public double getCharges() {

@@ -29,7 +29,7 @@ public class DatabaseConnection {
 				Context ctx = new InitialContext();		
 				DataSource ds = (DataSource)ctx.lookup("java:comp/env/jdbc/mydatabase");
 				c = ds.getConnection();
-				//c.setAutoCommit(false);
+				c.setAutoCommit(false);
 				return c;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

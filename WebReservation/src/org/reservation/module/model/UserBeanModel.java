@@ -6,7 +6,7 @@ public class UserBeanModel {
 	int uid;
 	String name;
 	String email;
-	int phoneNumber;
+	long phoneNumber;
 	Date dateCreated;
 	int type;
 	String address;
@@ -28,10 +28,10 @@ public class UserBeanModel {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public int getPhoneNumber() {
+	public long getPhoneNumber() {
 		return phoneNumber;
 	}
-	public void setPhoneNumber(int phoneNumber) {
+	public void setPhoneNumber(long phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 	public Date getDateCreated() {

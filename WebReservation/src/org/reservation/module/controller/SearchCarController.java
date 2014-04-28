@@ -158,20 +158,31 @@ public class SearchCarController extends HttpServlet {
 			
 					String text= new String();
 					System.out.print(request.getParameter("id")+"\t"+request.getParameter("conf")+"\t"+request.getParameter("ph")+"\t"+ request.getParameter("ptime")+"\n");
-					int result= cancelRes.cancelReservation(request.getParameter("conf"), request.getParameter("ph"), request.getParameter("ptime"));
+					
+					String ptime =	new String(request.getParameter("ptime"));
+					System.out.print("ptime="+ptime+"Return="+ptime.isEmpty());
+										
+					if((!ptime.isEmpty())){
+						ptime = ptime.replace('/', '-');
+						ptime = ptime.concat(":00.00");
+					}else{
+						ptime = "1970-01-01 00:00:00";
+					}
+					System.out.println("ptime final="+ptime);
+					int result= cancelRes.cancelReservation(request.getParameter("conf"), request.getParameter("ph"), Timestamp.valueOf(ptime));
 					System.out.println(result);
 					response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
 			    	response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
 					if(result==0)
 					{
 						
-						text="The provided confirmation no. doesnot exist";
+						text="No reservation exists";
 						response.getWriter().write(text);
 					}
 					else
 					{
 						
-						text= "Confirmation # "+request.getParameter("conf")+" has been Cancelled.";
+						text= "Confirmation # "+request.getParameter("conf")+"/Reservation has been Cancelled.";
 						System.out.print(text);
 						response.getWriter().write(text);
 					}
@@ -224,7 +235,7 @@ public class SearchCarController extends HttpServlet {
 			try {
 				
 				obj = new ReservationDAO();
-				est = obj.calculateCharges(Integer.parseInt(request.getParameter("regNo")), Timestamp.valueOf(ptime) ,Timestamp.valueOf(dtime));
+				est = obj.calculateCharges((request.getParameter("regNo")), Timestamp.valueOf(ptime) ,Timestamp.valueOf(dtime));
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -383,7 +394,7 @@ public class SearchCarController extends HttpServlet {
 			user.setAddress(add);
 			user.setEmail(email);
 			user.setName(name);
-			user.setPhoneNumber(Integer.parseInt(ph));
+			user.setPhoneNumber(Long.parseLong(ph));
 			try {
 				uid = u.addUser(user);
 			} catch (ParseException e) {
@@ -419,7 +430,7 @@ public class SearchCarController extends HttpServlet {
 			
 			try {
 				try {
-					confirmed=  r.makeReservation(uid,Timestamp.valueOf(ptime),Timestamp.valueOf(dtime),Integer.parseInt(regNo), addEquip);
+					confirmed=  r.makeReservation(uid,Timestamp.valueOf(ptime),Timestamp.valueOf(dtime),regNo, addEquip);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -501,7 +512,7 @@ public class SearchCarController extends HttpServlet {
 			
 			boolean confirmed= false;
 			try {
-				confirmed=  r.makeReservation(uid,Timestamp.valueOf(ptime),Timestamp.valueOf(dtime),Integer.parseInt(regNo), addEquip);
+				confirmed=  r.makeReservation(uid,Timestamp.valueOf(ptime),Timestamp.valueOf(dtime),regNo, addEquip);
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -1,41 +1,22 @@
-function formValidation()
+var uname;
+var uadd;
+var uzip;
+var uemail;
+function formValidation(uname, uadd, uzip, uemail)
 {
-var uid = document.registration.userid;
-var passid = document.registration.passid;
-var uname = document.registration.username;
-var uadd = document.registration.address;
-var ucountry = document.registration.country;
-var uzip = document.registration.zip;
-var uemail = document.registration.email;
-var umsex = document.registration.msex;
-var ufsex = document.registration.fsex; 
-//if(userid_validation(uid,5,12))
-//{
-//if(passid_validation(passid,7,12))
-//{
-if(allLetter(uname))
-{
-//if(alphanumeric(uadd))
-//{ 
-//if(countryselect(ucountry))
-//{
-if(allnumeric(uzip, 10))
-{
-if(ValidateEmail(uemail))
-{
-if(alphanumeric(uadd)){
-//if(validsex(umsex,ufsex))
-//{
-}
-} 
-}
-}
-//} 
-//}
-//}
-//}
-//}
-return true;
+	if(allLetter(uname))
+	{
+		if(allnumeric(uzip, 10))
+		{
+			if(ValidateEmail(uemail))
+			{
+				if(alphanumeric(uadd)){
+					return true;
+				}
+			}	 
+		}
+	}
+return false;
 }
 
 //-------------------for search
@@ -177,7 +158,12 @@ return true;
 function alphanumeric(uadd)
 { 
 var letters = /^[0-9a-zA-Z]+$/;
-if(uadd.value.match(letters))
+var uadd_len = uadd.value.length;
+if(uadd_len == 0){
+	alert('Please provide residential address');
+	uadd.focus();
+	return false;	
+}else if(uadd.value.match(letters))
 {
 return true;
 }
@@ -206,6 +192,7 @@ return true;
 function allnumeric(uzip)
 { 
 var numbers = /^[0-9]+$/;
+var leadingzero = /^0[0-9].*$/;
 var uzip_len = uzip.value.length;
 if(uzip_len == 0){
 	alert('Phone number field must not be empty');
@@ -213,6 +200,10 @@ if(uzip_len == 0){
 	return false;	
 }else if(uzip_len<10 || uzip_len>10){
 	alert('Phone number must be of 10 digits');
+	uzip.focus();
+	return false;
+}else if(uzip.value.match(leadingzero)){
+	alert('Phone number must not start with zero');
 	uzip.focus();
 	return false;
 }else if(uzip.value.match(numbers)){

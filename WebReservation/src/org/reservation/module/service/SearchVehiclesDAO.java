@@ -42,6 +42,16 @@ public class SearchVehiclesDAO {
 		droptime= droptime.replace('/', '-');
 		Timestamp pick = Timestamp.valueOf(picktime+":00");
 		Timestamp drop = Timestamp.valueOf(droptime+":00");
+		java.util.Date date= new java.util.Date();
+		Timestamp currentTime = new Timestamp(date.getTime());
+		if(pick.compareTo(currentTime)<=0){
+			System.out.println("Pickup date can't be before current date...");
+			throw new Exception("Pickup date can't be before current date...Try Again!");
+		}
+		if (drop.compareTo(pick)<=0){
+			System.out.println("Conflict in pickup and drop dates...");
+			throw new Exception("Conflict in pickup and drop dates...Try Again!");
+		}
 		
 		sql="(SELECT VV.regNo, VV.category, VV.type, VV.brand, VV.purchaseDate, VV.status FROM Vehicle VV WHERE VV.category=? AND VV.type=? AND (VV.status=0) AND "
 				+ "VV.regNo NOT IN (SELECT V.regNo FROM Vehicle V,  MakeReservation M WHERE V.regNo=M.regNo AND (M.status=0) AND "
