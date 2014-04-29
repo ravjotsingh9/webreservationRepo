@@ -30,6 +30,10 @@ public class ClubMemberDAO {
 		}
 	}
 	
+	/**
+	 * The displayClubMembers() operation displays the list of all club members. 
+	 * @return ClubMemberListModel
+	 */
 	public ClubMemberListModel displayClubMembers(){
 		ClubMemberListModel cm = new ClubMemberListModel();
 		
@@ -54,6 +58,12 @@ public class ClubMemberDAO {
 		return cm;
 	}
 	
+	/**
+	 * The viewPoints() displays the reward points of given membership number.
+	 * @param membershipNo
+	 * @return viewPoints
+	 * @throws Exception
+	 */
 	public int viewPoints(int membershipNo) throws Exception{
 		
 		sql = "SELECT points FROM ClubMember where membershipNo=?";

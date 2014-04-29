@@ -14,6 +14,14 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 public class SendMailService {
+	/**This sendNotification() operation sends email to the given id with specified message and subject.
+	 * The sender id used here is "505520project@gmail.com"
+	 * @param receiverId 
+	 * @param msg
+	 * @param subject
+	 * @return true on success else false
+	 * @throws MessagingException
+	 */
 	public boolean sendNotification(String receiverId, String msg, String subject) throws MessagingException{
 		Properties props = System.getProperties();
 		props.put("mail.smtp.starttls.enable", true); // added this line
@@ -70,7 +78,9 @@ public class SendMailService {
 	}
 	
 	/**
-	 * This sendReserveNotification() operation sends email to the given id.
+	 * This sendReserveNotification() operation sends email to the given id with specified message and subject on the completion of reservation.
+	 * The sender id used here is "505520project@gmail.com"
+	 * @pre !sendNotification()
 	 * @param receiverId
 	 * @return true on success, else false
 	 * @throws MessagingException 
@@ -89,15 +99,17 @@ public class SendMailService {
 	}
 	
 	/**
-	 * This sendCancelNotification() operation sends email to the given id.
+	 * This sendCancelNotification() operation sends email to the given user id with specified message and subject for cancellation confirmation.
+	 * The sender id used here is "505520project@gmail.com"
+	 * @pre !sendNotification()
 	 * @param receiverId
 	 * @return true on success, else false
 	 * @throws MessagingException 
 	 */
 	public boolean sendCancelNotification(String receiverId, String name, String confirmationNo) throws MessagingException{
 		SendMailService sendMail = new SendMailService();
-		String msg =name+", your reservation against Confirmation Number#"+confirmationNo+" has been cancelled. Please consider SUPERRENT for any of your future rental car needs.";
-		String subject="SUPERRENT: Cancel Reservation Confirmation‏";
+		String msg =name+", your reservation against Confirmation Number:"+confirmationNo+" has been cancelled. Please consider SUPERRENT for any of your future rental car needs.";
+		String subject="SUPERRENT: Cancel Reservation Confirmation";
 		try{
 			sendMail.sendNotification(receiverId, msg, subject);
 		}catch(MessagingException mex){

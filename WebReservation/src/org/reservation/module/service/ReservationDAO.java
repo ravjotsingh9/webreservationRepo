@@ -342,22 +342,22 @@ public int cancelReservation(String confirmationNo, String phoneNumber, Timestam
 					if((d_date - p_date) > 5){ //3 
 						//impose weekly rates
 						System.out.println("3.weekly entry");
-						total = ((d_date - p_date)+1) * weeklyR;
+						total = ((d_date - p_date)) * weeklyR;
 						}else if((d_date - p_date) < 5){
 							//impose daily rates
 							System.out.println("3.daily entry");
-							total = ((d_date - p_date)+1) * dailyR;
+							total = ((d_date - p_date)) * dailyR;
 						}//3
 					}//2
 					else{ //for different months
 						if((d_date + (numDays-p_date)) > 5){
 							//impose weekly rates
 							System.out.println("L.weekly entry");
-							total = (d_date + (numDays-p_date)+1) * weeklyR;
+							total = (d_date + (numDays-p_date)) * weeklyR;
 						}else if((d_date + (numDays-p_date)) < 5){
 							//impose daily rates
 							System.out.println("L.daily entry");
-							total = (d_date + (numDays-p_date)+1) * dailyR;
+							total = (d_date + (numDays-p_date)) * dailyR;
 						}
 					}
 				}//1
@@ -370,7 +370,7 @@ public int cancelReservation(String confirmationNo, String phoneNumber, Timestam
 	}
 	
 	/**
-	 * This getCategory() operation takes the registration number and returns its category
+	 * This getCategory() operation takes the vehicle registration number and returns its category
 	 * @param regNo
 	 * @return String
 	 * @throws SQLException 

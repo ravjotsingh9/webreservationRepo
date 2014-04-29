@@ -23,6 +23,11 @@ public class DatabaseConnection {
 		
 	}
 
+	/**
+	 * This getConnection() operation builds the connection with the database.
+	 * @return Connection
+	 * @throws Exception
+	 */
 	public Connection getConnection() throws Exception{
 		Connection c = null;
 		try {
