@@ -12,6 +12,19 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Properties;
+
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.joda.time.DateTime;
 import org.reservation.module.model.ClubMemberBeanModel;
@@ -49,7 +62,6 @@ public class ReservationDAO {
 			throw new Exception(e.getMessage());
 		}
 	}
-	
 	
 /** 
  * @return all the reservations done so far  
@@ -330,22 +342,22 @@ public int cancelReservation(String confirmationNo, String phoneNumber, Timestam
 					if((d_date - p_date) > 5){ //3 
 						//impose weekly rates
 						System.out.println("3.weekly entry");
-						total = ((d_date - p_date)+1) * weeklyR;
+						total = ((d_date - p_date)) * weeklyR;
 						}else if((d_date - p_date) < 5){
 							//impose daily rates
 							System.out.println("3.daily entry");
-							total = ((d_date - p_date)+1) * dailyR;
+							total = ((d_date - p_date)) * dailyR;
 						}//3
 					}//2
 					else{ //for different months
 						if((d_date + (numDays-p_date)) > 5){
 							//impose weekly rates
 							System.out.println("L.weekly entry");
-							total = (d_date + (numDays-p_date)+1) * weeklyR;
+							total = (d_date + (numDays-p_date)) * weeklyR;
 						}else if((d_date + (numDays-p_date)) < 5){
 							//impose daily rates
 							System.out.println("L.daily entry");
-							total = (d_date + (numDays-p_date)+1) * dailyR;
+							total = (d_date + (numDays-p_date)) * dailyR;
 						}
 					}
 				}//1
@@ -358,7 +370,7 @@ public int cancelReservation(String confirmationNo, String phoneNumber, Timestam
 	}
 	
 	/**
-	 * This getCategory() operation takes the registration number and returns its category
+	 * This getCategory() operation takes the vehicle registration number and returns its category
 	 * @param regNo
 	 * @return String
 	 * @throws SQLException 
@@ -387,7 +399,7 @@ public int cancelReservation(String confirmationNo, String phoneNumber, Timestam
 		return cat;
 	}
 	
-	public String getConfNobyPhone(String phoneNumber) throws SQLException{
+	private String getConfNobyPhone(String phoneNumber) throws SQLException{
 		//int regNum = Integer.parseInt(regNo);
 		String cat = null;
 		sql = "Select M.confirmationNo FROM User U, MakeReservation M WHERE U.uid=M.uid AND U.phoneNumber=?";
@@ -504,9 +516,6 @@ public int cancelReservation(String confirmationNo, String phoneNumber, Timestam
 		}
 		return false;
 	}
-	
-	
-	
 	
 	public static void main(String args[]) throws Exception{
 		try {

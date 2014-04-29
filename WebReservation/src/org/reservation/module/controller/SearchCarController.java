@@ -31,6 +31,7 @@ public class SearchCarController extends HttpServlet {
     {
     	if(request.getParameter("txt1").equals("car") || request.getParameter("txt1").equals("truck"))
     	{/*
+    	//hello
     		try 
 			{
 				String btn = request.getParameter("txt1");			
@@ -66,7 +67,7 @@ public class SearchCarController extends HttpServlet {
 	    	{
 		    	int memNo= Integer.parseInt(request.getParameter("txt1"));
 		    	String text;
-		    	
+
 		    	response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
 		    	response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
 		    	ClubMemberDAO result = new ClubMemberDAO();
@@ -97,9 +98,9 @@ public class SearchCarController extends HttpServlet {
 				SearchVehiclesDAO s = new SearchVehiclesDAO();
 		        VehicleListBeanModel vehicles = new VehicleListBeanModel();
 		        System.out.print(request.getParameter("id")+"\t"+request.getParameter("category")+"\t"+request.getParameter("type")+"\t"+ request.getParameter("ptime")+"\t"+request.getParameter("dtime")+"\n");
-		        
+
 		        vehicles = s.search(request.getParameter("category"),request.getParameter("type"), request.getParameter("ptime"), request.getParameter("dtime"));
-		        
+
 		        String text= "<div id=\"result\"><table  border=\"1\" width=\"535\" align=\"left\" bordercolor=\"#dae0ea\">"
 		        		+ "<tr style=\"height:30px;width:50px;background-color:#d2d9e4\">"
 		        		+ "<td><font size=\"2\" face=\"Verdana\">Category</font></td>"
@@ -107,7 +108,7 @@ public class SearchCarController extends HttpServlet {
 		        		+ "<td><font size=\"2\" face=\"Verdana\">Type</font></td>"
 		        		+ "<td><font size=\"2\" face=\"Verdana\">Reserve Now</font></td>"
 		        		+ "</tr>";
-	
+
 		        ArrayList<VehicleBeanModel> vehlist = vehicles.getVehlist();
 		        //VehicleBeanModel veh= new VehicleBeanModel();
 		        int len = vehlist.size();
@@ -139,7 +140,7 @@ public class SearchCarController extends HttpServlet {
 		        		+ "</div>"
 		        		+ "</div>");
 		        System.out.print(text);
-		        
+
 		        //response.setContentType("text/html");  // Set content type of the response so that jQuery knows what it can expect.
 		        response.getWriter().write(text);
 		        //vehicles = s.search(request.getParameter("category"),"SELECT", request.getParameter("picktime"), request.getParameter("droptime"));
@@ -154,14 +155,14 @@ public class SearchCarController extends HttpServlet {
 			ReservationDAO cancelRes;
 			try {
 				cancelRes = new ReservationDAO();
-			
-			
+
+
 					String text= new String();
 					System.out.print(request.getParameter("id")+"\t"+request.getParameter("conf")+"\t"+request.getParameter("ph")+"\t"+ request.getParameter("ptime")+"\n");
-					
+
 					String ptime =	new String(request.getParameter("ptime"));
 					System.out.print("ptime="+ptime+"Return="+ptime.isEmpty());
-										
+
 					if((!ptime.isEmpty())){
 						ptime = ptime.replace('/', '-');
 						ptime = ptime.concat(":00.00");
@@ -175,13 +176,13 @@ public class SearchCarController extends HttpServlet {
 			    	response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
 					if(result==0)
 					{
-						
+
 						text="No reservation exists";
 						response.getWriter().write(text);
 					}
 					else
 					{
-						
+
 						text= "Confirmation # "+request.getParameter("conf")+"/Reservation has been Cancelled.";
 						System.out.print(text);
 						response.getWriter().write(text);
@@ -202,11 +203,11 @@ public class SearchCarController extends HttpServlet {
 				e1.printStackTrace();
 				response.getWriter().write(e1.getMessage());
 			}
-			
+
 		}
 		else if(request.getParameter("id").equals("3"))
 		{
-			
+
 			double est= 0.00;
 			String ptime = new String(request.getParameter("ptime"));
 			String dtime = new String(request.getParameter("dtime"));
@@ -233,7 +234,7 @@ public class SearchCarController extends HttpServlet {
 			}
 */			ReservationDAO obj;
 			try {
-				
+
 				obj = new ReservationDAO();
 				est = obj.calculateCharges((request.getParameter("regNo")), Timestamp.valueOf(ptime) ,Timestamp.valueOf(dtime));
 			} catch (NumberFormatException e) {
@@ -295,10 +296,10 @@ public class SearchCarController extends HttpServlet {
 								+ "<div><font  size=\"1\" face=\"Verdana\">*excluding insurance cost.</font></div></td>"
 								+ "<td width=5%></td>"	
 						+"<td>"
-					
+
 					+ "<table border=\"0\" width=\"300\" border=\"0\" align=\"left\">"
 			   // 	+"<tr>"
-				
+
 				//	+"</tr>"
 					+ "<tr>"
 					+ "<td><font size=\"2\" face=\"Verdana\"><label for=\"username\">Name:</label></font></td>"
@@ -315,8 +316,8 @@ public class SearchCarController extends HttpServlet {
 					+"</tr><tr>"
 					+"<td><font size=\"2\" face=\"Verdana\"><label id=\"additional equipment\">Additional Equipment:</label></font></td>"
 					+"<td>";
-			
-			
+
+
 			if(category.equalsIgnoreCase("car"))
 			{
 				text = text.concat("<input type=\"checkbox\" id=\"childseat\" name=\"childseat\" value=\"childseat\"><font size=\"2\" face=\"Verdana\">Child Seat</font>"
@@ -406,7 +407,7 @@ public class SearchCarController extends HttpServlet {
 				e.printStackTrace();
 				response.getWriter().write(e.getMessage());
 			}
-			
+
 			ReservationDAO r;
 			try {
 				r = new ReservationDAO();
@@ -491,7 +492,7 @@ public class SearchCarController extends HttpServlet {
 				e.printStackTrace();
 				response.getWriter().write(e.getMessage());
 			}
-			
+
 			ReservationDAO r;
 			try {
 				r = new ReservationDAO();
@@ -510,7 +511,7 @@ public class SearchCarController extends HttpServlet {
 			{
 				addEquip[1]="LIFT GATE";
 			}
-			
+
 			boolean confirmed= false;
 			String cno="";
 			try {

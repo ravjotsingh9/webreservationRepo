@@ -41,6 +41,11 @@ public class UserDAO {
 		}
 	}
 	
+	/**
+	 * This displayUsers() operation displays the list of all the customers.
+	 * @return UserListModel
+	 * @throws Exception
+	 */
 	public UserListModel displayUsers() throws Exception{
 		UserListModel cm = new UserListModel();
 		
@@ -66,8 +71,14 @@ public class UserDAO {
 		return cm;
 	}
 	
-	/*
-	 * Add the user record at the time of reservation
+	/** This addUser() operation adds the user record at the time of reservation but if it already exists 
+	 * then it will return his userid without updating superrent database.
+	 * @pre isUserExist(user1.getEmail())
+	 * @pre uid != 0
+	 * @param user1
+	 * @return userid
+	 * @throws ParseException
+	 * @throws Exception
 	 */
 	public int addUser(UserBeanModel user1) throws ParseException, Exception{
 		int uid = isUserExist(user1.getEmail());

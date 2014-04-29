@@ -1,7 +1,7 @@
 
 package org.reservation.module.service;
-import org.reservation.module.model.VehicleListBeanModel;
 import org.reservation.module.model.VehicleTypeBeanModel;
+import org.reservation.module.model.VehicleListBeanModel;
 import org.reservation.module.model.VehicleTypeListBeanModel;
 
 import java.sql.Connection;
@@ -23,7 +23,7 @@ public class VehicleTypeDAO {
 	ResultSet rs;
 	private static VehicleListBeanModel vehicles = new VehicleListBeanModel();
 	
-	public static void main(String args[]){
+	public static void main(String args[]) throws SQLException{
 		VehicleTypeDAO c = null;
 		try {
 			c = new VehicleTypeDAO();
@@ -61,7 +61,14 @@ public class VehicleTypeDAO {
 		}
 	}
 	
-	public VehicleTypeListBeanModel getFilteredList(String Category){
+	/**
+	 * The getFilteredList() operation displays the list of vehicles as per the given category(in this case, its CAR or TRUCK).
+	 * @pre !Category.isEmpty()
+	 * @param Category
+	 * @return VehicleTypeListBeanModel
+	 * @throws SQLException 
+	 */
+	public VehicleTypeListBeanModel getFilteredList(String Category) throws SQLException{
 		
 		VehicleTypeListBeanModel veh = new VehicleTypeListBeanModel();
 		ArrayList<VehicleTypeBeanModel> vehlist= new ArrayList<VehicleTypeBeanModel>();
@@ -151,7 +158,7 @@ public class VehicleTypeDAO {
 	    
 	}//try
 	catch (SQLException e){
-		e.printStackTrace();
+		throw new SQLException(e.getMessage());
 	}
 	finally{
 	      //finally block used to close resources
@@ -164,10 +171,17 @@ public class VehicleTypeDAO {
 		//return vehicles;
 		return veh;
 }//end method
-		
 	
-	
-	public void updateVehicleList(int regNo, String cat, String type, String brand, String date){
+	/**
+	 * This updateVehicleList() operation updates the database by entering the record as per the given parameters.
+	 * @param regNo
+	 * @param cat
+	 * @param type
+	 * @param brand
+	 * @param date
+	 * @throws SQLException 
+	 */
+	public void updateVehicleList(int regNo, String cat, String type, String brand, String date) throws SQLException{
 		String sql = "INSERT INTO Vehicle"
 				+ "(regNo, category, type, brand, purchasedate, sold) VALUES"
 				+ "(?,?,?,?)";
@@ -185,7 +199,7 @@ public class VehicleTypeDAO {
 			System.out.println("Record inserted");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new SQLException(e.getMessage());
 		}
 	}
 }

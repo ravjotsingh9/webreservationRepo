@@ -35,6 +35,17 @@ public class SearchVehiclesDAO {
 				}
 	}
 	
+	/** This search() operation displays the list of the vehicles that are available
+	 * for renting (i.e vehicles which are not reserved).
+	 * @pre drop.compareTo(pick)<=0
+	 * @pre pick.compareTo(currentTime)<=0
+	 * @param category
+	 * @param type
+	 * @param picktime
+	 * @param droptime
+	 * @return VehicleListBeanModel
+	 * @throws Exception
+	 */
 	public VehicleListBeanModel search(String category, String type, String picktime, String droptime) throws Exception {
 		System.out.println("You are going to search "+ category + " with phone number"+ type + " in the database");
 		ArrayList<VehicleBeanModel> vehlist = new ArrayList<VehicleBeanModel>();
