@@ -63,7 +63,7 @@ public class ClubMemberDAO {
 	 * @param membershipNo
 	 * @return viewPoints
 	 * @throws Exception
-	 */
+	 */ 
 	public int viewPoints(int membershipNo) throws Exception{
 		
 		sql = "SELECT points FROM ClubMember where membershipNo=?";

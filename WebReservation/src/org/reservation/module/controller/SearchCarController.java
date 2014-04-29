@@ -275,10 +275,10 @@ public class SearchCarController extends HttpServlet {
 						+"<label>Vehicle</label><div  id=\"hdcategory\" style=\"width:100px;\" >"+category + "</div>"
 						+"</font></td>"
 						+"<td><font  size=\"1\" face=\"Verdana\">"
-						+"<label>Pickup at</label><div  id=\"hdptime\" >"+ptime +"</div>"
+						+"<label>Pickup at</label><div  id=\"hdptime\" >"+ ptime.substring(0, 15) +"</div>"
 						+"</font></td>"
 						+"<td><font  size=\"1\" face=\"Verdana\">"
-						+"<label>Drop at</label><div  id=\"hddtime\" >"+dtime +"</div>"
+						+"<label>Drop at</label><div  id=\"hddtime\" >"+dtime.substring(0, 15) +"</div>"
 						+"</font></td>"
 						+"<td><font  size=\"1\" face=\"Verdana\" color=\"#f3f5f8\" >"
 						+"<div  id=\"hdregnum\" style=\"visiblity:hidden;width:100px;\" >"+request.getParameter("regNo") + "</div>"
@@ -429,6 +429,8 @@ public class SearchCarController extends HttpServlet {
 				addEquip[1]="SKI RACK";
 			}
 			String cno="";
+			ptime = ptime.concat(":00.00");
+			dtime = dtime.concat(":00.00");
 			try {
 				try {
 					confirmed=  r.makeReservation(uid,Timestamp.valueOf(ptime),Timestamp.valueOf(dtime),regNo, addEquip);

@@ -13,8 +13,8 @@
 </servlet>
 <servlet-mapping>
   		<servlet-name>SearchCar</servlet-name>
-<!-- 		<url-pattern>/SearchCar</url-pattern>  -->  
-    <url-pattern>/Vehicle/*</url-pattern>   
+<!-- 		<url-pattern>/SearchCar</url-pattern>  -->    
+    <url-pattern>/Vehicle/*</url-pattern> 
 </servlet-mapping>
 
 </web-app>
