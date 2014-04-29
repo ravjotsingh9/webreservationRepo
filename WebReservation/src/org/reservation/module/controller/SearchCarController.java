@@ -427,10 +427,11 @@ public class SearchCarController extends HttpServlet {
 			{
 				addEquip[1]="SKI RACK";
 			}
-			
+			String cno="";
 			try {
 				try {
 					confirmed=  r.makeReservation(uid,Timestamp.valueOf(ptime),Timestamp.valueOf(dtime),regNo, addEquip);
+					cno = r.getConfirmationNo(regNo);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -444,7 +445,7 @@ public class SearchCarController extends HttpServlet {
 			}
 			if(confirmed==true)
 			{
-				response.getWriter().write("Your Reservation is Confirmed.");
+				response.getWriter().write("Your Reservation is Confirmed! Your confirmation number is "+cno);
 			}
 			else
 			{
@@ -511,8 +512,10 @@ public class SearchCarController extends HttpServlet {
 			}
 			
 			boolean confirmed= false;
+			String cno="";
 			try {
 				confirmed=  r.makeReservation(uid,Timestamp.valueOf(ptime),Timestamp.valueOf(dtime),regNo, addEquip);
+				cno = r.getConfirmationNo(regNo);
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -525,7 +528,7 @@ public class SearchCarController extends HttpServlet {
 			}
 			if(confirmed==true)
 			{
-				response.getWriter().write("Your Reservation is Confirmed.");
+				response.getWriter().write("Your Reservation is Confirmed! Your confirmation number is "+ cno);
 			}
 			else
 			{
